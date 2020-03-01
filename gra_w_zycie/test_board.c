@@ -11,18 +11,9 @@ int main( int argc, char **argv ){
 	}
 
 	char ** tab = read_data( argv[1] );
-	for( int i = 0; i < 5; i++){
-		printf("%s   ", tab[i] );
-	}	
-	
-	printf("\n");
 	
 	int a = get_width(tab);
 	int b = get_height(tab);
-	
-	printf("Szerokosc jest rowna %d\n", a);
-	printf("Wysokosc jest rowna %d\n", b);
-
 
 
 	int **board = create_board( a, b);
