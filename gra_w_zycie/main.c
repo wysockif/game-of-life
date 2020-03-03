@@ -3,6 +3,7 @@
 #include "file.h"
 #include "board.h"
 #include "movement.h"
+#include "control.h"
 
 int main( int argc, char **argv ){
 
@@ -12,28 +13,14 @@ int main( int argc, char **argv ){
 	}
 
 	char ** tab = read_data( open(argv[1] ));
-	for( int i = 0; i < 5; i++){
-		printf("%s   ", tab[i] );
-	}	
-	
-	printf("\n");
-	
 	int a = get_width(tab);
 	int b = get_height(tab);
 	
-	printf("Szerokosc jest rowna %d\n", a);
-	printf("Wysokosc jest rowna %d\n", b);
-
-
+	char t[10];
+	strcpy( t, get_type(tab) );
 
 	int **board = create_board( a, b);
-	printf("Przed:\n");
-	draw_board(board, a, b);
-
-	m_move(board, a, b);
-
-	printf("Po:\n");
-	draw_board(board, a, b);
+	run( board, a, b, t, argc, argv);
 
 	return 0;
 }
