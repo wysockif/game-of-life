@@ -59,7 +59,7 @@ int get_height(char **tab){
 }
 
 char *get_type(char **tab){
-	if( strcmp( tab[3], "MOOR") != 0 && strcmp( tab[3], "NEUMMAN" ) != 0 ){
+	if( strcmp( tab[3], "MOOR") != 0 && strcmp( tab[3], "NEUMMANN" ) != 0 ){
 		printf("Wprowadzono nieodpowiedni typ sąsiedztwa: %s\n", tab[3] );
 		exit(-4);
 

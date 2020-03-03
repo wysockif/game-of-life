@@ -2,6 +2,7 @@
 #include <string.h>
 #include "file.h"
 #include "board.h"
+#include "movement.h"
 
 int main( int argc, char **argv ){
 
@@ -26,6 +27,12 @@ int main( int argc, char **argv ){
 
 
 	int **board = create_board( a, b);
+	printf("Przed:\n");
+	draw_board(board, a, b);
+
+	m_move(board, a, b);
+
+	printf("Po:\n");
 	draw_board(board, a, b);
 
 	return 0;
