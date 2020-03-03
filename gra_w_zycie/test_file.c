@@ -9,7 +9,7 @@ int main( int argc, char **argv ){
 		return 2;
 	}
 
-	char ** tab = read_data( argv[1] );
+	char ** tab = read_data( open(argv[1]) );
 	for( int i = 0; i < 5; i++){
 		printf("%s   ", tab[i] );
 	}	

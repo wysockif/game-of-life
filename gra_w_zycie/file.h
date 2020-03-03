@@ -7,7 +7,7 @@
 
 FILE * open(char *name);
 
-char **read_data(char *name);
+char **read_data(FILE * in);
 
 int get_height(char **tab);
 

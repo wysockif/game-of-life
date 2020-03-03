@@ -10,10 +10,10 @@ FILE *open(char *name){
 		printf("Wystąpił błąd podczas otwierania pliku %s!\n", name);
 		exit(-1);
 	}
+	return in;
 }
 
-char **read_data(char *name){
-	FILE *file = open( name );
+char **read_data(FILE *file){
 	char **tab = malloc( ELEMENTS * sizeof( char* ));
 
 	for( int i = 0; i < ELEMENTS; i++){
