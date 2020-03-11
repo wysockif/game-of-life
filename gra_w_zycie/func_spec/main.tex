@@ -1,0 +1,161 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{polski}
+\usepackage{indentfirst}
+\usepackage{lastpage}
+\usepackage{graphicx} 
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Franciszek Wysocki, Bartosz Zdybel}
+\lhead{Specyfikacja Funkcjonalna}
+\rfoot{Strona \thepage \hspace{1pt} z \pageref{LastPage}}
+\lhead{Spis treści}
+\title{Specyfikacja Funkcjonalna dla projektu pt. \\ ,,Gra w życie''}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{flushright}
+\par ...
+\vfill
+\par
+Wykonali: Franciszek Wysocki, Bartosz Zdybel
+
+Sprawdzający: mgr inż. Paweł Zawadzki
+
+Data: 08.03.2020
+\end{flushright}
+
+\thispagestyle{empty}
+\newpage
+\begin{frame}{}
+    \tableofcontents
+\end{frame}
+\newpage
+\lhead{Opis teoretyczny}
+\section{Opis teoretyczny}
+{\fontsize{14}{14}\selectfont
+Automat komórkowy - 
+jest to uporządkowany zbiór komórek znajdujących się w jednym z dwóch stanach: żywym lub martwym.
+Komórki znajdują się obok siebie, tworząc szachownicę. 
+Każdy stan komórek w danej chwili nazywamy generacją. Możliwe jest stworzenie nowej generacji komórek według konkretnych zasad przy użyciu jednego z poniższych rodzajów sąsiedztwa:
+\newline 
+\newline
+\begin{itemize}
+\item Moore'a - sprawdza 8 sąsiadujących komórek znajdujących się obok sprawdzanej komórki oraz stykających się rogami (tylko szare i czarne komórki)
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1.5cm]{Moor.png}
+\caption{Sąsiedztwo Moore'a}
+\label{fig:obrazek MOOR.png}
+\end{figure}
+\item von Neumanna - sprawdza 4 sąsiadujące komórki, ale tylko te, które stykają się bokami (tylko czarne kratki w rysunku poniżej)
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1.5cm]{Neumann.png}
+\caption{Sąsiedztwo von Neumanna}
+\label{fig:obrazek Neumann.png}
+\end{figure}
+\end{itemize}
+
+\begin{description}
+\item[Gra w życie Johna Conwaya:]
+\end{description}
+Komórka może znajdować się w jednym z dwóch stanów:
+\begin{itemize}
+\item biały kolor (lub cyfra 0) - komórka martwa
+\item czarny kolor (lub cyfra 1)- komórka żywa 
+\end{itemize}
+Zasada tworzenia nowej generacji komórek:
+\begin{itemize}
+\item jeśli martwa komórka ma 3 żywych sąsiadów to się rodzi
+\item jeśli żywa komórka posiada 2 albo 3 żywych sąsiadów to pozostaje nadal żywa inaczej umiera z samotności albo przetłoczenia 
+\end{itemize}
+}
+\lhead{Sposób wywołania programu}
+\section{Sposób wywołania programu}
+{\fontsize{14}{14}\selectfont 
+W celu kompilacji można wywołać funkcję make,
+a następnie w wierszu poleceń wpisać:
+\newline
+./a.out [nazwa pliku z danymi wejściowymi] [ewentualne flagi]
+\newline
+Przykładowe flagi (mogą być podane w dowolnej kolejności):
+\begin{itemize}
+\item -S - zapisuje generację do pliku - wymaga podania nazwy pliku jako kolejnego argumentu
+\item -SBS - pokazuje każdą kolejną generację krok po kroku
+\item -N - ustala ilość generacji (domyślnie jest jedna)  i tworzy N + 1 obrazów png (1 ze stanu poczatkowego i N ze stanów po kolejnych iteracjach) - wymaga podania liczby jako kolejnego argumentu
+\end{itemize}
+}
+
+\section{Dane wejściowe}
+{\fontsize{14}{14}\selectfont 
+Użytkownik do programu będzie przekazywał plik, w którym będą znajdować się:
+\newline
+szerokość X wysokość rodzaj\_sąsiedztwa rodzaj\_generowania\_siatki
+\newline
+\newline
+Przykładowe dane w pliku:
+\newline
+\texttt{10 X 10 MOOR RAND}
+\newline
+\newline
+Istnieje jeszcze możliwość skorzystania z rodzaju generowania siatki \texttt{NORMAL}, natomiast wymaga to podania w dalszej części pliku macierzy o wymiarach szerokość na wysokość składającej się z 0 i 1 (w formie ciągów liczbowych).
+\newline
+\newline
+Dozwolone rodzaje sąsiedztwa to RAND i NEUMANN.
+\newline
+\newline
+Przykładowy dane w pliku z wykorzystaniem \texttt{NORMAL}:
+\newline
+\texttt{5 X 5 NEUMANN NORMAL}
+\newline
+\texttt{10110}
+\newline
+\texttt{10001}
+\newline
+\texttt{01010}
+\newline
+\texttt{10100}
+\newline
+\texttt{11100}
+\newline
+
+Wielkość liter będzie miała znaczenie przy podawaniu danych, także w przypadku podania ,,normal'' lub ,,rand'' w pliku, program się nie wykona i wyświetli stosowny komunikat.
+}
+
+\section{Dane wyjściowe}
+{\fontsize{14}{14}\selectfont 
+Po uruchomieniu programu użytkownik otrzyma informację o tym, na którym sąsiedztwie oparta jest gra, następnie w zależnośći od wyżej wymienionych flag zostanie wygenerowany tylko pierwszy i ostatni stan generacji, albo wszystkie generacje po kolei (-SBS). Zostaną również wygenerowane czarno-białe szachownice ilustrujące każdą kolejną generację w formacie ,,png''.}
+\section{Działanie programu}
+{\fontsize{14}{14}\selectfont 
+Użytkownik podaje dane w wyżej wymieniony sposób. W przypadku podania złych danych program automatycznie się przerywa i podaje komunikaty o błędach.
+\newline 
+W przypadku podania prawidłowych danych wejściowych program wykona porządane rezultaty oraz zakończy pracę. }
+
+\lhead{Komunikaty o błędach}
+\section{Komunikaty o błędach}
+{\fontsize{14}{14}\selectfont 
+Program będzie odpowiednio zabezpieczony, a w przypadku błędów ze strony użytkownika będą wyświetlane komunikaty o:
+\begin{itemize}
+\item niemożliwej do zaalokowania pamięci
+\item podaniu złych danych wejściowych w celu wywołania pliku
+\item  nieudanym otwarciu pliku
+\item  złym rozszerzeniu pliku, albo o błędnych danych znajdujących się w nim
+\end{itemize}
+
+}
+
+\lhead{Testowanie programu}
+\section{Testowanie programu}
+{\fontsize{14}{14}\selectfont
+W celu minimalizacji błędów oraz ułatwienia kolejnych kroków implementacyjnych zamierzamy do każdego modułu napisać program testowy, który ma na celu sprawdzenie czy program działa poprawnie.
+Testy będą niezależne od działania innych modółów oraz będą automatycznie uruchomiane przy użyciu programu ,,make''.}
+\end{document}
