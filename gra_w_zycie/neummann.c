@@ -61,8 +61,7 @@ void n_move(int **board, int w, int h){
 				n++;
 			if ( before[i+1][j] == 1 )
 				n++;
-
-
+			
 			if (n == 3 && before[i][j] == 0 ){
 				board[i-1][j-1] = 1;
 			}	

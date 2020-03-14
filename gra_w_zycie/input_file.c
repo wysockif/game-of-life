@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "input_file.h"
 
 #define ELEMENTS 5
 
@@ -29,16 +30,45 @@ char **read_data(FILE *file){
 	}
 
 	char temp[50];
-	if( fscanf( file, "%s", temp) == 1 ){
-		printf("Nieprawidlowy format danych w pliku!\n");
-		exit(-3);
-
-	}	
-
-	if( strcmp( tab[1] , "X") != 0 ){
+	
+	if( strcmp( tab[1] , "X") != 0 && strcmp( tab[1], "x") != 0){
 		printf("Nieprawidlowy format danych w pliku!\n");
 		exit(-4);
 	}
+	
+	if( is_rand(tab) == 0 ){
+		int w = get_width(tab);
+		int h = get_height(tab);
+		
+		
+		tab = realloc(tab, (ELEMENTS + h ) * sizeof (char*));
+	
+
+		for( int i = ELEMENTS; i < ELEMENTS + h; i++){
+			tab[i] = malloc( (w+20) * sizeof( char ) );
+			memset( tab[i] , 0 , (w+20) * sizeof(char));
+		}
+
+		for( int i = ELEMENTS; i < ELEMENTS + h; i++ ){
+			if( fscanf( file, "%s", tab[i] ) != 1 ){
+				printf("Za malo argumentow w pliku wej\n");
+				exit(-3);
+			}	
+			if( tab[i][w] != '\0'  ){
+				printf("Nieprawidlowy format wprowadzonych danych w plk wejściowym!\n");
+				exit(-10);
+			}
+
+		}
+
+	}
+
+	if( fscanf( file, "%s", temp) == 1 ){
+		printf("Nieprawidlowy format danych w pliku: Za duzo danych\n");
+		exit(-3);
+
+	}	
+	fclose(file);
 	return tab;
 }
 
@@ -67,3 +97,42 @@ char *get_type(char **tab){
 	return tab[3];
 }
 
+int is_rand(char **tab){
+	if( strcmp( tab[4], "RAND") == 0 )
+		return 1;
+	else if( strcmp( tab[4], "NORMAL" ) == 0 )
+		return 0;
+	else {
+		printf("Nierozpoznany typ generowania: %s\n", tab[4]);
+		exit( -1);
+	}
+}
+
+char **get_init_gen(char **tab){
+	int h = get_height(tab);
+	int w = get_width(tab);
+	char **t = malloc( h * sizeof (char*));
+	for(int i = 0; i < h; i++){
+		t[i] = malloc( sizeof( (w+20) * sizeof(char)));
+		strcpy(t[i], tab[ELEMENTS+i]);
+	}
+
+	return t;
+
+}
+
+void free_args(char **tab){
+	int r = is_rand(tab);
+	int h = get_height(tab);
+	if( r == 0 ){
+		for(int i = 0; i < h + ELEMENTS; i++)
+			free(tab[i]);
+		
+	} else if( r == 1 ){
+		for( int i = 0; i < ELEMENTS; i++)
+			free(tab[i]);
+
+	}
+	
+	free(tab);
+}

@@ -6,12 +6,14 @@
 #include "movement.h"
 #include "input_file.h"
 #include "output_file.h"
+#include "png_drawing.h"
 
 
 void run(int **board, int w, int h, char *type, int argc, char **argv){
 	int sbs = 0;
 	int outfile = 0;
 	int n = 1;
+	int png = 0;
 
 	printf("Obsługiwane sąsiedztwo: %s\n", type);	
 	//obsługa flag
@@ -34,6 +36,7 @@ void run(int **board, int w, int h, char *type, int argc, char **argv){
 					printf("Błędny argument po -N\n");
 					exit(-5);
 				}
+				png = 1;
 				i++;
 			
 			}
@@ -57,6 +60,17 @@ void run(int **board, int w, int h, char *type, int argc, char **argv){
 	}
 
 
+		char **name = malloc( (n + 1)* sizeof(char*));
+	if( png != 0 ){
+	       	for( int i = 0; i < n + 1; i++){
+			name[i] = malloc( 15 * sizeof(char));
+			sprintf(name[i], "rys%d.png", i);
+		}
+		
+		generate_drawing(board, w, h, name[0]);
+	}	
+
+
 
 	if( sbs == 0 ){
 		printf("Na poczatku:\n");	
@@ -64,9 +78,14 @@ void run(int **board, int w, int h, char *type, int argc, char **argv){
 		for( int i = 0; i < n; i++ ){
 			if( strcmp(type, "MOOR") == 0){
 				m_move(board, w, h);
+				if (png != 0 )
+					generate_drawing(board, w, h, name[i+1]);
+
 			}
 			else if(strcmp(type, "NEUMMANN") == 0){
 				n_move(board, w, h);
+				if (png != 0 )
+					generate_drawing(board, w, h, name[i+1]);
 			}
 		}
 		printf("Na końcu:\n");
@@ -80,8 +99,12 @@ void run(int **board, int w, int h, char *type, int argc, char **argv){
 		for( int i = 0; i < n; i++){
 			if( strcmp(type, "MOOR") == 0){
 				m_move(board, w, h);
+				if (png != 0 )
+					generate_drawing(board, w, h, name[i+1]);
 			} else if(strcmp(type, "NEUMMANN") == 0) {
 				n_move(board, w, h);
+				if (png != 0 )
+					generate_drawing(board, w, h, name[i+1]);
 			}
 			printf("Po %d iteracji:\n", i+1);
 			
@@ -95,6 +118,14 @@ void run(int **board, int w, int h, char *type, int argc, char **argv){
 	if( outfile != 0 ){
  		save( argv[outfile+1], w, h, type, board );
 
+	}
+
+
+	if( png != 0 ){
+	       	for( int i = 0; i < n + 1; i++){
+			free(name[i]);
+		}
+		free(name);
 	}
 
 

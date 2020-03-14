@@ -1,5 +1,5 @@
-a.out: main.c board.c input_file.c output_file.c moor.c neummann.c control.c  board.h movement.h control.h input_file.h output_file.h
-	cc -Wall -pedantic -ggdb main.c board.c input_file.c moor.c neummann.c control.c output_file.c
+a.out: main.c board.c input_file.c output_file.c moor.c neummann.c control.c  board.h movement.h control.h input_file.h output_file.h png_drawing.c png_drawing.h
+	cc -ggdb main.c board.c input_file.c moor.c neummann.c control.c output_file.c png_drawing.c -lpng
 test_movement: test_movement.c moor.c neummann.c movement.h
 	cc -pedantic -Wall -ggdb test_movement.c moor.c neummann.c -o test_movement
 	./test_movement
