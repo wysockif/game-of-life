@@ -49,13 +49,12 @@ void populate_board(int **board, int w, int h){
 		}
 
 	}
-//	draw_board(board, w, h);
 }
 
 void draw_board(int **board, int w, int h){
 	for (int i = 0; i < h; i++){
 		for(int j = 0; j < w; j++){
-			printf("%d,  ", board[i][j]);
+			printf("%d ", board[i][j]);
 		}
 		printf("\n");
 	}
