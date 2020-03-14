@@ -78,9 +78,9 @@ void process_file(int **board, int w, int h) {
 
   number_of_passes = 10;
   row_pointers = (png_bytep*) malloc(sizeof(png_bytep) * height);
-  for (y=0; y<height; y++)
+  for (y=0; y<height; y++){
   	row_pointers[y] = (png_byte*) malloc(sizeof(png_byte) * width);
-
+  }
 	int how_width = width /w;
 	int how_height = height/h;
 	
@@ -89,19 +89,36 @@ void process_file(int **board, int w, int h) {
 
 
 	for( int i = 0; i < h; i++ ){
+
 		for( int j = 0; j < w; j++){
 			if( board[i][j] == 0 ){
 				for( y = i * how_height ; y < (i+1) *how_height; y++){
 
     					png_byte* row = row_pointers[y];
 					for( x = j * how_width ; x < (j+1) * how_width ; x++ ){
-						row[x] =225;
+						row[x] = 225;
 					}
 
 
 				}
 
 			}
+
+
+			else{
+				for( y = i * how_height ; y < (i+1) *how_height; y++){
+
+    					png_byte* row = row_pointers[y];
+					for( x = j * how_width ; x < (j+1) * how_width ; x++ ){
+						row[x] = 0;
+					}
+
+
+				}
+
+			}
+
+
 
 		}
 
