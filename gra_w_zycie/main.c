@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include "file.h"
+#include "input_file.h"
+#include "output_file.h"
 #include "board.h"
 #include "movement.h"
 #include "control.h"

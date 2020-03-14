@@ -4,14 +4,16 @@
 #include "control.h"
 #include "board.h"
 #include "movement.h"
-#include "file.h"
+#include "input_file.h"
+#include "output_file.h"
+
 
 void run(int **board, int w, int h, char *type, int argc, char **argv){
 	int sbs = 0;
-	int n = 5;
+	int outfile = 0;
+	int n = 1;
 
 	printf("Obsługiwane sąsiedztwo: %s\n", type);	
-
 	//obsługa flag
 	for(int i = 2; i < argc; i++){
 		if( strcmp(argv[i] , "-SBS" ) == 0 ){
@@ -32,10 +34,19 @@ void run(int **board, int w, int h, char *type, int argc, char **argv){
 					printf("Błędny argument po -N\n");
 					exit(-5);
 				}
-				
 				i++;
 			
 			}
+		} else if (strcmp(argv[i] , "-S" ) == 0 ) { 
+			if( i == argc - 1){
+				printf("Nie podano pliku do którego zapisac\n");
+				exit(-12);
+			} else {
+				outfile = i;
+				i++;		
+			}
+
+		
 		} else {
 			printf("Nie rozpoznano komendy %s\n!", argv[i]);
 			exit(-5);
@@ -45,25 +56,33 @@ void run(int **board, int w, int h, char *type, int argc, char **argv){
 
 	}
 
+
+
 	if( sbs == 0 ){
 		printf("Na poczatku:\n");	
 		draw_board(board, w, h);	
 		for( int i = 0; i < n; i++ ){
-			if( strcmp(type, "MOOR") == 0)
+			if( strcmp(type, "MOOR") == 0){
 				m_move(board, w, h);
-			else if(strcmp(type, "NEUMMAN") == 0)
+			}
+			else if(strcmp(type, "NEUMMANN") == 0){
 				n_move(board, w, h);
+			}
 		}
 		printf("Na końcu:\n");
 		draw_board(board, w, h);
 	} else if (sbs == 1){
 		printf("Na poczatku:\n");
 		draw_board(board, w, h);
+
+		
+	
 		for( int i = 0; i < n; i++){
-			if( strcmp(type, "MOOR") == 0)
+			if( strcmp(type, "MOOR") == 0){
 				m_move(board, w, h);
-			else if(strcmp(type, "NEUMMAN") == 0)
+			} else if(strcmp(type, "NEUMMANN") == 0) {
 				n_move(board, w, h);
+			}
 			printf("Po %d iteracji:\n", i+1);
 			
 			draw_board(board, w, h);	
@@ -72,4 +91,17 @@ void run(int **board, int w, int h, char *type, int argc, char **argv){
 
 
 	}
+
+	if( outfile != 0 ){
+ 		save( argv[outfile+1], w, h, type, board );
+
+	}
+
+
+
+	for( int i = 0; i < h; i++ )
+		free(board[i]);
+	free(board);
+	
+
 }
