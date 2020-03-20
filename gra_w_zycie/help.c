@@ -29,11 +29,15 @@ void help(){
 	puts("2. Uruchomienie:");
 	puts(" ./a.out nazwa_pliku_z_danymi.txt + (ewentualne) flagi");
 	puts(" Obsługiwane flagi:");
-	puts("  -SBS - pokazuje krok po kroku proces");
+	puts("  -SBS - pyta o kolejny krok");
 	puts("  -N n - wykonuje n iteracji i generuje N+1 zdjęc png (jedno ze stanem poczatkowym)");
 	puts("  -S file.txt - zapisuje ostatnią generacje do pliku file.txt");
+	puts("  -H wyświetla pomoc");
 	puts("	Przykład 1:");
-	puts("  ./a.out dane.txt -S nowedane.txt -SBS -N 3\n");
+	puts("  ./a.out dane.txt -S nowedane.txt -N 3\n");
+
+	puts("	Przykład 2:");
+	puts("  ./a.out dane.txt -SBS\n");
 
 	exit(10);
 
