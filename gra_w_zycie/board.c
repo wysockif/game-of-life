@@ -14,19 +14,19 @@ int **create_board(int w, int h, int r, char **strings){
 	if( w <= 0 && h <= 0 ){	
 		printf("Nieprawidlowy format wprowadzonych danych\n");
 		offer_help();
-		exit(-4);
+		exit(101);
 	}
 	int **board = malloc( h * sizeof(int *));
 	if( board == NULL ){
 		printf("Nastapil blad poczas alokacji pamieci!\n");
-		exit(-4);
+		exit(201);
 	}
 	for (int i = 0; i < h; i++){			
 		board[i] = malloc( w * sizeof( int ));
 	
 		if( board[i] == NULL ){
 			printf("Nastapil blad poczas alokacji pamieci!\n");
-			exit(-4);
+			exit(201);
 		}
 
 		memset( board[i] , 0, w * sizeof (int));
@@ -47,13 +47,13 @@ void populate_norm(int **board, int w, int h, char **strings){
 			if( strings[i][j] == '\0' ){
 				printf("Za krótka długość wprowadzonych danych!\n");
 				offer_help();
-				exit(-11);
+				exit(305);
 			}
 	
 			if( strings[i][j] != '0' && strings[i][j] != '1' ){
 				printf("Wprowadzono generacja powinna skladac sie tylko z 0 i 1!\n");
 				offer_help();
-				exit(-9);
+				exit(101);
 
 			}
 		

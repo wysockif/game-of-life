@@ -39,6 +39,19 @@ void help(){
 	puts("	Przykład 2:");
 	puts("  ./a.out dane.txt -SBS\n");
 
+	puts("3. Liczby zwracane przez funkcje:");
+        puts("W przypadku bledow zwiazanych z plikiem liczba zwracana bedzie zaczynala sie od 100");
+        puts("101 - nieprawidlowy foramat danych w pliku");
+        puts("102 - za mala ilosc danych w pliku");
+        puts("103 - zly typ sasiedztwa");
+        puts("104 - za duza ilosc danych w pliku\n");
+        puts("201 - blad alokacji pamieci\n");
+        puts("301 - brak podania argumentu przy wywolaniu programu");
+        puts("302 - brak podania pliku do zapisu");
+        puts("303 - blad podczas otwierania pliku");
+        puts("304 - flagi sie wykluczaja");
+        puts("305 - blad agrgumentow wywolania");
+
 	exit(10);
 
 }

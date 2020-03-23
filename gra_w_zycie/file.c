@@ -24,20 +24,20 @@ char **read_data(FILE *file){
 	for( int i = 0; i < ELEMENTS; i++){
 		if( fscanf( file, "%s", tab[i] ) != 1 ){
 			printf("Za malo argumentow w pliku wejściowym!\n");
-			exit (-1);
+			exit (102);
 		}
 	}
 
 	char temp[50];
 	if( fscanf( file, "%s", temp) == 1 ){
 		printf("Nieprawidlowy format danych w pliku!\n");
-		exit(-3);
+		exit(101);
 
 	}	
 
 	if( strcmp( tab[1] , "X") != 0 ){
 		printf("Nieprawidlowy format danych w pliku!\n");
-		exit(-4);
+		exit(101);
 	}
 	return tab;
 }
@@ -45,7 +45,7 @@ char **read_data(FILE *file){
 int get_width(char **tab){
 	if( atof (tab[0] ) == 0 && tab[0][0] != '0' ){
 		printf("Nieprawidlowy format danych w pliku!\n");
-		exit(-4);
+		exit(101);
 	}
 	return atof(tab[0]);
 }
@@ -53,7 +53,7 @@ int get_width(char **tab){
 int get_height(char **tab){
 	if( atof (tab[2] ) == 0 && tab[2][0] != '0' ){
 		printf("Nieprawidlowy format danych w pliku!\n");
-		exit(-5);
+		exit(101);
 	}
 	return atof(tab[2]);
 }
@@ -61,7 +61,7 @@ int get_height(char **tab){
 char *get_type(char **tab){
 	if( strcmp( tab[3], "MOOR") != 0 && strcmp( tab[3], "NEUMMANN" ) != 0 ){
 		printf("Wprowadzono nieodpowiedni typ sąsiedztwa: %s\n", tab[3] );
-		exit(-4);
+		exit(103);
 
 	}
 	return tab[3];

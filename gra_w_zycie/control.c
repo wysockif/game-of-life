@@ -23,7 +23,7 @@ void run(int **board, int w, int h, char *type, int argc, char **argv){
 			if( is_n != 0 || outfile != 0 ){
 				printf("Podane flagi się wykluczają!\n");
 				offer_help();
-				exit(-3);
+				exit(304);
 			}
 
 			sbs = 1;
@@ -32,32 +32,32 @@ void run(int **board, int w, int h, char *type, int argc, char **argv){
 			if( sbs == 1 ){
 				printf("Podane flagi się wykluczają!\n");
 				offer_help();
-				exit(-3);
+				exit(304);
 
 			}
 			if (i == argc - 1){
 				printf("Nie podano argumentu -N\n");
 				offer_help();
-				exit(-5);
+				exit(301);
 			}
 			else{ 
 				if( atoi(argv[i+1]) == 0 && (*argv[i+1] != 0 || *argv[i+1] != '0' )){
 					printf("Błędny argument po -N\n");
 					offer_help();
-					exit(-5);
+					exit(305);
 				}
 
 				n =  atoi(argv[i+1]);
 				if(n < 0){
 					printf("Błędny argument po -N\n");
 					offer_help();
-					exit(-5);
+					exit(301);
 				}
 
 				
 		       		if( atof( argv[i+1] ) - n != 0 ){
 					printf("Wprowadzony argument po -N nie jest liczbą rzeczywistą!\n");
-					exit(10);
+					exit(305);
 				} 
 				png = 1;
 				i++;
@@ -67,25 +67,29 @@ void run(int **board, int w, int h, char *type, int argc, char **argv){
 			if( sbs == 1 ){
 				printf("Podane flagi się wykluczają!\n");
 				offer_help();
-				exit(-3);
+				exit(301);
 			}	
 			if( i == argc - 1){
 				printf("Nie podano pliku do którego zapisac\n");
 				offer_help();
-				exit(-12);
+				exit(301);
 			} else {
 				outfile = i;
 				i++;		
 			}
 
-		} else if (strcmp(argv[i] , "-H" ) == 0 ) { 
+//		} else if (strcmp(argv[i] , "-PNG" ) == 0 ) { 
+//			png = 1;
+//			i++;
+
+
+		} else if(strcmp(argv[i], "-H" ) == 0 ){
 			help();
-
-
-		} else {
+		
+		}else {
 			printf("Nie rozpoznano komendy %s\n!", argv[i]);
 			offer_help();
-			exit(-5);
+			exit(305);
 		}
 
 

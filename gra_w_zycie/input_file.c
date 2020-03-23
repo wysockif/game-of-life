@@ -17,7 +17,7 @@ FILE *open(char *name){
 	if( in == NULL ){
 		printf("Wystąpił błąd podczas otwierania pliku %s!\n", name);
 		offer_help();
-		exit(-1);
+		exit(303);
 	}
 	return in;
 }
@@ -34,7 +34,7 @@ char **read_data(FILE *file){
 		if( fscanf( file, "%s", tab[i] ) != 1 ){
 			printf("Za malo argumentow w pliku wejściowym!\n");
 			offer_help();
-			exit (-1);
+			exit (102);
 		}
 	}
 
@@ -43,7 +43,7 @@ char **read_data(FILE *file){
 	if( strcmp( tab[1] , "X") != 0 && strcmp( tab[1], "x") != 0){
 		printf("Nieprawidlowy format danych w pliku!\n");
 		offer_help();
-		exit(-4);
+		exit(101);
 	}
 	
 	if( is_rand(tab) == 0 ){
@@ -63,12 +63,12 @@ char **read_data(FILE *file){
 			if( fscanf( file, "%s", tab[i] ) != 1 ){
 				printf("Za malo argumentow w pliku wej\n");
 				offer_help();
-				exit(-3);
+				exit(102);
 			}	
 			if( tab[i][w] != '\0'  ){
 				printf("Nieprawidlowy format wprowadzonych danych w plk wejściowym!\n");
 				offer_help();
-				exit(-10);
+				exit(101);
 			}
 
 		}
@@ -78,7 +78,7 @@ char **read_data(FILE *file){
 	if( fscanf( file, "%s", temp) == 1 ){
 		printf("Nieprawidlowy format danych w pliku: Za duzo danych\n");
 		offer_help();
-		exit(-3);
+		exit(104);
 
 	}	
 	fclose(file);
@@ -89,7 +89,7 @@ int get_width(char **tab){
 	if( atof (tab[0] ) == 0 && tab[0][0] != '0' ){
 		printf("Nieprawidlowy format danych w pliku!\n");
 		offer_help();
-		exit(-4);
+		exit(101);
 	}
 	return atof(tab[0]);
 }
@@ -98,7 +98,7 @@ int get_height(char **tab){
 	if( atof (tab[2] ) == 0 && tab[2][0] != '0' ){
 		printf("Nieprawidlowy format danych w pliku!\n");
 		offer_help();
-		exit(-5);
+		exit(101);
 	}
 	return atof(tab[2]);
 }
@@ -107,7 +107,7 @@ char *get_type(char **tab){
 	if( strcmp( tab[3], "MOOR") != 0 && strcmp( tab[3], "NEUMANN" ) != 0 ){
 		printf("Wprowadzono nieodpowiedni typ sąsiedztwa: %s\n", tab[3] );
 		offer_help();
-		exit(-4);
+		exit(103);
 
 	}
 	return tab[3];
@@ -121,7 +121,7 @@ int is_rand(char **tab){
 	else {
 		printf("Nierozpoznany typ generowania: %s\n", tab[4]);
 		offer_help();
-		exit( -1);
+		exit(101);
 	}
 }
 
