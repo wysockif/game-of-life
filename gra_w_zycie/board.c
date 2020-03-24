@@ -16,8 +16,9 @@ int **create_board( int w, int h, int r, char **strings ){
 		offer_help();
 		
 		if( r == 0 ){
-			for( int i = 0; i < h; i++ ) 
+			for( int i = 0; i < h; i++ ){ 
 				free( strings[i] );
+			}
 			free( strings );
 		}
 		exit(101);
@@ -27,8 +28,9 @@ int **create_board( int w, int h, int r, char **strings ){
 		free( board );
 		printf("Nastapil blad poczas alokacji pamieci!\n");
 		if( r == 0 ){
-			for( int i = 0; i < h; i++ ) 
+			for( int i = 0; i < h; i++ ) {
 				free( strings[i] );
+			}
 			free( strings );
 		}
 		
@@ -38,12 +40,14 @@ int **create_board( int w, int h, int r, char **strings ){
 		board[i] = malloc( w * sizeof( int ) );
 	
 		if( board[i] == NULL ){
-			for( int j = i; j >= 0; j-- )
+			for( int j = i; j >= 0; j-- ){
 				free(board[j]);
+			}
 
 			if( r == 0 ){
-				for( int i = 0; i < h; i++ ) 
+				for( int i = 0; i < h; i++ ){ 
 					free( strings[i] );
+				}
 				free( strings );
 			}
 		
@@ -54,10 +58,12 @@ int **create_board( int w, int h, int r, char **strings ){
 		memset( board[i] , 0, w * sizeof(int) );
 	
 	}
-	if( r == 1 )
+	if( r == 1 ){
 		populate_rand( board, w, h );
-	else if( r == 0 )
+	}
+	else if( r == 0 ){
 		populate_norm( board, w, h, strings );
+	}
 	return board;
 
 }
@@ -81,8 +87,9 @@ void populate_norm( int **board, int w, int h, char **strings ){
 		}
 	}
 
-	for( int i = 0; i < h; i++ ) 
+	for( int i = 0; i < h; i++ ){ 
 		free( strings[i] );
+	}
 	free( strings );
 
 }

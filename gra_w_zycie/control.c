@@ -120,10 +120,12 @@ void run( int **board, int w, int h, char *type, int argc, char **argv ){
 	}
 
 
-	if( strcmp( type, "MOOR" ) == 0 )
-		printf("Obsługiwane sąsiedztwo: Moore'a\n");	
-	else if( strcmp( type, "NEUMANN") == 0 )
-		printf("Obsługiwane sąsiedztwo: von Neumanna\n");	
+	if( strcmp( type, "MOOR" ) == 0 ){
+		printf("Obsługiwane sąsiedztwo: Moore'a\n");
+	}	
+	else if( strcmp( type, "NEUMANN") == 0 ){
+		printf("Obsługiwane sąsiedztwo: von Neumanna\n");
+	}	
 
 	
 	char **name = malloc( (n + 1)* sizeof(char*));
@@ -143,8 +145,9 @@ void run( int **board, int w, int h, char *type, int argc, char **argv ){
 		if( name[i] == NULL ){
 			printf("Brak pamięci!\n");
 			free_board( board, h );
-			for( int j = i; j >= 0; j-- )
+			for( int j = i; j >= 0; j-- ){
 				free(name[j]);
+			}
 			exit(201);	
 	}
 		}
@@ -152,8 +155,9 @@ void run( int **board, int w, int h, char *type, int argc, char **argv ){
 		generate_drawing(board, w, h, name[0]);
 	}	
 
-	if( is_n == 0 && sbs == 0 )
+	if( is_n == 0 && sbs == 0 ){
 		printf("Domyślnie ustawiona jest jedna iteracja\n");
+	}
 
 
 	if( sbs == 0 ){
@@ -162,14 +166,16 @@ void run( int **board, int w, int h, char *type, int argc, char **argv ){
 		for( int i = 0; i < n; i++ ){
 			if( strcmp(type, "MOOR") == 0 ){
 				m_move(board, w, h);
-				if (is_png != 0 )
+				if (is_png != 0 ){
 					generate_drawing(board, w, h, name[i+1]);
+				}
 
 			}
 			else if(strcmp(type, "NEUMANN") == 0 ){
 				n_move(board, w, h);
-				if (is_png != 0 )
+				if (is_png != 0 ){
 					generate_drawing(board, w, h, name[i+1]);
+				}
 			}
 		
 			printf("Po %d iteracji:\n", i+1 );
@@ -224,12 +230,14 @@ void run( int **board, int w, int h, char *type, int argc, char **argv ){
 			
 			if( strcmp(type, "MOOR") == 0 ){
 				m_move(board, w, h);
-				if (is_png != 0 )
+				if (is_png != 0 ){
 					generate_drawing(board, w, h, name[i+1]);
+				}
 			} else if(strcmp(type, "NEUMANN") == 0 ) {
 				n_move(board, w, h);
-				if (is_png != 0 )
+				if (is_png != 0 ){
 					generate_drawing(board, w, h, name[i+1]);
+				}
 			}
 			printf("Po %d iteracji:\n", i+1);
 			
@@ -248,7 +256,7 @@ void run( int **board, int w, int h, char *type, int argc, char **argv ){
 
 
 	if( is_png != 0 )
-		printf("Wygenerowano %d obrazów png o nazwach rys0.png ... rys%d.png\n", n+1, n);
+		printf("Wygenerowano %d obrazów png o nazwach rys0.png, ... , rys%d.png\n", n+1, n);
 
 	free_board( board, h);
 	free_names( name, n, is_png );

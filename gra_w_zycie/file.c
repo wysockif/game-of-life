@@ -8,7 +8,7 @@ FILE *open(char *name){
 	FILE * in = fopen(name, "r");
 	if( in == NULL ){
 		printf("Wystąpił błąd podczas otwierania pliku %s!\n", name);
-		exit(-1);
+		exit(303);
 	}
 	return in;
 }
