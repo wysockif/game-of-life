@@ -67,11 +67,6 @@ void process_file(int **board, int w, int h) {
   width = w *100;
   height = h *100;
 
-//	width /= w;
-//	width *= w;
-//	height /= h;
-//	height *= h;
-
 
   bit_depth = 8;
   color_type = PNG_COLOR_TYPE_GRAY;
@@ -84,9 +79,6 @@ void process_file(int **board, int w, int h) {
 	int how_width = width /w;
 	int how_height = height/h;
 	
-	
-
-
 
 	for( int i = 0; i < h; i++ ){
 

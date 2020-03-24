@@ -42,7 +42,7 @@ int main( int argc, char **argv ){
 	m_move(tab, 5, 5);
 
 
-	printf("Nastepnie po \"Neummann\":\n");
+	printf("Nastepnie po \"Neumann\":\n");
 	
 	for (int i = 0; i < 5; i++){
 		for(int j = 0; j < 5; j++){

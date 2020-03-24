@@ -33,8 +33,9 @@ void help(){
 	puts("  -N n - wykonuje n iteracji i generuje N+1 zdjęc png (jedno ze stanem poczatkowym)");
 	puts("  -S file.txt - zapisuje ostatnią generacje do pliku file.txt");
 	puts("  -H wyświetla pomoc");
+	puts(" - PNG generuje N+1 obrazów z rozszerzeniem png");
 	puts("	Przykład 1:");
-	puts("  ./a.out dane.txt -S nowedane.txt -N 3\n");
+	puts("  ./a.out dane.txt -S nowedane.txt -N 3 -PNG\n");
 
 	puts("	Przykład 2:");
 	puts("  ./a.out dane.txt -SBS\n");
