@@ -22,14 +22,9 @@ int main( int argc, char **argv ){
 	char t[10];
 	strcpy( t, get_type(tab));
 
-	
-	char **strings = is_rand(tab) ? NULL : get_init_gen(tab) ;
-	
+	char **strings = is_rand(tab) ? NULL : get_init_gen(tab);
 	int **board = create_board( a, b, is_rand(tab), strings);
-
 	free_args(tab);
-
 	run( board, a, b, t, argc, argv );
-
 	return 0;
 }
