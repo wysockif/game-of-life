@@ -25,7 +25,6 @@ int **create_board( int w, int h, int r, char **strings ){
 	}
 	int **board = malloc( h * sizeof(int *) );
 	if( board == NULL ){
-		free( board );
 		printf("Nastapil blad poczas alokacji pamieci!\n");
 		if( r == 0 ){
 			for( int i = 0; i < h; i++ ) {
@@ -75,11 +74,23 @@ void populate_norm( int **board, int w, int h, char **strings ){
 			if( strings[i][j] == '\0' ){
 				printf( "Za krótka długość wprowadzonych danych!\n" );
 				offer_help();
+				for( int i = 0; i < h; i++ ) 
+					free( strings[i] );
+				free( strings );
+				for( int i = 0; i < h; i++)
+					free( board[i] );
+				free( board );	
 				exit(305);
 			}
 			if( strings[i][j] != '0' && strings[i][j] != '1' ){
 				printf( "Wprowadzono generacja powinna skladac sie tylko z 0 i 1!\n" );
 				offer_help();
+				for( int i = 0; i < h; i++ ) 
+					free( strings[i] );
+				free( strings );
+				for( int i = 0; i < h; i++)
+					free( board[i] );
+				free( board );	
 				exit(101);
 
 			}

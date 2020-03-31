@@ -10,8 +10,6 @@ FILE *open( char *name ){
 	if( strcmp( name, "-H" ) == 0 ){
 		help();
 	}
-
-
 	FILE * in = fopen( name, "r" );
 	if( in == NULL ){
 		printf("Wystąpił błąd podczas otwierania pliku %s!\n", name);
@@ -25,7 +23,7 @@ char **read_data( FILE *file ){
 	char **tab = malloc( ELEMENTS * sizeof( char* ));
 	if( tab == NULL ){
 		printf( "Brak pamięci!\n" );
-		free( tab );
+		fclose( file );
 		exit(201);
 	}
 	for( int i = 0; i < ELEMENTS; i++){
@@ -38,6 +36,7 @@ char **read_data( FILE *file ){
 				free( tab[j] );
 
 			free( tab );
+			fclose( file );
 			exit(201);
 		}
 	}
@@ -45,6 +44,9 @@ char **read_data( FILE *file ){
 	for( int i = 0; i < ELEMENTS; i++ ){
 		if( fscanf( file, "%s", tab[i] ) != 1 ){
 			printf( "Za malo argumentow w pliku wejściowym!\n" );
+			for( int i = 0; i < ELEMENTS; i++)
+				free( tab[i] );
+			free( tab );
 			offer_help();
 			exit(102);
 		}
@@ -54,6 +56,9 @@ char **read_data( FILE *file ){
 	
 	if( strcmp( tab[1] , "X") != 0 && strcmp( tab[1], "x" ) != 0){
 		printf( "Nieprawidlowy format danych w pliku!\n" );
+		for( int i = 0; i < ELEMENTS; i++)
+			free( tab[i] );
+		free( tab );
 		offer_help();
 		exit(101);
 	}
@@ -74,7 +79,7 @@ char **read_data( FILE *file ){
 			tab[i] = malloc( (w+20) * sizeof( char ) );
 			memset( tab[i] , 0 , (w+20) * sizeof(char));
 		
-			if( tab == NULL ){
+			if( tab[i] == NULL ){
 				printf( "Brak pamięci!\n" );
 	
 				for( int j = i; j >= 0; j-- )
@@ -87,22 +92,23 @@ char **read_data( FILE *file ){
 
 		for( int i = ELEMENTS; i < ELEMENTS + h; i++ ){
 			if( fscanf( file, "%s", tab[i] ) != 1 ){
-				printf("Za malo argumentow w pliku wej\n");
+				printf("Za malo argumentow w pliku wejściowym\n");
 				offer_help();
 				int r = is_rand( tab );
 		
 				if( r == 0 ){
 					for(int i = 0; i < h + ELEMENTS; i++ )
-				free(tab[i]);
+						free( tab[i] );
 				} else if( r == 1 ){
 					for( int i = 0; i < ELEMENTS; i++ )
 						free( tab[i] );
 				}
-				free(tab);
+				free( tab );
+				fclose( file );
 				exit(102);
 			}	
 			if( tab[i][w] != '\0'  ){
-				printf("Nieprawidlowy format wprowadzonych danych w plk wejściowym!\n");
+				printf("Nieprawidlowy format wprowadzonych danych w pilku wejściowym!\n");
 				offer_help();
 				int r = is_rand( tab) ;
 				if( r == 0 ){
@@ -112,7 +118,8 @@ char **read_data( FILE *file ){
 					for( int i = 0; i < ELEMENTS; i++ )
 						free(tab[i]);
 				}
-				free(tab);
+				free( tab );
+				fclose( file );
 				exit(101);
 			}
 		}
@@ -120,6 +127,16 @@ char **read_data( FILE *file ){
 
 	if( fscanf( file, "%s", temp ) == 1 ){
 		printf( "Nieprawidlowy format danych w pliku: Za duzo danych\n" );
+		int r = is_rand( tab );
+		int h = get_height( tab );
+		if( r == 0 ){
+			for( int i = 0; i < h + ELEMENTS; i++ )
+				free( tab[i] );
+		} else if( r == 1 ){
+			for( int i = 0; i < ELEMENTS; i++ )
+				free(tab[i]);
+		}
+		free( tab );
 		offer_help();
 		exit(104);
 
@@ -131,6 +148,9 @@ char **read_data( FILE *file ){
 int get_width( char **tab ){
 	if( atof (tab[0] ) == 0 && tab[0][0] != '0' ){
 		printf( "Nieprawidlowy format danych w pliku!\n" );
+		for( int i = 0; i < ELEMENTS; i++ )
+			free(tab[i]);
+		free( tab );
 		offer_help();
 		exit(101);
 	}
@@ -141,6 +161,9 @@ int get_height( char **tab ){
 	if( atof (tab[2] ) == 0 && tab[2][0] != '0' ){
 		printf( "Nieprawidlowy format danych w pliku!\n" );
 		offer_help();
+		for( int i = 0; i < ELEMENTS; i++ )
+				free(tab[i]);
+		free( tab );
 		exit(101);
 	}
 	return atof(tab[2]);
@@ -149,6 +172,9 @@ int get_height( char **tab ){
 char *get_type( char **tab ){
 	if( strcmp( tab[3], "MOOR") != 0 && strcmp( tab[3], "NEUMANN" ) != 0 ){
 		printf( "Wprowadzono nieodpowiedni typ sąsiedztwa: %s\n", tab[3] );
+		for( int i = 0; i < ELEMENTS; i++ )
+			free(tab[i]);
+		free( tab );
 		offer_help();
 		exit(103);
 
@@ -164,6 +190,9 @@ int is_rand( char **tab ){
 	else {
 		printf("Nierozpoznany typ generowania: %s\n", tab[4]);
 		offer_help();
+		for( int i = 0; i < ELEMENTS; i++ )
+			free(tab[i]);
+		free( tab );
 		exit(101);
 	}
 }
