@@ -39,17 +39,6 @@ void n_move(int **board, int w, int h){
 	before[h+1][0] = board[0][w-1];
 	before[h+1][w+1] = board[0][0];
 
-	/*
-	// rysowanie duzej planszy	
-	for (int i = 0; i < h+2; i++){
-		for(int j = 0; j < w+2; j++){
-			printf("%d,  ", before[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-	*/
-
 	for( int i = 1; i < h + 1 ; i++){
 		for( int j = 1; j < w + 1 ; j++){
 			int n = 0;
@@ -71,7 +60,5 @@ void n_move(int **board, int w, int h){
 	
 		}
 	}
-
-//	draw_board(board, w, h);
 
 }
