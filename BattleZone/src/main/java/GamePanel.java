@@ -1,5 +1,8 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
     private Game game;
@@ -17,13 +20,12 @@ public class GamePanel extends JPanel {
         addNewScoresLabels();
         addLeftLabels();
 
-
         setFocusable(true);
         requestFocus();
 
     }
 
-    private void addNamesLabels(){
+    private void addNamesLabels() {
         leftPlayerName = new JLabel("Gracz 1", JLabel.CENTER);
         leftPlayerName.setFont(new Font("MyFont", Font.BOLD, 20));
         leftPlayerName.setBounds(5, 10, 390, 20);
@@ -37,7 +39,7 @@ public class GamePanel extends JPanel {
         add(rightPlayerName);
     }
 
-    private void addShotsLabels(){
+    private void addShotsLabels() {
 //        leftShotsLabel = new JLabel("Pociski: "+ leftPlayer.getBullets().size()
 //                + "/" + leftPlayer.getMaxNumberOfShots(), JLabel.CENTER);
         leftShotsLabel = new JLabel("Pociski: ", JLabel.CENTER);
@@ -53,7 +55,7 @@ public class GamePanel extends JPanel {
         add(rightShotsLabel);
     }
 
-    private void addScoresLabels(){
+    private void addScoresLabels() {
 //        leftScoreLabel = new JLabel("Zdobyte punkty: " + leftPlayer.getPointsGained(), JLabel.CENTER);
         leftScoreLabel = new JLabel("Zdobyte punkty: ", JLabel.CENTER);
         leftScoreLabel.setBounds(5, 45, 390, 20);
@@ -67,7 +69,7 @@ public class GamePanel extends JPanel {
         add(rightScoreLabel);
     }
 
-    private void addNewScoresLabels(){
+    private void addNewScoresLabels() {
         leftNewScoreLabel = new JLabel("", JLabel.CENTER);
         leftNewScoreLabel.setBounds(5, 60, 390, 20);
         leftNewScoreLabel.setForeground(Color.BLACK);
@@ -79,7 +81,7 @@ public class GamePanel extends JPanel {
         add(rightNewScoreLabel);
     }
 
-    private void addLeftLabels(){
+    private void addLeftLabels() {
 //        timeLabel = new JLabel("Pozostały czas: " + leftTime, JLabel.CENTER);
         timeLabel = new JLabel("Pozostały czas: ", JLabel.CENTER);
         timeLabel.setFont(new Font("MyFont", Font.BOLD, 15));
@@ -95,8 +97,8 @@ public class GamePanel extends JPanel {
 
         infoLabel = new JLabel("", JLabel.CENTER);
         String space = "                ";
-        infoLabel.setText("Nowe komórki za %ds" + space +  "Komórki dzieci za %ds" + space + "Wzmocnienie komórek za %ds" +
-                       space + "Zmniejszenie komórek za %ds o %d%" + space + "Przyspieszenie pocisków za %ds o %d%");
+        infoLabel.setText("Nowe komórki za %ds" + space + "Komórki dzieci za %ds" + space + "Wzmocnienie komórek za %ds" +
+                space + "Zmniejszenie komórek za %ds o %d%" + space + "Przyspieszenie pocisków za %ds o %d%");
         infoLabel.setFont(new Font("MyFont", Font.CENTER_BASELINE, 12));
         infoLabel.setBounds(0, 750, game.getWidth() - 10, 20);
         infoLabel.setForeground(Color.white);
@@ -123,41 +125,28 @@ public class GamePanel extends JPanel {
         return timeLabel;
     }
 
-
     public JLabel getLeftShotsLabel() {
         return leftShotsLabel;
     }
 
-
     public JLabel getRightShotsLabel() {
         return rightShotsLabel;
-    }
-
-
-    public void setRightShotsLabel(JLabel rightShotsLabel) {
-        this.rightShotsLabel = rightShotsLabel;
     }
 
     public JLabel getLeftScoreLabel() {
         return leftScoreLabel;
     }
 
-
     public JLabel getLeftNewScoreLabel() {
         return leftNewScoreLabel;
     }
-
 
     public JLabel getRightScoreLabel() {
         return rightScoreLabel;
     }
 
-
     public JLabel getRightNewScoreLabel() {
         return rightNewScoreLabel;
     }
 
-    public void setRightNewScoreLabel(JLabel rightNewScoreLabel) {
-        this.rightNewScoreLabel = rightNewScoreLabel;
-    }
 }

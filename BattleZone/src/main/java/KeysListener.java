@@ -5,8 +5,6 @@ public class KeysListener implements KeyListener {
     public boolean[] keys = new boolean[120];
 
 
-
-
     @Override
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();

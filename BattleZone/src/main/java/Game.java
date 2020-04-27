@@ -9,11 +9,8 @@ public class Game extends JFrame implements Runnable{
     public static int BOARD_WIDTH, BOARD_HEIGHT;
     public static int BOARD_X, BOARD_Y;
 
-
     private int leftTime = 30;
     private int maxTime = 30;
-
-
 
     private boolean running = true;
 
@@ -31,7 +28,6 @@ public class Game extends JFrame implements Runnable{
         BOARD_X  = 340 + (500 - BOARD_WIDTH)/2;
         BOARD_Y = 150 + (500 - BOARD_HEIGHT)/2;
 
-
         keysListener = new KeysListener();
         leftPlayer = new LeftPlayer(config.getMaxNumberOfShots(),
                 "src/main/resources/img/leftTanks.png", "src/main/resources/img/leftBullet.png", keysListener);
@@ -40,7 +36,6 @@ public class Game extends JFrame implements Runnable{
 
         gamePanel = new GamePanel(this);
         gamePanel.addKeyListener(keysListener);
-
 
         add(gamePanel);
         setVisible(true);
@@ -59,7 +54,6 @@ public class Game extends JFrame implements Runnable{
         Thread gameThread = new Thread(game);
         gameThread.start();
     }
-
 
 
     private void updateFrame(){
@@ -107,6 +101,9 @@ public class Game extends JFrame implements Runnable{
         leftPlayer.updateShots();
         rightPlayer.updateShots();
 
+        if(leftTime == 0 )
+            running = false;
+
     }
     public void repaint(Graphics g) {
         g.setColor(Color.black);
@@ -124,8 +121,6 @@ public class Game extends JFrame implements Runnable{
         rightPlayer.drawTank(g);
         rightPlayer.drawBullets(g);
     }
-
-
 
     private void render(){
         gamePanel.repaint();
@@ -156,9 +151,5 @@ public class Game extends JFrame implements Runnable{
             }
             lastTime = now;
         }
-    }
-
-    public static class InputReader {
-
     }
 }
