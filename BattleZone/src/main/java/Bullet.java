@@ -1,28 +1,31 @@
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Bullet extends Rectangle {
-    private BufferedImage bulletImage;
-    private double speedMultiplier;
-    private int direction;
-    private final int yStart;
+    private final int yStart, shift;
+    private final int direction;
     private double xDouble, yDouble;
-    private final int yTank, shift;
+    private double yTank;
+    private double speedMultiplier;
 
-    public Bullet(BufferedImage bulletImage, int xCannon, int yCannon, int yTank, int shift, int direction, double speedMultiplier) {
+    private BufferedImage bulletImage;
+
+    public Bullet(BufferedImage bulletImage, int xCannon, int yCannon, int yTank, int shift,  int direction, double speedMultiplier) {
         this.yTank = yTank;
-        this.shift = shift;
         this.x = xCannon;
-        this.y = yCannon + shift;
+        this.y = yCannon;
         this.bulletImage = bulletImage;
         this.width = bulletImage.getWidth();
         this.height = bulletImage.getHeight();
         this.direction = direction;
         this.speedMultiplier = speedMultiplier;
+        this.shift = shift;
 
         yStart = yCannon;
         yDouble = yCannon;
         xDouble = xCannon;
+        y = (int) Math.round(yDouble) - shift;
     }
 
     public void drawBullet(Graphics g) {
@@ -36,7 +39,7 @@ public class Bullet extends Rectangle {
     public void updateBullet(){
         xDouble += speedMultiplier * (direction);
         x = (int) Math.round(xDouble);
-        yDouble += -0.005 * (yTank - yStart) * speedMultiplier;
+        yDouble -= 0.005 * speedMultiplier * (yTank - yStart - Game.BOARD_Y + 95);
         y = (int) Math.round(yDouble) - shift;
 
     }

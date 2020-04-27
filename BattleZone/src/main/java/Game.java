@@ -1,5 +1,6 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.Iterator;
 
 public class Game extends JFrame implements Runnable{
@@ -8,11 +9,15 @@ public class Game extends JFrame implements Runnable{
     public static int BOARD_WIDTH, BOARD_HEIGHT;
     public static int BOARD_X, BOARD_Y;
 
+
     private int leftTime = 30;
     private int maxTime = 30;
+
+
+
     private boolean running = true;
 
-
+    private InputFileReader config;
     private GamePanel gamePanel;
     private KeysListener keysListener;
     private Player leftPlayer, rightPlayer;
@@ -20,16 +25,17 @@ public class Game extends JFrame implements Runnable{
 
     public Game(){
         customizeWindow();
-        InputFileReader inputFileReader = new InputFileReader("src/main/resources/config/ConfigFile.txt");
-        BOARD_WIDTH = inputFileReader.getBoardWidth();
-        BOARD_HEIGHT = inputFileReader.getBoardHeight();
+        config = new InputFileReader("src/main/resources/config/ConfigFile.txt");
+        BOARD_WIDTH = config.getBoardWidth();
+        BOARD_HEIGHT = config.getBoardHeight();
         BOARD_X  = 340 + (500 - BOARD_WIDTH)/2;
         BOARD_Y = 150 + (500 - BOARD_HEIGHT)/2;
 
+
         keysListener = new KeysListener();
-        leftPlayer = new LeftPlayer(inputFileReader.getMaxNumberOfShots(),
+        leftPlayer = new LeftPlayer(config.getMaxNumberOfShots(),
                 "src/main/resources/img/leftTanks.png", "src/main/resources/img/leftBullet.png", keysListener);
-        rightPlayer = new RightPlayer(inputFileReader.getMaxNumberOfShots(),
+        rightPlayer = new RightPlayer(config.getMaxNumberOfShots(),
                 "src/main/resources/img/rightTanks.png", "src/main/resources/img/rightBullet.png", keysListener);
 
         gamePanel = new GamePanel(this);
@@ -91,15 +97,11 @@ public class Game extends JFrame implements Runnable{
 
         if (leftTime <= 5)
             gamePanel.getTimeLabel().setForeground(Color.RED);
-//        if (leftTime == 0) {
-//            gamePanel.getTimeLabel().saveScreen("src/zdj", "png");
-//            gamePanel.getTimeLabel().saveBoard("src/board", "png");
-//            running = false;
-//        }
 
-        if (maxTime - leftTime % 5 == 0 && maxTime - leftTime != 0) {
-            leftPlayer.speedUpBullets(15);
-            rightPlayer.speedUpBullets(15);
+
+        if ((maxTime - leftTime) % config.getTimeToIncreaseBulletsSpeed() == 0 && (maxTime - leftTime) != 0) {
+            leftPlayer.speedUpBullets(config.getPercentageIncreaseInBulletsSpeed());
+            rightPlayer.speedUpBullets(config.getPercentageIncreaseInBulletsSpeed());
         }
 
         leftPlayer.updateShots();
@@ -109,24 +111,21 @@ public class Game extends JFrame implements Runnable{
     public void repaint(Graphics g) {
         g.setColor(Color.black);
         g.fillRect(0,0, Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
-
         g.setColor(Color.white);
         g.fillRect(BOARD_X, BOARD_Y, BOARD_WIDTH, BOARD_HEIGHT);
-
         g.fillRect(5, 5, 390, 100);
-
         g.fillRect(790, 5, 390, 100);
-
         g.setColor(Color.darkGray);
         g.fillRect(340, BOARD_Y + BOARD_HEIGHT + 10, 500, 70);
+        g.fillRect(0, 750, getWidth(), 20);
 
         leftPlayer.drawTank(g);
         leftPlayer.drawBullets(g);
         rightPlayer.drawTank(g);
         rightPlayer.drawBullets(g);
-
-
     }
+
+
 
     private void render(){
         gamePanel.repaint();

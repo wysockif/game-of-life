@@ -1,5 +1,5 @@
+import java.awt.Graphics;
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -119,7 +119,6 @@ public abstract class Player {
     }
 
     public abstract void drawTank(Graphics g);
-
     public abstract void updateTank();
     public abstract void updateShots();
     public abstract void checkIfShot();

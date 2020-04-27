@@ -17,14 +17,14 @@ public class LeftPlayer extends Player {
     @Override
     public void updateTank() {
         if (keysListener.isWPressed()) {
-            if (y > Game.BOARD_Y - tileSizeY/2) {
+            if (y > Game.BOARD_Y - tileSizeY / 2) {
                 y -= 2;
                 yCannon -= 2;
             }
 
         }
         if (keysListener.isSPressed()) {
-            if (y < Game.BOARD_Y + Game.BOARD_HEIGHT - tileSizeY + 20) {
+            if (y < Game.BOARD_Y + Game.BOARD_HEIGHT - tileSizeY + 15) {
                 y += 2;
                 yCannon += 2;
             }
@@ -33,7 +33,6 @@ public class LeftPlayer extends Player {
             if (currentSpriteIndex > 0) {
                 currentSpriteIndex--;
                 currentSprite = tankSprites[currentSpriteIndex];
-
                 if(currentSpriteIndex > 30)
                     shift = 10 + 3 * (currentSpriteIndex - 30);
                 else

@@ -23,7 +23,7 @@ public class RightPlayer extends Player {
             }
         }
         if (keysListener.isDownKeyPressed()) {
-            if(y < Game.BOARD_Y + Game.BOARD_HEIGHT - tileSizeY + 20) {
+            if(y < Game.BOARD_Y + Game.BOARD_HEIGHT - tileSizeY + 15) {
                 y += 2;
                 yCannon += 2;
             }
@@ -32,6 +32,7 @@ public class RightPlayer extends Player {
             if (currentSpriteIndex > 0) {
                 currentSpriteIndex--;
                 currentSprite = tankSprites[currentSpriteIndex];
+
                 if(currentSpriteIndex > 30)
                     shift = 10 + 3 * (currentSpriteIndex - 30);
                 else

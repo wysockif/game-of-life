@@ -14,7 +14,7 @@ public class InputFileReader {
         loadConfiguration(filePath);
 
         constants = new Constant[9];
-        constants[0] = new Constant("A", "boardWidth", 0, 400, 580);
+        constants[0] = new Constant("A", "boardWidth", 0, 300, 580);
         constants[1] = new Constant("B", "boardHeight", 1, 300, 500);
         constants[2] = new Constant("P", "maxNumberOfShots", 2, 1, 10);
         constants[3] = new Constant("H", "timeToGenerateNewCells",3, 5, 60);
