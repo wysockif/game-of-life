@@ -20,7 +20,7 @@ public class InputFileReader {
         constants[3] = new Constant("H", "timeToGenerateNewCells",3, 5, 60);
         constants[4] = new Constant("X", "timeToGenerateKidsCells", 4, 5, 60);
         constants[5] = new Constant("Y", "timeToIncreaseCellsValues",5, 5, 60);
-        constants[6] = new Constant("Z", "timeToIncreaseBulletsSpeed",6, 5, 60);
+        constants[6] = new Constant("Z", "timeToChangeBulletsSpeedAndCellsSize",6, 5, 60);
         constants[7] = new Constant("K", "percentageIncreaseInBulletsSpeed",7, 0, 200);
         constants[8] = new Constant("L", "percentageDecreaseInCellsSize", 8, 0, 50);
 
@@ -99,7 +99,7 @@ public class InputFileReader {
         return constants[5].value;
     }
 
-    public int getTimeToIncreaseBulletsSpeed() {
+    public int getTimeToChangeBulletsSpeedAndCellsSize() {
         return constants[6].value;
     }
 

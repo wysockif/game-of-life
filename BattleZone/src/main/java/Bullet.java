@@ -43,9 +43,4 @@ public class Bullet extends Rectangle {
         y = (int) Math.round(yDouble) - shift;
 
     }
-
-
-    public void setSpeedMultiplier(double speedMultiplier) {
-        this.speedMultiplier = speedMultiplier;
-    }
 }

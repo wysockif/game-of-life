@@ -24,7 +24,7 @@ public class LeftPlayer extends Player {
 
         }
         if (keysListener.isSPressed()) {
-            if (y < Game.BOARD_Y + Game.BOARD_HEIGHT - tileSizeY + 15) {
+            if (y < Game.BOARD_Y + Game.BOARD_HEIGHT - tileSizeY /2 - 20) {
                 y += 2;
                 yCannon += 2;
             }

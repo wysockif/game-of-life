@@ -97,11 +97,6 @@ public abstract class Player {
     public void speedUpBullets(int percent) {
         if(speedMultiplier + 0.01 * percent * speedMultiplier < 3 ){
             speedMultiplier = speedMultiplier + 0.01 * percent * speedMultiplier;
-            Iterator<Bullet> it = bullets.iterator();
-            while (it.hasNext()) {
-                Bullet b = it.next();
-                b.setSpeedMultiplier(speedMultiplier);
-            }
         }
     }
 

@@ -96,10 +96,7 @@ public class GamePanel extends JPanel {
         add(gameTitle);
 
         infoLabel = new JLabel("", JLabel.CENTER);
-        String space = "                ";
-        infoLabel.setText("Nowe komórki za %ds" + space + "Komórki dzieci za %ds" + space + "Wzmocnienie komórek za %ds" +
-                space + "Zmniejszenie komórek za %ds o %d%" + space + "Przyspieszenie pocisków za %ds o %d%");
-        infoLabel.setFont(new Font("MyFont", Font.CENTER_BASELINE, 12));
+        infoLabel.setFont(new Font("MyFont", Font.TYPE1_FONT, 13));
         infoLabel.setBounds(0, 750, game.getWidth() - 10, 20);
         infoLabel.setForeground(Color.white);
         add(infoLabel);
@@ -149,4 +146,7 @@ public class GamePanel extends JPanel {
         return rightNewScoreLabel;
     }
 
+    public JLabel getInfoLabel() {
+        return infoLabel;
+    }
 }
