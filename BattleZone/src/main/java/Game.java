@@ -115,18 +115,17 @@ public class Game extends JFrame implements Runnable {
             leftPlayer.speedUpBullets(config.getPercentageIncreaseInBulletsSpeed());
             rightPlayer.speedUpBullets(config.getPercentageIncreaseInBulletsSpeed());
             timeToChangeBSpeedAndCSize = config.getTimeToChangeBulletsSpeedAndCellsSize();
+
+            int percent = config.getPercentageDecreaseInCellsSize();
+            // zmniejszenie rozmiaru komórek o percent
+            timeToChangeBSpeedAndCSize = config.getTimeToChangeBulletsSpeedAndCellsSize();
         }
 
         if (timeToIncreaseCellsValues == 0 && (maxTime - leftTime) != 0) {
             // zwiększenie wartości komórek
-            timeToGenerateKidsCells = config.getTimeToIncreaseCellsValues();
-        }
-
-        if (timeToIncreaseCellsValues == 0 && (maxTime - leftTime) != 0) {
-            int percent = config.getPercentageDecreaseInCellsSize();
-            // zmniejszenie rozmiaru komórek o percent
             timeToIncreaseCellsValues = config.getTimeToIncreaseCellsValues();
         }
+
 
         if (timeToGenerateKidsCells == 0 && (maxTime - leftTime) != 0) {
             // pojawienie się komórek dzieci
@@ -162,11 +161,11 @@ public class Game extends JFrame implements Runnable {
         int percentBullets = config.getPercentageIncreaseInBulletsSpeed();
         int percentCells = config.getPercentageDecreaseInCellsSize();
 
-        gamePanel.getInfoLabel().setText(format("Nowe komórki za %03ds", timeToGenerateNewCells) + space
-                + format("Komórki dzieci za %03ds", timeToGenerateKidsCells) + space
-                + format("Wzmocnienie komórek za %03ds", timeToIncreaseCellsValues) + space
-                + format("Zmniejszenie komórek za %03ds o %3d%%", timeToChangeBSpeedAndCSize, percentCells) + space
-                + format("Przyspieszenie pocisków za %03ds o %3d%%", timeToChangeBSpeedAndCSize, percentBullets));
+        gamePanel.getInfoLabel().setText(format("Nowe komórki za %02ds", timeToGenerateNewCells) + space
+                + format("Komórki dzieci za %02ds", timeToGenerateKidsCells) + space
+                + format("Wzmocnienie komórek za %02ds", timeToIncreaseCellsValues) + space
+                + format("Zmniejszenie komórek za %02ds o %03d%%", timeToChangeBSpeedAndCSize, percentCells) + space
+                + format("Przyspieszenie pocisków za %02ds o %03d%%", timeToChangeBSpeedAndCSize, percentBullets));
     }
 
     public void repaint(Graphics g) {
@@ -197,11 +196,11 @@ public class Game extends JFrame implements Runnable {
         String space = "                ";
         int percentBullets = config.getPercentageIncreaseInBulletsSpeed();
         int percentCells = config.getPercentageDecreaseInCellsSize();
-        gamePanel.getInfoLabel().setText(format("Nowe komórki za %03ds", timeToGenerateNewCells) + space
-                + format("Komórki dzieci za %03ds", timeToGenerateKidsCells) + space
-                + format("Wzmocnienie komórek za %03ds", timeToIncreaseCellsValues) + space
-                + format("Zmniejszenie komórek za %03ds o %3d%%", timeToChangeBSpeedAndCSize, percentCells) + space
-                + format("Przyspieszenie pocisków za %03ds o %3d%%", timeToChangeBSpeedAndCSize, percentBullets));
+        gamePanel.getInfoLabel().setText(format("Nowe komórki za %02ds", timeToGenerateNewCells) + space
+                + format("Komórki dzieci za %02ds", timeToGenerateKidsCells) + space
+                + format("Wzmocnienie komórek za %02ds", timeToIncreaseCellsValues) + space
+                + format("Zmniejszenie komórek za %02ds o %03d%%", timeToChangeBSpeedAndCSize, percentCells) + space
+                + format("Przyspieszenie pocisków za %02ds o %03d%%", timeToChangeBSpeedAndCSize, percentBullets));
 
         BOARD_WIDTH = config.getBoardWidth();
         BOARD_HEIGHT = config.getBoardHeight();

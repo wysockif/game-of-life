@@ -53,7 +53,7 @@ public class InputFileReader {
                             "Dopuszczalne wartości od %d do %d.", constant.key, constant.minValue, constant.maxValue));
                 constant.value = value;
             } catch (NumberFormatException e){
-                JOptionPane.showMessageDialog(null, "Niepoprawny parametry stałej " + constant.key);
+                JOptionPane.showMessageDialog(null, "Niepoprawny parametr dla stałej " + constant.key);
                 MenuPanel.isFileOK = false;
             }
 

@@ -158,12 +158,9 @@ public class MenuPanel extends JPanel implements ActionListener {
 
                 if (checkBox.isSelected()) {
                     if (game.getConfig() == null) {
-                        try {
-                            isFileOK = true;
-                            game.setConfig(new InputFileReader(new File("src/main/resources/config/ConfigFile.txt")));
-                        } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(null, "Nie znaleziono pliku!");
-                        }
+                        isFileOK = true;
+                        File file = new File("src/main/resources/config/ConfigFile.txt");
+                        checkFile(file);
                     }
                 }
 
