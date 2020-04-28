@@ -1,7 +1,11 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.concurrent.TimeUnit;
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -111,7 +115,6 @@ public class GamePanel extends JPanel {
         countingDown.setForeground(Color.RED);
         add(countingDown);
 
-
         try {
             for(int i = 3; i >= 0; i--) {
                 countingDown.setText(i + "");
@@ -124,6 +127,31 @@ public class GamePanel extends JPanel {
 
         remove(countingDown);
 
+    }
+
+    public void savePanel(String name) {
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = image.createGraphics();
+        paint(g2);
+        try{
+            ImageIO.write(image, "png", new File(name +".png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void saveBoard(String name) {
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = image.createGraphics();
+        image = image.getSubimage(Game.BOARD_X, Game.BOARD_Y, Game.BOARD_WIDTH, Game.BOARD_HEIGHT);
+        paint(g2);
+
+        try{
+            ImageIO.write(image, "png", new File(name +".png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

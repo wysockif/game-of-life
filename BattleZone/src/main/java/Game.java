@@ -141,10 +141,10 @@ public class Game extends JFrame implements Runnable {
         leftPlayer.updateShots();
         rightPlayer.updateShots();
 
-        if (leftTime == 0)
+        if (leftTime == 0 || leftPlayer.getPointsGained() >= maxScore || rightPlayer.getPointsGained() >= maxScore) {
             running = false;
-        if( leftPlayer.getPointsGained() >= maxScore || rightPlayer.getPointsGained() >= maxScore){
-            running = false;
+            gamePanel.saveBoard("Board");
+            gamePanel.savePanel("Game");
         }
 
     }
