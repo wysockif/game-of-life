@@ -1,12 +1,13 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
     private Game game;
-    private JLabel timeLabel, gameTitle, infoLabel;
+    private JLabel timeLabel, gameTitle, infoLabel, countingDown;
     private JLabel leftPlayerName, rightPlayerName, leftShotsLabel, rightShotsLabel;
     private JLabel leftScoreLabel, leftNewScoreLabel, rightScoreLabel, rightNewScoreLabel;
 
@@ -100,6 +101,28 @@ public class GamePanel extends JPanel {
         infoLabel.setBounds(0, 750, game.getWidth() - 10, 20);
         infoLabel.setForeground(Color.white);
         add(infoLabel);
+
+    }
+
+    public void countDown(){
+        countingDown = new JLabel("", JLabel.CENTER);
+        countingDown.setFont(new Font("MyFont", Font.TYPE1_FONT, 60));
+        countingDown.setBounds(Game.BOARD_X + Game.BOARD_WIDTH/2 - 30 , Game.BOARD_Y + Game.BOARD_HEIGHT/2 -30, 60, 60);
+        countingDown.setForeground(Color.RED);
+        add(countingDown);
+
+
+        try {
+            for(int i = 3; i >= 0; i--) {
+                countingDown.setText(i + "");
+                TimeUnit.SECONDS.sleep(1);
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        remove(countingDown);
 
     }
 
