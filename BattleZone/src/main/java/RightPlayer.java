@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.Graphics;
 
 public class RightPlayer extends Player {
     public RightPlayer(int maxNumberOfShots, String tankPath, String bulletPath, KeysListener keysListener) {

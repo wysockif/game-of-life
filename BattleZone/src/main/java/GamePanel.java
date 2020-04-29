@@ -116,7 +116,7 @@ public class GamePanel extends JPanel {
         add(countingDown);
 
         try {
-            for(int i = 3; i >= 0; i--) {
+            for(int i = 3; i > 0; i--) {
                 countingDown.setText(i + "");
                 TimeUnit.SECONDS.sleep(1);
             }

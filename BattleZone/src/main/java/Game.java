@@ -164,8 +164,8 @@ public class Game extends JFrame implements Runnable {
         gamePanel.getInfoLabel().setText(format("Nowe komórki za %02ds", timeToGenerateNewCells) + space
                 + format("Komórki dzieci za %02ds", timeToGenerateKidsCells) + space
                 + format("Wzmocnienie komórek za %02ds", timeToIncreaseCellsValues) + space
-                + format("Zmniejszenie komórek za %02ds o %03d%%", timeToChangeBSpeedAndCSize, percentCells) + space
-                + format("Przyspieszenie pocisków za %02ds o %03d%%", timeToChangeBSpeedAndCSize, percentBullets));
+                + format("Zmniejszenie komórek za %02ds o %02d%%", timeToChangeBSpeedAndCSize, percentCells) + space
+                + format("Przyspieszenie pocisków za %02ds o %02d%%", timeToChangeBSpeedAndCSize, percentBullets));
     }
 
     public void repaint(Graphics g) {
@@ -199,8 +199,8 @@ public class Game extends JFrame implements Runnable {
         gamePanel.getInfoLabel().setText(format("Nowe komórki za %02ds", timeToGenerateNewCells) + space
                 + format("Komórki dzieci za %02ds", timeToGenerateKidsCells) + space
                 + format("Wzmocnienie komórek za %02ds", timeToIncreaseCellsValues) + space
-                + format("Zmniejszenie komórek za %02ds o %03d%%", timeToChangeBSpeedAndCSize, percentCells) + space
-                + format("Przyspieszenie pocisków za %02ds o %03d%%", timeToChangeBSpeedAndCSize, percentBullets));
+                + format("Zmniejszenie komórek za %02ds o %02d%%", timeToChangeBSpeedAndCSize, percentCells) + space
+                + format("Przyspieszenie pocisków za %02ds o %02d%%", timeToChangeBSpeedAndCSize, percentBullets));
 
         BOARD_WIDTH = config.getBoardWidth();
         BOARD_HEIGHT = config.getBoardHeight();

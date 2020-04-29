@@ -20,11 +20,10 @@ import javax.swing.JTextField;
 
 public class MenuPanel extends JPanel implements ActionListener {
     public static boolean isFileOK;
-
     private int gameTime, gameScore;
+
     private String namePlayer1 = "Gracz 1";
     private String namePlayer2 = "Gracz 2";
-
     private JTextField nameField1, nameField2;
     private JTextField timeField, scoreField;
     private JLabel timeLabel, scoreLabel;
@@ -40,9 +39,10 @@ public class MenuPanel extends JPanel implements ActionListener {
         setLayout(null);
 
         try {
-            image = ImageIO.read(new File("src/main/resources/img/background.png"));
+            this.image = ImageIO.read(new File("src/main/resources/img/background.png"));
         } catch (IOException e) {
-            System.err.println("Brak pliku background.png");
+            JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
+                    "Nie mogę znaleźć pliku z obrazem menu!", "Błąd krytyczny!", JOptionPane.ERROR_MESSAGE);
             System.exit(2);
         }
 
@@ -82,6 +82,7 @@ public class MenuPanel extends JPanel implements ActionListener {
         attachmentButton.addActionListener(this);
         attachmentButton.setEnabled(false);
         attachmentButton.setBounds(500, 615, 100, 30);
+        attachmentButton.setFocusable(false);
         add(attachmentButton);
     }
 
@@ -101,7 +102,7 @@ public class MenuPanel extends JPanel implements ActionListener {
     }
 
     private void addTimesFields() {
-        String space = "                                                                    ";
+        String space = "                                                                      ";
         timeLabel = new JLabel("Wprowadź maksymalny czas gry: " + space + "[s]", JLabel.LEFT);
         timeLabel.setBounds(400, 510, 600, 20);
         timeLabel.setForeground(Color.WHITE);
@@ -141,6 +142,7 @@ public class MenuPanel extends JPanel implements ActionListener {
         playButton.setForeground(Color.white);
         playButton.addActionListener(this);
         playButton.setBounds(500, 670, 200, 70);
+        playButton.setFocusable(false);
         add(playButton);
     }
 
@@ -167,45 +169,62 @@ public class MenuPanel extends JPanel implements ActionListener {
                 if (isFileOK & game.getConfig() != null)
                     game.closeStartMenu();
                 else
-                    JOptionPane.showMessageDialog(null, "Żaden plik nie został wczytany!");
-
-
+                    JOptionPane.showMessageDialog(null, "Żaden plik nie został wczytany!", "Błąd", JOptionPane.ERROR_MESSAGE);
             }
         } else if (src == checkBox) {
             if (checkBox.isSelected())
                 attachmentButton.setEnabled(false);
-            else
+            else {
                 attachmentButton.setEnabled(true);
-
+                attachmentButton.setForeground(Color.white);
+                game.setConfig(null);
+                isFileOK = false;
+            }
 
         } else if (src == attachmentButton) {
+            game.setConfig(null);
+            isFileOK = false;
+            attachmentButton.setForeground(Color.white);
+
             JFileChooser fc = new JFileChooser();
             if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 
                 checkFile(fc.getSelectedFile());
+                if( game.getConfig() != null && isFileOK) {
+                    attachmentButton.setForeground(new Color(0, 127, 14));
+                    setFocusable(true);
+                }
             }
         }
     }
 
 
     private void checkFile(File file) {
+       game.setConfig(null);
         try {
             game.setConfig(new InputFileReader(file));
             isFileOK = true;
         } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Nie znaleziono pliku!");
+            JOptionPane.showMessageDialog(null, "Nie znaleziono pliku!", "Błąd", JOptionPane.ERROR_MESSAGE);
+            isFileOK = false;
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Niepoprawny plik!");
+            JOptionPane.showMessageDialog(null, "Niepoprawny plik!", "Błąd", JOptionPane.ERROR_MESSAGE);
+            isFileOK = false;
         } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Zły format pliku!");
+            JOptionPane.showMessageDialog(null, "Zły format pliku!", "Błąd", JOptionPane.ERROR_MESSAGE);
+            isFileOK = false;
         } catch (IllegalArgumentException e) {
             if( e.getMessage() == null)
-            JOptionPane.showMessageDialog(null, "Niepoprawny format pliku!");
+            JOptionPane.showMessageDialog(null, "Niepoprawny format pliku!", "Błąd", JOptionPane.ERROR_MESSAGE);
             else
-                JOptionPane.showMessageDialog(null, e.getMessage());
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
+            isFileOK = false;
         } catch (ArrayIndexOutOfBoundsException e) {
-            JOptionPane.showMessageDialog(null, "Błąd odczytu pliku!");
+            JOptionPane.showMessageDialog(null, "Błąd odczytu pliku!" ,"Błąd", JOptionPane.ERROR_MESSAGE);
+            isFileOK = false;
         }
+        if(!isFileOK)
+            game.setConfig(null);
     }
 
     @Override
@@ -213,7 +232,7 @@ public class MenuPanel extends JPanel implements ActionListener {
         super.paintComponent(g);
         g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
         g.setColor(Color.darkGray);
-        g.fillRect(0, 450, image.getWidth(), image.getHeight() - 440);
+        g.fillRect(0, 450, image.getWidth(), 310);
         g.fillRect(0, 0, image.getWidth(), 30);
     }
 
@@ -253,7 +272,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Niepoprawna wartość maksymalnej ilości punktów!\n" +
-                    "Dopuszczalne są liczby naturalne od 10 do 999.");
+                    "Dopuszczalne są liczby naturalne od 10 do 999.", "Błąd", JOptionPane.ERROR_MESSAGE);
         }
 
         return false;
@@ -265,14 +284,14 @@ public class MenuPanel extends JPanel implements ActionListener {
         try {
             time = Integer.parseInt(t);
 
-            if (time > 0) {
+            if (time >= 10 && time <= 999) {
                 gameTime = time;
                 return true;
-            }
+            } else throw new NumberFormatException();
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Niepoprawna wartość maksymalnego czasu gry!\n" +
-                    "Dopuszczalne są liczby naturalne od 10 do 999.");
+                    "Dopuszczalne są liczby naturalne od 10 do 999.",  "Błąd", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
@@ -289,8 +308,10 @@ public class MenuPanel extends JPanel implements ActionListener {
         return namePlayer1;
     }
 
-
     public String getNamePlayer2() {
         return namePlayer2;
     }
+
+
+
 }

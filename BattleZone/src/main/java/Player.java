@@ -7,6 +7,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public abstract class Player {
     private List<Bullet> bullets;
@@ -32,10 +33,19 @@ public abstract class Player {
         this.maxNumberOfShots = maxNumberOfShots;
 
         try {
-            bulletImage = ImageIO.read(new File(bulletPath));
             tankSpriteSheet = ImageIO.read(new File(tankPath));
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
+                    "Nie mogę znaleźć pliku z obrazem czołgu!", "Błąd krytyczny!", JOptionPane.ERROR_MESSAGE);
+            System.exit(2);
+        }
+
+        try {
+            bulletImage = ImageIO.read(new File(bulletPath));
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
+                    "Nie mogę znaleźć pliku z obrazem pocisku!", "Błąd krytyczny!", JOptionPane.ERROR_MESSAGE);
+            System.exit(2);
         }
 
         bullets = new LinkedList<>();
