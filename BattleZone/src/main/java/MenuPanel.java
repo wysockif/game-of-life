@@ -39,7 +39,7 @@ public class MenuPanel extends JPanel implements ActionListener {
         setLayout(null);
 
         try {
-            this.image = ImageIO.read(new File("src/main/resources/img/background.png"));
+            this.image = ImageIO.read(new File("src/main/resources/img/backgrounds/mainMenu.png"));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
                     "Nie mogę znaleźć pliku z obrazem menu!", "Błąd krytyczny!", JOptionPane.ERROR_MESSAGE);
@@ -108,12 +108,12 @@ public class MenuPanel extends JPanel implements ActionListener {
         timeLabel.setForeground(Color.WHITE);
         add(timeLabel);
 
-        timeField = new JTextField("100");
+        timeField = new JTextField("1");
         timeField.setBounds(600, 500, 200, 50);
         timeField.setBackground(Color.BLACK);
         timeField.setForeground(Color.WHITE);
         timeField.setHorizontalAlignment(JTextField.CENTER);
-        addPlaceholder(timeField, "100", "Czas gry:");
+        addPlaceholder(timeField, "1", "Czas gry:");
         add(timeField);
     }
 
@@ -284,7 +284,7 @@ public class MenuPanel extends JPanel implements ActionListener {
         try {
             time = Integer.parseInt(t);
 
-            if (time >= 10 && time <= 999) {
+            if (time >= 1 && time <= 999) {
                 gameTime = time;
                 return true;
             } else throw new NumberFormatException();
@@ -303,6 +303,8 @@ public class MenuPanel extends JPanel implements ActionListener {
     public int getGameScore() {
         return gameScore;
     }
+
+
 
     public String getNamePlayer1() {
         return namePlayer1;

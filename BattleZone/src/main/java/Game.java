@@ -15,6 +15,7 @@ public class Game extends JFrame implements Runnable {
     public static int BOARD_X, BOARD_Y;
 
     private int maxScore;
+    private boolean isFirstTime = true;
     private int leftTime = 50;
     private int maxTime = 50;
     private int timeToGenerateNewCells, timeToGenerateKidsCells;
@@ -25,20 +26,22 @@ public class Game extends JFrame implements Runnable {
     private InputFileReader config;
     private MenuPanel menuPanel;
     private GamePanel gamePanel;
+    private ResultsPanel resultsPanel;
     private KeysListener keysListener;
-    private JPanel cardPanel;
-    private CardLayout card;
+    private static JPanel cardPanel;
+    private static CardLayout card;
     private Player leftPlayer, rightPlayer;
     public static Thread gameThread;
 
 
     public Game() {
         customizeWindow();
-
         card = new CardLayout();
         cardPanel = new JPanel(card);
+
         menuPanel = new MenuPanel(this);
         cardPanel.add(menuPanel);
+
 
         keysListener = new KeysListener();
         gamePanel = new GamePanel(this);
@@ -46,6 +49,9 @@ public class Game extends JFrame implements Runnable {
         cardPanel.setFocusable(true);
         gamePanel.addKeyListener(keysListener);
         cardPanel.add(gamePanel);
+
+        resultsPanel = new ResultsPanel(this);
+        cardPanel.add(resultsPanel);
 
         add(cardPanel);
         setVisible(true);
@@ -142,10 +148,11 @@ public class Game extends JFrame implements Runnable {
 
         if (leftTime == 0 || leftPlayer.getPointsGained() >= maxScore || rightPlayer.getPointsGained() >= maxScore) {
             running = false;
-            gamePanel.saveBoard("Board");
-            gamePanel.savePanel("Game");
+            gamePanel.saveBoard("savedImages/Board");
+            gamePanel.savePanel("savedImages/Game");
+            resultsPanel.repaint();
+            card.next(cardPanel);
         }
-
     }
 
     private void updateTimeAndInfoLabels() {
@@ -220,8 +227,10 @@ public class Game extends JFrame implements Runnable {
         gamePanel.getTimeLabel().setText("Pozostały czas: " + leftTime);
         card.next(cardPanel);
         gameThread.start();
-        remove(menuPanel);
+
     }
+
+
 
     @Override
     public void run() {
@@ -248,14 +257,21 @@ public class Game extends JFrame implements Runnable {
                 changeInSeconds = 0;
             }
             lastTime = now;
+
         }
+    }
+
+    public GamePanel getGamePanel() {
+        return gamePanel;
     }
 
     public void setConfig(InputFileReader config) {
         this.config = config;
     }
 
-    public InputFileReader getConfig(){
+
+    public InputFileReader getConfig() {
         return config;
     }
+
 }
