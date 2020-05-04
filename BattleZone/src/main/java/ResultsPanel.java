@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import static java.lang.String.format;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -20,8 +21,6 @@ public class ResultsPanel extends JPanel implements ActionListener {
     private BufferedImage leftWinner, rightWinner, tie;
     private BufferedImage currentBackground;
 
-    private String massage = "Czas upłynął. Nastąpił remis!";
-
     private JLabel wayLabel;
     private JLabel saveLabel1, saveLabel2;
     private JCheckBox checkBox;
@@ -31,7 +30,7 @@ public class ResultsPanel extends JPanel implements ActionListener {
     private JButton saveButton;
     private JLabel leftNameLabel, rightNameLabel;
     private JLabel leftScoreLabel, rightScoreLabel;
-    private int leftScore, rightScore;
+    private boolean isSaved;
 
 
     public ResultsPanel(Game game) {
@@ -42,17 +41,18 @@ public class ResultsPanel extends JPanel implements ActionListener {
         addNamesLabels();
         addScoresLabels();
         addInfoLabels();
-
+        addDefaultFilesFields();
+        addAttachmentFields();
     }
 
     private void addScoresLabels() {
-        leftScoreLabel = new JLabel("Wynik: " + leftScore, JLabel.CENTER);
+        leftScoreLabel = new JLabel("Wynik: " , JLabel.CENTER);
         leftScoreLabel.setBounds(155, 500, 240, 40);
         leftScoreLabel.setFont(new Font("Sans", Font.BOLD, 18));
         leftScoreLabel.setForeground(Color.WHITE);
         add(leftScoreLabel);
 
-        rightScoreLabel = new JLabel("Wynik: " + rightScore, JLabel.CENTER);
+        rightScoreLabel = new JLabel("Wynik: ", JLabel.CENTER);
         rightScoreLabel.setBounds(715, 500, 240, 40);
         rightScoreLabel.setFont(new Font("Sans", Font.BOLD, 18));
         rightScoreLabel.setForeground(Color.WHITE);
@@ -62,7 +62,7 @@ public class ResultsPanel extends JPanel implements ActionListener {
     }
 
     private void addInfoLabels() {
-        wayLabel = new JLabel(massage, JLabel.CENTER);
+        wayLabel = new JLabel("", JLabel.CENTER);
         wayLabel.setBounds(0, 580, currentBackground.getWidth(), 40);
         wayLabel.setFont(new Font("Sans", Font.BOLD, 30));
         wayLabel.setForeground(Color.red);
@@ -93,14 +93,8 @@ public class ResultsPanel extends JPanel implements ActionListener {
         endButton.addActionListener(this);
         endButton.setBounds(500, 710, 200, 60);
         endButton.setFocusable(false);
-        endButton.addActionListener(this);
-        addDefaultFilesFields();
-        addAttachmentFields();
         add(endButton);
-
-
     }
-
 
 
     private void addDefaultFilesFields() {
@@ -166,42 +160,84 @@ public class ResultsPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
 
-        if (src == endButton){
-           game.dispose();
 
-        } else if (src == checkBox) {
-            if (checkBox.isSelected())
+        if (src == endButton) {
+            if (checkBox.isSelected()) {
+                isSaved = true;
+            }
+
+            if (isSaved)
+                game.dispose();
+            else
+                JOptionPane.showMessageDialog(null, "Żaden plik nie został wybrany!", "Błąd", JOptionPane.ERROR_MESSAGE);
+        }
+
+        if (src == checkBox) {
+            if (checkBox.isSelected()) {
                 saveButton.setEnabled(false);
-            else {
+                isSaved = true;
+            } else {
                 saveButton.setEnabled(true);
                 saveButton.setForeground(Color.white);
                 saveButton.setText("Wybierz lokalizację");
-
+                isSaved = false;
             }
 
-        } else if (src == saveButton) {
+        }
+        if (src == saveButton) {
             saveButton.setForeground(Color.white);
 
             JFileChooser fc = new JFileChooser();
             if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-                    String filePath = fc.getSelectedFile().getAbsolutePath();
-                    if(filePath.contains("."))
-                        filePath = filePath.substring(0, filePath.lastIndexOf('.'));
-                    game.getGamePanel().savePanel(filePath + "Panel");
-                    game.getGamePanel().saveBoard(filePath + "Board");
-                    saveButton.setEnabled(false);
-                    saveButton.setText("Zapisano");
+                String filePath = fc.getSelectedFile().getAbsolutePath();
+                if (filePath.contains("."))
+                    filePath = filePath.substring(0, filePath.lastIndexOf('.'));
+                game.getGamePanel().savePanel(filePath + "Panel");
+                game.getGamePanel().saveBoard(filePath + "Board");
+                saveButton.setEnabled(false);
+                saveButton.setText("Zapisano");
                 saveButton.setUI(new MetalButtonUI() {
                     protected Color getDisabledTextColor() {
                         return Color.green;
                     }
                 });
-                    checkBox.setEnabled(false);
-                    setFocusable(true);
-
+                checkBox.setEnabled(false);
+                setFocusable(true);
+                isSaved = true;
             }
         }
+    }
 
+    public void preparePlayers(Player lPlayer, Player rPlayer, String lName, String rName) {
+        leftScoreLabel.setText("Wynik: " + lPlayer.getPointsGained());
+        rightScoreLabel.setText("Wynik: " + rPlayer.getPointsGained());
+        leftNameLabel.setText(lName);
+        rightNameLabel.setText(rName);
+    }
 
+    public void prepareBackground(Results way) {
+        if (way == Results.LEFT_ARMAGEDDON || way == Results.LEFT_MAX_SCORE || way == Results.LEFT_TIME_IS_UP) {
+            currentBackground = leftWinner;
+        } else if (way == Results.RIGHT_ARMAGEDDON || way == Results.RIGHT_MAX_SCORE || way == Results.RIGHT_TIME_IS_UP) {
+            currentBackground = rightWinner;
+        } else if (way == Results.TIE)
+            currentBackground = tie;
+    }
+
+    public void prepareMassage(Results way) {
+        if (way == Results.TIE)
+            wayLabel.setText("Koniec gry! Nastąpił remis!");
+        else if (way == Results.LEFT_TIME_IS_UP)
+            wayLabel.setText(format("Koniec Gry! %s zwyciężył!", leftNameLabel.getText()));
+        else if (way == Results.LEFT_MAX_SCORE)
+            wayLabel.setText(format("Koniec gry! %s osiągnął maksymalną ilość punktów!", leftNameLabel.getText()));
+        else if (way == Results.LEFT_ARMAGEDDON)
+            wayLabel.setText(format("Koniec gry! %s zestrzelił komórkę armagedon!", leftNameLabel.getText()));
+        else if (way == Results.RIGHT_TIME_IS_UP)
+            wayLabel.setText(format("Koniec Gry! %s zwyciężył!", rightNameLabel.getText()));
+        else if (way == Results.RIGHT_MAX_SCORE)
+            wayLabel.setText(format("Koniec gry! %s osiągnął maksymalną ilość punktów!", rightNameLabel.getText()));
+        else if (way == Results.RIGHT_ARMAGEDDON)
+        wayLabel.setText(format("Koniec gry! %s zestrzelił komórkę armagedon!", rightNameLabel.getText()));
     }
 }

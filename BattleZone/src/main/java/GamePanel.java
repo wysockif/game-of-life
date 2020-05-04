@@ -14,6 +14,7 @@ public class GamePanel extends JPanel {
     private JLabel timeLabel, gameTitle, infoLabel, countingDown;
     private JLabel leftPlayerName, rightPlayerName, leftShotsLabel, rightShotsLabel;
     private JLabel leftScoreLabel, leftNewScoreLabel, rightScoreLabel, rightNewScoreLabel;
+    private int maxScore;
 
 
     public GamePanel(Game game) {
@@ -45,15 +46,11 @@ public class GamePanel extends JPanel {
     }
 
     private void addShotsLabels() {
-//        leftShotsLabel = new JLabel("Pociski: "+ leftPlayer.getBullets().size()
-//                + "/" + leftPlayer.getMaxNumberOfShots(), JLabel.CENTER);
         leftShotsLabel = new JLabel("Pociski: ", JLabel.CENTER);
         leftShotsLabel.setBounds(5, 30, 390, 20);
         leftShotsLabel.setForeground(Color.BLACK);
         add(leftShotsLabel);
 
-//        rightShotsLabel = new JLabel("Pociski: "+ rightPlayer.getBullets().size()
-//                + "/" + rightPlayer.getMaxNumberOfShots(), JLabel.CENTER);
         rightShotsLabel = new JLabel("Pociski: ", JLabel.CENTER);
         rightShotsLabel.setBounds(790, 30, 390, 20);
         rightShotsLabel.setForeground(Color.BLACK);
@@ -62,7 +59,7 @@ public class GamePanel extends JPanel {
 
     private void addScoresLabels() {
 //        leftScoreLabel = new JLabel("Zdobyte punkty: " + leftPlayer.getPointsGained(), JLabel.CENTER);
-        leftScoreLabel = new JLabel("Zdobyte punkty: ", JLabel.CENTER);
+        leftScoreLabel = new JLabel("Zdobyte punkty: " , JLabel.CENTER);
         leftScoreLabel.setBounds(5, 45, 390, 20);
         leftScoreLabel.setForeground(Color.BLACK);
         add(leftScoreLabel);
@@ -124,6 +121,7 @@ public class GamePanel extends JPanel {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        game.setStarted(true);
 
         remove(countingDown);
 
@@ -199,5 +197,9 @@ public class GamePanel extends JPanel {
 
     public JLabel getInfoLabel() {
         return infoLabel;
+    }
+
+    public void setMaxScore(int maxScore) {
+        this.maxScore = maxScore;
     }
 }

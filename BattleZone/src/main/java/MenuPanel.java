@@ -108,12 +108,12 @@ public class MenuPanel extends JPanel implements ActionListener {
         timeLabel.setForeground(Color.WHITE);
         add(timeLabel);
 
-        timeField = new JTextField("1");
+        timeField = new JTextField("30");
         timeField.setBounds(600, 500, 200, 50);
         timeField.setBackground(Color.BLACK);
         timeField.setForeground(Color.WHITE);
         timeField.setHorizontalAlignment(JTextField.CENTER);
-        addPlaceholder(timeField, "1", "Czas gry:");
+        addPlaceholder(timeField, "30", "Czas gry:");
         add(timeField);
     }
 
@@ -284,7 +284,7 @@ public class MenuPanel extends JPanel implements ActionListener {
         try {
             time = Integer.parseInt(t);
 
-            if (time >= 1 && time <= 999) {
+            if (time >= 10 && time <= 999) {
                 gameTime = time;
                 return true;
             } else throw new NumberFormatException();

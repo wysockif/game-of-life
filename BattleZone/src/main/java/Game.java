@@ -1,10 +1,17 @@
 import java.awt.CardLayout;
+import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.concurrent.TimeUnit;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Iterator;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 
 import static java.lang.String.format;
 
@@ -15,22 +22,28 @@ public class Game extends JFrame implements Runnable {
     public static int BOARD_X, BOARD_Y;
 
     private int maxScore;
-    private boolean isFirstTime = true;
     private int leftTime = 50;
     private int maxTime = 50;
+    private int timeToSwitchPanel = 3;
+    private int seconds;
     private int timeToGenerateNewCells, timeToGenerateKidsCells;
     private int timeToIncreaseCellsValues, timeToChangeBSpeedAndCSize;
 
-    private boolean running = true;
+    private boolean running = false;
+    private boolean isLastTime;
+    private boolean isStarted, isFinished;
+    private boolean canClearLabel;
 
     private InputFileReader config;
     private MenuPanel menuPanel;
     private GamePanel gamePanel;
     private ResultsPanel resultsPanel;
     private KeysListener keysListener;
+    private Player leftPlayer, rightPlayer;
+    private Cells cells;
+
     private static JPanel cardPanel;
     private static CardLayout card;
-    private Player leftPlayer, rightPlayer;
     public static Thread gameThread;
 
 
@@ -42,7 +55,6 @@ public class Game extends JFrame implements Runnable {
         menuPanel = new MenuPanel(this);
         cardPanel.add(menuPanel);
 
-
         keysListener = new KeysListener();
         gamePanel = new GamePanel(this);
         cardPanel.addKeyListener(keysListener);
@@ -52,6 +64,8 @@ public class Game extends JFrame implements Runnable {
 
         resultsPanel = new ResultsPanel(this);
         cardPanel.add(resultsPanel);
+
+        cells = new Cells(this);
 
         add(cardPanel);
         setVisible(true);
@@ -68,10 +82,26 @@ public class Game extends JFrame implements Runnable {
     private void customizeWindow() {
         setTitle("BattleZone");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
         setIconImage(new ImageIcon("src/main/resources/img/icon.png").getImage());
+        setCloseOperation();
+    }
+
+    private void setCloseOperation() {
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {
+                String[] ObjButtons = {"Tak", "Nie"};
+
+                int PromptResult = JOptionPane.showOptionDialog(null, "Czy na pewno chcesz zakończyć?",
+                        "Potwierdzenie wyjścia", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+                if (PromptResult == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
     }
 
 
@@ -82,6 +112,16 @@ public class Game extends JFrame implements Runnable {
 
 
     private void updateFrame() {
+        if (isLastTime) {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            running = false;
+            card.last(cardPanel);
+        }
+
         leftPlayer.updateTank();
         rightPlayer.updateTank();
 
@@ -104,9 +144,11 @@ public class Game extends JFrame implements Runnable {
         leftPlayer.removeUnwantedBullets();
         rightPlayer.removeUnwantedBullets();
 
+        cells.checkIfHit(leftPlayer);
+        cells.checkIfHit(rightPlayer);
+
         gamePanel.getLeftShotsLabel().setText("Pociski: " + leftPlayer.getBullets().size() + "/" + leftPlayer.getMaxNumberOfShots());
         gamePanel.getRightShotsLabel().setText("Pociski: " + rightPlayer.getBullets().size() + "/" + rightPlayer.getMaxNumberOfShots());
-
 
     }
 
@@ -123,12 +165,12 @@ public class Game extends JFrame implements Runnable {
             timeToChangeBSpeedAndCSize = config.getTimeToChangeBulletsSpeedAndCellsSize();
 
             int percent = config.getPercentageDecreaseInCellsSize();
-            // zmniejszenie rozmiaru komórek o percent
+            cells.reduceSize(percent);
             timeToChangeBSpeedAndCSize = config.getTimeToChangeBulletsSpeedAndCellsSize();
         }
 
         if (timeToIncreaseCellsValues == 0 && (maxTime - leftTime) != 0) {
-            // zwiększenie wartości komórek
+            cells.increaseValues();
             timeToIncreaseCellsValues = config.getTimeToIncreaseCellsValues();
         }
 
@@ -146,12 +188,38 @@ public class Game extends JFrame implements Runnable {
         leftPlayer.updateShots();
         rightPlayer.updateShots();
 
+        if (canClearLabel) {
+            seconds++;
+        }
+
+        if (canClearLabel && seconds == 3) {
+            gamePanel.getLeftNewScoreLabel().setText("");
+            gamePanel.getRightNewScoreLabel().setText("");
+            canClearLabel = false;
+            seconds = 0;
+        }
+
         if (leftTime == 0 || leftPlayer.getPointsGained() >= maxScore || rightPlayer.getPointsGained() >= maxScore) {
             running = false;
-            gamePanel.saveBoard("savedImages/Board");
-            gamePanel.savePanel("savedImages/Game");
-            resultsPanel.repaint();
-            card.next(cardPanel);
+            if (leftPlayer.getPointsGained() == rightPlayer.getPointsGained())
+                prepareResults(leftPlayer, rightPlayer,
+                        gamePanel.getLeftPlayerName().getText(), gamePanel.getRightPlayerName().getText(), Results.TIE);
+            else if (leftPlayer.getPointsGained() > rightPlayer.getPointsGained())
+                prepareResults(leftPlayer, rightPlayer,
+                        gamePanel.getLeftPlayerName().getText(), gamePanel.getRightPlayerName().getText(), Results.LEFT_TIME_IS_UP);
+            else if (leftPlayer.getPointsGained() < rightPlayer.getPointsGained())
+                prepareResults(leftPlayer, rightPlayer,
+                        gamePanel.getLeftPlayerName().getText(), gamePanel.getRightPlayerName().getText(), Results.RIGHT_TIME_IS_UP);
+        }
+
+        if (leftPlayer.getPointsGained() >= maxScore) {
+            running = false;
+            prepareResults(leftPlayer, rightPlayer,
+                    gamePanel.getLeftPlayerName().getText(), gamePanel.getRightPlayerName().getText(), Results.LEFT_MAX_SCORE);
+        } else if (rightPlayer.getPointsGained() >= maxScore) {
+            running = false;
+            prepareResults(leftPlayer, rightPlayer,
+                    gamePanel.getLeftPlayerName().getText(), gamePanel.getRightPlayerName().getText(), Results.RIGHT_MAX_SCORE);
         }
     }
 
@@ -176,6 +244,7 @@ public class Game extends JFrame implements Runnable {
     }
 
     public void repaint(Graphics g) {
+
         g.setColor(Color.black);
         g.fillRect(0, 0, Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
         g.setColor(Color.white);
@@ -186,10 +255,16 @@ public class Game extends JFrame implements Runnable {
         g.fillRect(340, BOARD_Y + BOARD_HEIGHT + 10, 500, 70);
         g.fillRect(0, 750, getWidth(), 20);
 
+        if (!isLastTime)
+            cells.drawTipBar(g);
+
         leftPlayer.drawTank(g);
         leftPlayer.drawBullets(g);
         rightPlayer.drawTank(g);
         rightPlayer.drawBullets(g);
+
+        if (isStarted)
+            cells.paintCells(g);
     }
 
     private void render() {
@@ -197,8 +272,6 @@ public class Game extends JFrame implements Runnable {
     }
 
     public void closeStartMenu() {
-        running = true;
-
         assignValues();
         String space = "                ";
         int percentBullets = config.getPercentageIncreaseInBulletsSpeed();
@@ -225,11 +298,13 @@ public class Game extends JFrame implements Runnable {
         leftTime = menuPanel.getGameTime();
         maxScore = menuPanel.getGameScore();
         gamePanel.getTimeLabel().setText("Pozostały czas: " + leftTime);
+        gamePanel.getLeftScoreLabel().setText("Zdobyte punkty: " + 0 + "/" + maxScore);
+        gamePanel.getRightScoreLabel().setText("Zdobyte punkty: " + 0 + "/" + maxScore);
         card.next(cardPanel);
+        running = true;
         gameThread.start();
 
     }
-
 
 
     @Override
@@ -239,6 +314,7 @@ public class Game extends JFrame implements Runnable {
         double changeInSeconds = 0;
         double changeInSecondsFPS = 0;
         gamePanel.countDown();
+        cells.createCells();
 
 
         while (running) {
@@ -261,6 +337,83 @@ public class Game extends JFrame implements Runnable {
         }
     }
 
+    public void refreshScores(Cell cell, Player player) {
+        int value = cell.getGreatestValue();
+        int inheritance = cell.getInheritance();
+
+        player.addPointsGained(value + inheritance);
+
+        if (player instanceof LeftPlayer) {
+            if (inheritance != 0) {
+                gamePanel.getLeftNewScoreLabel().setForeground(Color.red);
+                gamePanel.getLeftNewScoreLabel().setText("+" + value + " +" + inheritance);
+            } else {
+                gamePanel.getLeftNewScoreLabel().setForeground(Color.blue);
+                gamePanel.getLeftNewScoreLabel().setText("+" + value);
+            }
+            gamePanel.getLeftScoreLabel().setText("Zdobyte punkty: " + leftPlayer.getPointsGained());
+
+
+            if (cell.isArmageddon()) {
+                isLastTime = true;
+                gamePanel.getLeftNewScoreLabel().setForeground(Color.red);
+                gamePanel.getLeftNewScoreLabel().setText("ARMAGEDON!");
+
+                prepareResults(leftPlayer, rightPlayer,
+                        gamePanel.getLeftPlayerName().getText(), gamePanel.getRightPlayerName().getText(), Results.LEFT_ARMAGEDDON);
+
+            }
+
+        } else if (player instanceof RightPlayer) {
+
+            if (inheritance != 0) {
+                gamePanel.getRightNewScoreLabel().setForeground(Color.red);
+                gamePanel.getRightNewScoreLabel().setText("+" + value + " +" + inheritance);
+            } else {
+                gamePanel.getRightNewScoreLabel().setForeground(Color.blue);
+                gamePanel.getRightNewScoreLabel().setText("+" + value);
+            }
+            gamePanel.getRightScoreLabel().setText("Zdobyte punkty: " + rightPlayer.getPointsGained());
+
+            if (cell.isArmageddon()) {
+                isLastTime = true;
+                gamePanel.getRightNewScoreLabel().setForeground(Color.red);
+                gamePanel.getRightNewScoreLabel().setText("ARMAGEDON!");
+                prepareResults(leftPlayer, rightPlayer,
+                        gamePanel.getLeftPlayerName().getText(), gamePanel.getRightPlayerName().getText(), Results.RIGHT_ARMAGEDDON);
+            }
+        }
+
+        canClearLabel = true;
+        seconds = 0;
+
+    }
+
+
+    public void prepareResults(Player leftPlayer, Player rightPlayer, String leftName, String rightName, Results way) {
+        resultsPanel.prepareBackground(way);
+        resultsPanel.preparePlayers(leftPlayer, rightPlayer, leftName, rightName);
+        resultsPanel.prepareMassage(way);
+        resultsPanel.repaint();
+        gamePanel.saveBoard("savedImages/Board");
+        gamePanel.savePanel("savedImages/Game");
+
+        if (way == Results.RIGHT_ARMAGEDDON || way == Results.LEFT_ARMAGEDDON)
+            showArmageddon();
+        else
+            card.last(cardPanel);
+    }
+
+    private void showArmageddon() {
+        isFinished = true;
+        JLabel armLab = new JLabel("ARGMAGEDON!", JLabel.CENTER);
+        armLab.setForeground(Color.red);
+        armLab.setFont(new Font("MyFont", Font.TYPE1_FONT, 40));
+        armLab.setBounds(340, BOARD_Y + BOARD_HEIGHT + 10, 500, 70);
+        gamePanel.add(armLab);
+        leftTime++;
+    }
+
     public GamePanel getGamePanel() {
         return gamePanel;
     }
@@ -274,4 +427,15 @@ public class Game extends JFrame implements Runnable {
         return config;
     }
 
+    public Player getLeftPlayer() {
+        return leftPlayer;
+    }
+
+    public Player getRightPlayer() {
+        return rightPlayer;
+    }
+
+    public void setStarted(boolean started) {
+        isStarted = started;
+    }
 }
