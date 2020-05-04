@@ -23,7 +23,7 @@ public class SpriteCells {
 
     public void loadSprite() {
         try {
-            spriteSheet = ImageIO.read(new File(path));
+            spriteSheet = ImageIO.read(SpriteCells.class.getResource(path));
         } catch (IOException e) {
             e.printStackTrace();
         }

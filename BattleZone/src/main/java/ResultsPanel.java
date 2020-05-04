@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import static java.lang.String.format;
+import java.net.URISyntaxException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -22,7 +23,6 @@ public class ResultsPanel extends JPanel implements ActionListener {
     private BufferedImage currentBackground;
 
     private JLabel wayLabel;
-    private JLabel saveLabel1, saveLabel2;
     private JCheckBox checkBox;
 
     private Game game;
@@ -46,7 +46,7 @@ public class ResultsPanel extends JPanel implements ActionListener {
     }
 
     private void addScoresLabels() {
-        leftScoreLabel = new JLabel("Wynik: " , JLabel.CENTER);
+        leftScoreLabel = new JLabel("Wynik: ", JLabel.CENTER);
         leftScoreLabel.setBounds(155, 500, 240, 40);
         leftScoreLabel.setFont(new Font("Sans", Font.BOLD, 18));
         leftScoreLabel.setForeground(Color.WHITE);
@@ -98,7 +98,7 @@ public class ResultsPanel extends JPanel implements ActionListener {
 
 
     private void addDefaultFilesFields() {
-        saveLabel2 = new JLabel("Zapisz pliki graficzne ostatniego stanu gry tylko do domyślnej lokalizacji:", JLabel.LEFT);
+        JLabel saveLabel2 = new JLabel("Zapisz pliki graficzne ostatniego stanu gry tylko do domyślnej lokalizacji:", JLabel.LEFT);
         saveLabel2.setBounds(350, 645, 500, 20);
         saveLabel2.setForeground(Color.WHITE);
         add(saveLabel2);
@@ -112,7 +112,7 @@ public class ResultsPanel extends JPanel implements ActionListener {
     }
 
     private void addAttachmentFields() {
-        saveLabel1 = new JLabel("Zapisz także do własnej lokalizacji: ", JLabel.RIGHT);
+        JLabel saveLabel1 = new JLabel("Zapisz także do własnej lokalizacji: ", JLabel.RIGHT);
         saveLabel1.setBounds(150, 680, 400, 20);
         saveLabel1.setForeground(Color.WHITE);
         add(saveLabel1);
@@ -145,9 +145,15 @@ public class ResultsPanel extends JPanel implements ActionListener {
 
     private void loadBackgrounds() {
         try {
-            this.leftWinner = ImageIO.read(new File("src/main/resources/img/backgrounds/leftWinner.png"));
-            this.rightWinner = ImageIO.read(new File("src/main/resources/img/backgrounds/rightWinner.png"));
-            this.tie = ImageIO.read(new File("src/main/resources/img/backgrounds/tie.png"));
+
+//            this.leftWinner = ImageIO.read(new File("src/main/resources/img/backgrounds/leftWinner.png"));
+//            this.rightWinner = ImageIO.read(new File("src/main/resources/img/backgrounds/rightWinner.png"));
+//            this.tie = ImageIO.read(new File("src/main/resources/img/backgrounds/tie.png"));
+            this.leftWinner = ImageIO.read(ResultsPanel.class.getResource("/img/backgrounds/leftWinner.png"));
+            this.rightWinner = ImageIO.read(ResultsPanel.class.getResource("/img/backgrounds/rightWinner.png"));
+            this.tie = ImageIO.read(ResultsPanel.class.getResource("/img/backgrounds/tie.png"));
+
+
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
                     "Nie mogę znaleźć pliku z obrazem panelu końcowego!", "Błąd krytyczny!", JOptionPane.ERROR_MESSAGE);
@@ -159,20 +165,31 @@ public class ResultsPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
-
-
         if (src == endButton) {
             if (checkBox.isSelected()) {
                 isSaved = true;
             }
 
             if (isSaved) {
-                game.getGamePanel().saveBoard("savedImages/Board");
-                game.getGamePanel().savePanel("savedImages/Game");
+                try {
+                    String path = new File(Results.class.getProtectionDomain().getCodeSource().getLocation()
+                            .toURI()).getPath();
+                    String name = new File(Results.class.getProtectionDomain().getCodeSource().getLocation()
+                            .toURI()).getName();
+
+                    path = path.replaceAll(name, "");
+                    game.getGamePanel().saveBoard(path + "Game");
+                    game.getGamePanel().savePanel(path + "Panel");
+
+                } catch (URISyntaxException ex) {
+                    JOptionPane.showMessageDialog(null, "Nie mogę zapisać plików w domyślnej lokalizacji!",
+                            "Błąd", JOptionPane.ERROR_MESSAGE);
+                }
                 game.dispose();
 
             } else
-                JOptionPane.showMessageDialog(null, "Żaden plik nie został wybrany!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Żaden plik nie został wybrany!", "Błąd",
+                        JOptionPane.ERROR_MESSAGE);
         }
 
         if (src == checkBox) {
@@ -231,16 +248,16 @@ public class ResultsPanel extends JPanel implements ActionListener {
         if (way == Results.TIE)
             wayLabel.setText("Koniec gry! Nastąpił remis!");
         else if (way == Results.LEFT_TIME_IS_UP)
-            wayLabel.setText(format("Koniec Gry! %s zwyciężył!", leftNameLabel.getText()));
+            wayLabel.setText(format("Koniec gry! %s zwyciężył!", leftNameLabel.getText()));
         else if (way == Results.LEFT_MAX_SCORE)
             wayLabel.setText(format("Koniec gry! %s osiągnął maksymalną ilość punktów!", leftNameLabel.getText()));
         else if (way == Results.LEFT_ARMAGEDDON)
             wayLabel.setText(format("Koniec gry! %s zestrzelił komórkę armagedon!", leftNameLabel.getText()));
         else if (way == Results.RIGHT_TIME_IS_UP)
-            wayLabel.setText(format("Koniec Gry! %s zwyciężył!", rightNameLabel.getText()));
+            wayLabel.setText(format("Koniec gry! %s zwyciężył!", rightNameLabel.getText()));
         else if (way == Results.RIGHT_MAX_SCORE)
             wayLabel.setText(format("Koniec gry! %s osiągnął maksymalną ilość punktów!", rightNameLabel.getText()));
         else if (way == Results.RIGHT_ARMAGEDDON)
-        wayLabel.setText(format("Koniec gry! %s zestrzelił komórkę armagedon!", rightNameLabel.getText()));
+            wayLabel.setText(format("Koniec gry! %s zestrzelił komórkę armagedon!", rightNameLabel.getText()));
     }
 }

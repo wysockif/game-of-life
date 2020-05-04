@@ -1,15 +1,12 @@
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import static java.lang.String.format;
-import javax.swing.JOptionPane;
 
 public class InputFileReader {
     private String[][] wordsInLines;
     private Constant[] constants;
 
-    public InputFileReader(File file) throws IOException, NullPointerException, IllegalArgumentException {
+    public InputFileReader(BufferedReader bufferedReader) throws IOException, NullPointerException, IllegalArgumentException {
         wordsInLines = new String[9][2];
         constants = new Constant[9];
         constants[0] = new Constant("A", "boardWidth", 0, 300, 580);
@@ -22,20 +19,18 @@ public class InputFileReader {
         constants[7] = new Constant("K", "percentageIncreaseInBulletsSpeed", 7, 0, 200);
         constants[8] = new Constant("L", "percentageDecreaseInCellsSize", 8, 0, 50);
 
-        readData(file);
+        readData(bufferedReader);
 
     }
 
-    public void readData(File file) throws IOException {
-        loadConfiguration(file);
+    public void readData(BufferedReader bufferedReader) throws IOException {
+        loadConfiguration(bufferedReader);
 
         for (Constant c : constants)
             assignValue(c);
     }
 
-    private void loadConfiguration(File file) throws IOException, NullPointerException, IllegalArgumentException, IndexOutOfBoundsException {
-
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+    private void loadConfiguration(BufferedReader bufferedReader) throws IOException, NullPointerException, IllegalArgumentException, IndexOutOfBoundsException {
         for (int i = 0; i < 9; i++) {
             String line = bufferedReader.readLine();
             int count = line.length() - line.replace("=", "").length();

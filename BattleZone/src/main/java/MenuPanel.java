@@ -6,9 +6,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -39,7 +44,10 @@ public class MenuPanel extends JPanel implements ActionListener {
         setLayout(null);
 
         try {
-            this.image = ImageIO.read(new File("src/main/resources/img/backgrounds/mainMenu.png"));
+//            this.image = ImageIO.read(new File("src/main/resources/img/backgrounds/mainMenu.png"));
+//            String path = (MenuPanel.class.getResource("/images/image.jpg").toString());
+            this.image = ImageIO.read(MenuPanel.class.getResource("/img/backgrounds/mainMenu.png"));
+
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
                     "Nie mogę znaleźć pliku z obrazem menu!", "Błąd krytyczny!", JOptionPane.ERROR_MESSAGE);
@@ -161,8 +169,9 @@ public class MenuPanel extends JPanel implements ActionListener {
                 if (checkBox.isSelected()) {
                     if (game.getConfig() == null) {
                         isFileOK = true;
-                        File file = new File("src/main/resources/config/ConfigFile.txt");
-                        checkFile(file);
+                        InputStream in = MenuPanel.class.getResourceAsStream("/config/ConfigFile.txt");
+                        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                        checkFile(br);
                     }
                 }
 
@@ -189,7 +198,15 @@ public class MenuPanel extends JPanel implements ActionListener {
             JFileChooser fc = new JFileChooser();
             if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 
-                checkFile(fc.getSelectedFile());
+                try {
+                    FileReader fr = new FileReader(fc.getSelectedFile());
+                    BufferedReader bufferedReader = new BufferedReader(fr);
+                    checkFile(bufferedReader);
+                } catch (FileNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, "Błąd odczytu pliku!" ,"Błąd", JOptionPane.ERROR_MESSAGE);
+                    isFileOK = false;
+                }
+
                 if( game.getConfig() != null && isFileOK) {
                     attachmentButton.setForeground(new Color(0, 127, 14));
                     setFocusable(true);
@@ -199,10 +216,11 @@ public class MenuPanel extends JPanel implements ActionListener {
     }
 
 
-    private void checkFile(File file) {
+
+    private void checkFile(BufferedReader bufferedReader) {
        game.setConfig(null);
         try {
-            game.setConfig(new InputFileReader(file));
+            game.setConfig(new InputFileReader(bufferedReader));
             isFileOK = true;
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Nie znaleziono pliku!", "Błąd", JOptionPane.ERROR_MESSAGE);
@@ -303,8 +321,6 @@ public class MenuPanel extends JPanel implements ActionListener {
     public int getGameScore() {
         return gameScore;
     }
-
-
 
     public String getNamePlayer1() {
         return namePlayer1;

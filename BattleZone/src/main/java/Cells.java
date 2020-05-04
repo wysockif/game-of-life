@@ -17,7 +17,7 @@ public class Cells {
 
     public Cells(Game game) {
         this.game = game;
-        spriteCells = new SpriteCells("src/main/resources/img/cells.png", 100, 100);
+        spriteCells = new SpriteCells("img/cells.png", 100, 100);
         cellsImages = spriteCells.getSprites();
         currentWidth = originalWidth = cellsImages[0][0].getWidth();
         currentHeight = originalHeight = cellsImages[0][0].getHeight();
@@ -50,14 +50,13 @@ public class Cells {
         if (cells == null) {
             cells = new LinkedList<>();
             isNew = true;
-            System.out.println("Creating");
         }
         Random r = new Random();
         boolean b = true;
 
 
 
-        for (int i = 0; i < 15 && cells.size() < 20; i++) {
+        for (int i = 0; i < 20 && cells.size() < 25; i++) {
             int x = r.nextInt(Game.BOARD_WIDTH- originalWidth);
             int y = r.nextInt(Game.BOARD_HEIGHT - originalHeight);
 

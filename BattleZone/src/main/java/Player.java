@@ -33,7 +33,7 @@ public abstract class Player {
         this.maxNumberOfShots = maxNumberOfShots;
 
         try {
-            tankSpriteSheet = ImageIO.read(new File(tankPath));
+            tankSpriteSheet = ImageIO.read(Player.class.getResource(tankPath));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
                     "Nie mogę znaleźć pliku z obrazem czołgu!", "Błąd krytyczny!", JOptionPane.ERROR_MESSAGE);
@@ -41,7 +41,7 @@ public abstract class Player {
         }
 
         try {
-            bulletImage = ImageIO.read(new File(bulletPath));
+            bulletImage = ImageIO.read(Player.class.getResource(bulletPath));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
                     "Nie mogę znaleźć pliku z obrazem pocisku!", "Błąd krytyczny!", JOptionPane.ERROR_MESSAGE);

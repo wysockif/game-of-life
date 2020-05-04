@@ -12,8 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
+import static java.awt.Font.BOLD;
 import static java.lang.String.format;
+import static javax.swing.SwingConstants.CENTER;
 
 public class Game extends JFrame implements Runnable {
     public final static int WINDOW_WIDTH = 1200;
@@ -22,16 +23,14 @@ public class Game extends JFrame implements Runnable {
     public static int BOARD_X, BOARD_Y;
 
     private int maxScore;
-    private int leftTime = 50;
-    private int maxTime = 50;
-    private int timeToSwitchPanel = 3;
+    private int leftTime, maxTime;
     private int seconds;
     private int timeToGenerateNewCells, timeToGenerateKidsCells;
     private int timeToIncreaseCellsValues, timeToChangeBSpeedAndCSize;
 
     private boolean running = false;
     private boolean isLastTime;
-    private boolean isStarted, isFinished;
+    private boolean isStarted;
     private boolean canClearLabel;
 
     private InputFileReader config;
@@ -84,7 +83,7 @@ public class Game extends JFrame implements Runnable {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setResizable(false);
         setLocationRelativeTo(null);
-        setIconImage(new ImageIcon("src/main/resources/img/icon.png").getImage());
+        setIconImage(new ImageIcon("/img/icon.png").getImage());
         setCloseOperation();
     }
 
@@ -139,7 +138,6 @@ public class Game extends JFrame implements Runnable {
             Bullet b = it.next();
             b.updateBullet();
         }
-
 
         leftPlayer.removeUnwantedBullets();
         rightPlayer.removeUnwantedBullets();
@@ -244,7 +242,6 @@ public class Game extends JFrame implements Runnable {
     }
 
     public void repaint(Graphics g) {
-
         g.setColor(Color.black);
         g.fillRect(0, 0, Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
         g.setColor(Color.white);
@@ -278,15 +275,12 @@ public class Game extends JFrame implements Runnable {
         BOARD_X = 340 + (500 - BOARD_WIDTH) / 2;
         BOARD_Y = 150 + (500 - BOARD_HEIGHT) / 2;
 
-        leftPlayer = new LeftPlayer(config.getMaxNumberOfShots(),
-                "src/main/resources/img/leftTanks.png", "src/main/resources/img/leftBullet.png", keysListener);
-        rightPlayer = new RightPlayer(config.getMaxNumberOfShots(),
-                "src/main/resources/img/rightTanks.png", "src/main/resources/img/rightBullet.png", keysListener);
-
+        leftPlayer = new LeftPlayer(config.getMaxNumberOfShots(), "/img/leftTanks.png", "/img/leftBullet.png", keysListener);
+        rightPlayer = new RightPlayer(config.getMaxNumberOfShots(), "/img/rightTanks.png", "/img/rightBullet.png", keysListener);
 
         gamePanel.getLeftPlayerName().setText(menuPanel.getNamePlayer1());
         gamePanel.getRightPlayerName().setText(menuPanel.getNamePlayer2());
-        leftTime = menuPanel.getGameTime();
+        maxTime = leftTime = menuPanel.getGameTime();
         maxScore = menuPanel.getGameScore();
 
         updateLabels();
@@ -411,34 +405,25 @@ public class Game extends JFrame implements Runnable {
     }
 
     private void showArmageddon() {
-        isFinished = true;
-        JLabel armLab = new JLabel("ARGMAGEDON!", JLabel.CENTER);
+        JLabel armLab = new JLabel("ARMAGEDON!", CENTER);
         armLab.setForeground(Color.red);
-        armLab.setFont(new Font("MyFont", Font.TYPE1_FONT, 40));
+        armLab.setFont(new Font("MyFont", BOLD, 40));
         armLab.setBounds(340, BOARD_Y + BOARD_HEIGHT + 10, 500, 70);
         gamePanel.add(armLab);
         leftTime++;
+    }
+
+
+    public void setConfig(InputFileReader config) {
+        this.config = config;
     }
 
     public GamePanel getGamePanel() {
         return gamePanel;
     }
 
-    public void setConfig(InputFileReader config) {
-        this.config = config;
-    }
-
-
     public InputFileReader getConfig() {
         return config;
-    }
-
-    public Player getLeftPlayer() {
-        return leftPlayer;
-    }
-
-    public Player getRightPlayer() {
-        return rightPlayer;
     }
 
     public void setStarted(boolean started) {
