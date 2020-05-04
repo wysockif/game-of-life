@@ -166,9 +166,12 @@ public class ResultsPanel extends JPanel implements ActionListener {
                 isSaved = true;
             }
 
-            if (isSaved)
+            if (isSaved) {
+                game.getGamePanel().saveBoard("savedImages/Board");
+                game.getGamePanel().savePanel("savedImages/Game");
                 game.dispose();
-            else
+
+            } else
                 JOptionPane.showMessageDialog(null, "Żaden plik nie został wybrany!", "Błąd", JOptionPane.ERROR_MESSAGE);
         }
 

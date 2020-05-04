@@ -273,15 +273,6 @@ public class Game extends JFrame implements Runnable {
 
     public void closeStartMenu() {
         assignValues();
-        String space = "                ";
-        int percentBullets = config.getPercentageIncreaseInBulletsSpeed();
-        int percentCells = config.getPercentageDecreaseInCellsSize();
-        gamePanel.getInfoLabel().setText(format("Nowe komórki za %02ds", timeToGenerateNewCells) + space
-                + format("Komórki dzieci za %02ds", timeToGenerateKidsCells) + space
-                + format("Wzmocnienie komórek za %02ds", timeToIncreaseCellsValues) + space
-                + format("Zmniejszenie komórek za %02ds o %02d%%", timeToChangeBSpeedAndCSize, percentCells) + space
-                + format("Przyspieszenie pocisków za %02ds o %02d%%", timeToChangeBSpeedAndCSize, percentBullets));
-
         BOARD_WIDTH = config.getBoardWidth();
         BOARD_HEIGHT = config.getBoardHeight();
         BOARD_X = 340 + (500 - BOARD_WIDTH) / 2;
@@ -297,13 +288,31 @@ public class Game extends JFrame implements Runnable {
         gamePanel.getRightPlayerName().setText(menuPanel.getNamePlayer2());
         leftTime = menuPanel.getGameTime();
         maxScore = menuPanel.getGameScore();
-        gamePanel.getTimeLabel().setText("Pozostały czas: " + leftTime);
-        gamePanel.getLeftScoreLabel().setText("Zdobyte punkty: " + 0 + "/" + maxScore);
-        gamePanel.getRightScoreLabel().setText("Zdobyte punkty: " + 0 + "/" + maxScore);
+
+        updateLabels();
+
         card.next(cardPanel);
         running = true;
         gameThread.start();
 
+    }
+
+    private void updateLabels() {
+        String space = "                ";
+        int percentBullets = config.getPercentageIncreaseInBulletsSpeed();
+        int percentCells = config.getPercentageDecreaseInCellsSize();
+        gamePanel.getInfoLabel().setText(format("Nowe komórki za %02ds", timeToGenerateNewCells) + space
+                + format("Komórki dzieci za %02ds", timeToGenerateKidsCells) + space
+                + format("Wzmocnienie komórek za %02ds", timeToIncreaseCellsValues) + space
+                + format("Zmniejszenie komórek za %02ds o %02d%%", timeToChangeBSpeedAndCSize, percentCells) + space
+                + format("Przyspieszenie pocisków za %02ds o %02d%%", timeToChangeBSpeedAndCSize, percentBullets));
+
+
+        gamePanel.getTimeLabel().setText("Pozostały czas: " + leftTime);
+        gamePanel.getLeftScoreLabel().setText("Zdobyte punkty: 0/" + maxScore);
+        gamePanel.getRightScoreLabel().setText("Zdobyte punkty: 0/" + maxScore);
+        gamePanel.getLeftShotsLabel().setText("Pociski: 0/" + config.getMaxNumberOfShots());
+        gamePanel.getRightShotsLabel().setText("Pociski: 0/" + config.getMaxNumberOfShots());
     }
 
 
@@ -395,9 +404,6 @@ public class Game extends JFrame implements Runnable {
         resultsPanel.preparePlayers(leftPlayer, rightPlayer, leftName, rightName);
         resultsPanel.prepareMassage(way);
         resultsPanel.repaint();
-        gamePanel.saveBoard("savedImages/Board");
-        gamePanel.savePanel("savedImages/Game");
-
         if (way == Results.RIGHT_ARMAGEDDON || way == Results.LEFT_ARMAGEDDON)
             showArmageddon();
         else

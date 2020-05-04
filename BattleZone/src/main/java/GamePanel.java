@@ -73,12 +73,14 @@ public class GamePanel extends JPanel {
 
     private void addNewScoresLabels() {
         leftNewScoreLabel = new JLabel("", JLabel.CENTER);
-        leftNewScoreLabel.setBounds(5, 60, 390, 20);
+        leftNewScoreLabel.setBounds(5, 60, 390, 30);
+        leftNewScoreLabel.setFont(new Font("MyFont", Font.BOLD, 23));
         leftNewScoreLabel.setForeground(Color.BLACK);
         add(leftNewScoreLabel);
 
         rightNewScoreLabel = new JLabel("", JLabel.CENTER);
-        rightNewScoreLabel.setBounds(790, 60, 390, 20);
+        rightNewScoreLabel.setBounds(790, 60, 390, 30);
+        rightNewScoreLabel.setFont(new Font("MyFont", Font.BOLD, 23));
         rightNewScoreLabel.setForeground(Color.BLACK);
         add(rightNewScoreLabel);
     }
