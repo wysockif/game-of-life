@@ -90,7 +90,6 @@ public class MenuPanel extends JPanel implements ActionListener {
         attachmentButton.addActionListener(this);
         attachmentButton.setEnabled(false);
         attachmentButton.setBounds(500, 615, 100, 30);
-        attachmentButton.setFocusable(false);
         add(attachmentButton);
     }
 
@@ -110,18 +109,18 @@ public class MenuPanel extends JPanel implements ActionListener {
     }
 
     private void addTimesFields() {
-        String space = "                                                                      ";
+        String space = "                                                                    ";
         timeLabel = new JLabel("Wprowadź maksymalny czas gry: " + space + "[s]", JLabel.LEFT);
         timeLabel.setBounds(400, 510, 600, 20);
         timeLabel.setForeground(Color.WHITE);
         add(timeLabel);
 
-        timeField = new JTextField("30");
+        timeField = new JTextField("100");
         timeField.setBounds(600, 500, 200, 50);
         timeField.setBackground(Color.BLACK);
         timeField.setForeground(Color.WHITE);
         timeField.setHorizontalAlignment(JTextField.CENTER);
-        addPlaceholder(timeField, "30", "Czas gry:");
+        addPlaceholder(timeField, "100", "Czas gry:");
         add(timeField);
     }
 
@@ -150,7 +149,6 @@ public class MenuPanel extends JPanel implements ActionListener {
         playButton.setForeground(Color.white);
         playButton.addActionListener(this);
         playButton.setBounds(500, 670, 200, 70);
-        playButton.setFocusable(false);
         add(playButton);
     }
 
