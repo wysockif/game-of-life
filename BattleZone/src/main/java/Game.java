@@ -64,7 +64,7 @@ public class Game extends JFrame implements Runnable {
         resultsPanel = new ResultsPanel(this);
         cardPanel.add(resultsPanel);
 
-        cells = new Cells(this);
+        cells = new Cells(this, new SpriteCells("img/cells.png", 100, 100));
 
         add(cardPanel);
         setVisible(true);

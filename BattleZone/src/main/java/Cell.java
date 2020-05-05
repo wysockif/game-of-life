@@ -6,15 +6,15 @@ public class Cell extends Rectangle {
     private int greatestValue;
 
     private BufferedImage currentImage;
+    private Cells cells;
     private boolean isArmageddon = false;
     private int inheritance = 0;
 
-    public Cell(int x, int y, int w, int h, int value) {
+    public Cell(int x, int y, int w, int h, int value, BufferedImage bufferedImage, Cells cells) {
         super(x, y, w, h);
         currentValue = greatestValue = value;
-        currentImage = Cells.getCellImage(value - 1, value - 1);
-
-
+        this.currentImage = bufferedImage;
+        this.cells = cells;
     }
 
     public void increaseValue() {
@@ -30,8 +30,10 @@ public class Cell extends Rectangle {
     }
 
     public void decreaseValue() {
-        currentValue--;
-        refreshCellImage();
+        if(currentValue > 1) {
+            currentValue--;
+            refreshCellImage();
+        }
     }
 
 
@@ -45,7 +47,7 @@ public class Cell extends Rectangle {
 
     private void refreshCellImage() {
         if (currentValue > 0) {
-            currentImage = Cells.getCellImage(currentValue - 1, greatestValue - 1);
+            currentImage = cells.getCellImage(currentValue - 1, greatestValue - 1);
             width = currentImage.getWidth();
             height = currentImage.getHeight();
         }

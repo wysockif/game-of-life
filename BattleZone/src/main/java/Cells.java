@@ -15,9 +15,9 @@ public class Cells {
     private int originalWidth, originalHeight;
     private int currentWidth, currentHeight;
 
-    public Cells(Game game) {
+    public Cells(Game game, SpriteCells spriteCells) {
         this.game = game;
-        spriteCells = new SpriteCells("img/cells.png", 100, 100);
+        this.spriteCells = spriteCells;
         cellsImages = spriteCells.getSprites();
         currentWidth = originalWidth = cellsImages[0][0].getWidth();
         currentHeight = originalHeight = cellsImages[0][0].getHeight();
@@ -35,8 +35,9 @@ public class Cells {
             int y = r.nextInt(5);
 
             if (!arr[x][y]) {
+                int value = r.nextInt(8) + 1;
                 cells.add(new Cell(x * originalWidth, y * originalHeight, originalWidth, originalHeight,
-                        r.nextInt(8) + 1));
+                        value, getCellImage(value - 1, value - 1), this));
                 arr[x][y] = true;
             }
         }
@@ -60,8 +61,9 @@ public class Cells {
             int x = r.nextInt(Game.BOARD_WIDTH- originalWidth);
             int y = r.nextInt(Game.BOARD_HEIGHT - originalHeight);
 
-            Cell temp = new Cell(x, y, originalWidth, originalHeight,
-                    r.nextInt(8) + 1);
+            int value = r.nextInt(8) + 1;
+            Cell temp = new Cell(x, y, originalWidth, originalHeight, value, getCellImage(value - 1, value - 1), this);
+
             b = true;
             for (Cell c : cells) {
                 if (c.isOccupiedSpace(temp))
@@ -85,9 +87,7 @@ public class Cells {
 
 
 
-
-
-    public static BufferedImage getCellImage(int x, int y) {
+    public BufferedImage getCellImage(int x, int y) {
         return cellsImages[y][x];
     }
 
@@ -154,13 +154,13 @@ public class Cells {
 
     }
 
-    public void selectArmageddonCell() {
+    private void selectArmageddonCell() {
         Random rand = new Random();
         int index = rand.nextInt(cells.size());
         cells.get(index).setArmageddon(true);
     }
 
-    public void selectInheritanceCells() {
+    private void selectInheritanceCells() {
         Random rand = new Random();
         int n = rand.nextInt(cells.size());
         int n10 = n / 2;
@@ -240,6 +240,14 @@ public class Cells {
                 }
             }
         } catch (ConcurrentModificationException e){}
+    }
+
+    public List<Cell> getCells() {
+        return cells;
+    }
+
+    public void setCells(List<Cell> cells) {
+        this.cells = cells;
     }
 
     public void drawTipBar(Graphics g) {
