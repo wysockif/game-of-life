@@ -1,18 +1,14 @@
-import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class SpriteCells {
     private BufferedImage spriteSheet;
     private String path;
     private int tileSizeX;
     private int tileSizeY;
-    private int howManyX = 8;
-    private int howManyY = 8;
-    private boolean isLoaded;
 
     public SpriteCells(String path, int tileSizeX, int tileSizeY) {
         this.path = path;
@@ -27,10 +23,11 @@ public class SpriteCells {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        isLoaded = true;
     }
 
     public BufferedImage[][] getSprites() {
+        int howManyX = 8;
+        int howManyY = 8;
         BufferedImage[][] sprites = new BufferedImage[howManyY][howManyX];
         for (int y = 0; y < howManyY; y++) {
             for (int x = 0; x < howManyX; x++) {
@@ -55,15 +52,14 @@ public class SpriteCells {
 
 
     public BufferedImage scaleCell(BufferedImage imageToScaling, double scale) {
-        BufferedImage before = imageToScaling;
-        int w = before.getWidth();
-        int h = before.getHeight();
+        int w = imageToScaling.getWidth();
+        int h = imageToScaling.getHeight();
         BufferedImage after = new BufferedImage((int) Math.round(scale * w), (int) Math.round(scale * h),
                 BufferedImage.TYPE_INT_ARGB);
         AffineTransform at = new AffineTransform();
         at.scale(scale, scale);
         AffineTransformOp scaleOp =
                 new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-        return scaleOp.filter(before, after);
+        return scaleOp.filter(imageToScaling, after);
     }
 }

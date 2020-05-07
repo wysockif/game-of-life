@@ -1,38 +1,47 @@
 import java.awt.Graphics;
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public abstract class Player {
-    private List<Bullet> bullets;
     private int maxNumberOfShots;
-    private int pointsGained;
+    private int pointsGained = 0;
+
     private BufferedImage tankSpriteSheet;
+    private List<Bullet> bullets;
+
     protected int tileSizeX, tileSizeY;
+    protected int currentSpriteIndex = 24;
+    protected int x, y, shift;
+    protected int direction;
+    protected int xCannon;
+    protected int yCannon;
+    protected boolean wantShot;
+    protected double speedMultiplier = 1;
+    protected final static int NUMBER_OF_SPRITES = 49;
 
     protected BufferedImage[] tankSprites;
     protected KeysListener keysListener;
     protected BufferedImage bulletImage, currentSprite;
-    ;
-    protected int currentSpriteIndex;
-    protected int direction;
-    protected int xCannon;
-    protected int yCannon;
-    protected double speedMultiplier;
-    protected int x, y, shift;
-    protected final int NUMBER_OF_SPRITES = 49;
-
-    protected boolean wantShot;
 
     public Player(int maxNumberOfShots, String tankPath, String bulletPath, KeysListener keysListener) {
         this.maxNumberOfShots = maxNumberOfShots;
+        this.keysListener = keysListener;
+        readSprites(tankPath, bulletPath);
+        bullets = new LinkedList<>();
+        tileSizeX = tankSpriteSheet.getWidth();
+        tileSizeY = tankSpriteSheet.getHeight() / NUMBER_OF_SPRITES;
+        tankSprites = createTankSprites();
+        currentSprite = tankSprites[currentSpriteIndex];
+        y = Game.boardY + Game.boardHeight / 2 - tileSizeY / 2 - 30;
+    }
 
+    private void readSprites(String tankPath, String bulletPath) {
         try {
             tankSpriteSheet = ImageIO.read(Player.class.getResource(tankPath));
         } catch (IOException e) {
@@ -48,19 +57,6 @@ public abstract class Player {
                     "Nie mogę znaleźć pliku z obrazem pocisku!", "Błąd krytyczny!", JOptionPane.ERROR_MESSAGE);
             System.exit(2);
         }
-
-        bullets = new LinkedList<>();
-        pointsGained = 0;
-        speedMultiplier = 1;
-
-        tileSizeX = tankSpriteSheet.getWidth();
-        tileSizeY = tankSpriteSheet.getHeight() / NUMBER_OF_SPRITES;
-
-        tankSprites = createTankSprites();
-        currentSpriteIndex = 24;
-        currentSprite = tankSprites[currentSpriteIndex];
-        this.keysListener = keysListener;
-        y = Game.BOARD_Y + Game.BOARD_HEIGHT / 2 - tileSizeY / 2 - 30;
     }
 
     public void takeAShot() {
@@ -71,36 +67,12 @@ public abstract class Player {
         }
     }
 
-    public int getMaxNumberOfShots() {
-        return maxNumberOfShots;
-    }
-
-    public int getDirection() {
-        return direction;
-    }
-
-    public List<Bullet> getBullets() {
-        return bullets;
-    }
-
-    public void addPointsGained(int newPoints) {
-        pointsGained += newPoints;
-    }
-
-    public int getPointsGained() {
-        return pointsGained;
-    }
-
-    public double getSpeedMultiplier() {
-        return speedMultiplier;
-    }
-
     public void removeUnwantedBullets() {
         Iterator<Bullet> it = bullets.iterator();
         int imageWidth = bulletImage.getWidth();
         while (it.hasNext()) {
             Bullet b = it.next();
-            if (b.x < 0 - imageWidth || b.x > Game.BOARD_WIDTH || b.y < 0 || b.y > Game.BOARD_HEIGHT) {
+            if (b.x < -imageWidth || b.x > Game.boardWidth || b.y < 0 || b.y > Game.boardHeight) {
                 it.remove();
                 break;
             }
@@ -114,8 +86,19 @@ public abstract class Player {
     }
 
     private BufferedImage getTankSprite(int yGrid) {
-//        System.out.println(yGrid * tileSizeY);
         return tankSpriteSheet.getSubimage(0, yGrid * tileSizeY, tileSizeX, tileSizeY);
+    }
+
+    public synchronized void drawBullets(Graphics g) {
+        Iterator<Bullet> it = bullets.iterator();
+        try {
+            while (it.hasNext()) {
+                Bullet b = it.next();
+                b.drawBullet(g);
+            }
+        } catch (ConcurrentModificationException e) {
+            drawBullets(g);
+        }
     }
 
     private BufferedImage[] createTankSprites() {
@@ -134,18 +117,20 @@ public abstract class Player {
 
     public abstract void checkIfShot();
 
-    public synchronized void drawBullets(Graphics g) {
-        Iterator<Bullet> it = bullets.iterator();
-
-        try {
-            while (it.hasNext()) {
-                Bullet b = it.next();
-                b.drawBullet(g);
-            }
-
-        } catch (ConcurrentModificationException e) {
-            System.out.println("Stało się!!! bullets");
-        }
-
+    public int getMaxNumberOfShots() {
+        return maxNumberOfShots;
     }
+
+    public List<Bullet> getBullets() {
+        return bullets;
+    }
+
+    public void addPointsGained(int newPoints) {
+        pointsGained += newPoints;
+    }
+
+    public int getPointsGained() {
+        return pointsGained;
+    }
+
 }

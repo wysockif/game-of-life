@@ -4,17 +4,17 @@ import java.awt.image.BufferedImage;
 public class Cell extends Rectangle {
     private int currentValue;
     private int greatestValue;
+    private int inheritance = 0;
+    private boolean isArmageddon = false;
 
     private BufferedImage currentImage;
     private Cells cells;
-    private boolean isArmageddon = false;
-    private int inheritance = 0;
 
     public Cell(int x, int y, int w, int h, int value, BufferedImage bufferedImage, Cells cells) {
         super(x, y, w, h);
-        currentValue = greatestValue = value;
         this.currentImage = bufferedImage;
         this.cells = cells;
+        currentValue = greatestValue = value;
     }
 
     public void increaseValue() {
@@ -25,7 +25,6 @@ public class Cell extends Rectangle {
         } else if (currentValue < greatestValue && currentValue < 8) {
             currentValue++;
             refreshCellImage();
-
         }
     }
 
@@ -38,7 +37,6 @@ public class Cell extends Rectangle {
 
 
     public void reduceSize(int percent) {
-
         x += (int) Math.round(0.01 * percent * currentImage.getWidth() / 2);
         y += (int) Math.round(0.01 * percent * currentImage.getHeight() / 2);
 
@@ -53,50 +51,8 @@ public class Cell extends Rectangle {
         }
     }
 
-    public boolean isOccupiedSpace(Cell c){
-        if(intersects(c) || contains(c))
-            return true;
-        return false;
-    }
-
-
-
-    public int getXPosition() {
-        return x;
-    }
-
-    public int getYPosition() {
-        return y;
-    }
-
     public BufferedImage getCurrentImage() {
         return currentImage;
-    }
-
-
-    public void setArmageddon(boolean armageddon) {
-        isArmageddon = armageddon;
-    }
-
-
-    public int getInheritance() {
-        return inheritance;
-    }
-
-    public void setInheritance(int inheritance) {
-        this.inheritance = inheritance;
-    }
-
-    public int getGreatestValue() {
-        return greatestValue;
-    }
-
-    public int getCurrentValue() {
-        return currentValue;
-    }
-
-    public boolean isArmageddon() {
-        return isArmageddon;
     }
 
     @Override
@@ -107,6 +63,42 @@ public class Cell extends Rectangle {
                 ", width=" + width +
                 ", height=" + height +
                 '}';
+    }
+
+    public boolean isOccupiedSpace(Cell c){
+        return intersects(c) || contains(c);
+    }
+
+    public boolean isArmageddon() {
+        return isArmageddon;
+    }
+
+    public int getXPosition() {
+        return x;
+    }
+
+    public int getYPosition() {
+        return y;
+    }
+
+    public int getInheritance() {
+        return inheritance;
+    }
+
+    public int getGreatestValue() {
+        return greatestValue;
+    }
+
+    public int getCurrentValue() {
+        return currentValue;
+    }
+
+    public void setArmageddon(boolean armageddon) {
+        isArmageddon = armageddon;
+    }
+
+    public void setInheritance(int inheritance) {
+        this.inheritance = inheritance;
     }
 }
 

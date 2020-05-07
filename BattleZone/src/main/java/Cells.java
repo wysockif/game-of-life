@@ -1,48 +1,28 @@
-import java.awt.*;
+import java.awt.Graphics;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.util.*;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class Cells {
-    private static BufferedImage[][] cellsImages;
-    private BufferedImage[] tipsBarImages;
-    private Game game;
-    private SpriteCells spriteCells;
-    private List<Cell> cells;
     private int originalWidth, originalHeight;
-    private int currentWidth, currentHeight;
+
+    private Game game;
+    private BufferedImage[] tipsBarImages;
+    private List<Cell> cells;
+    private static BufferedImage[][] cellsImages;
+
 
     public Cells(Game game, SpriteCells spriteCells) {
         this.game = game;
-        this.spriteCells = spriteCells;
         cellsImages = spriteCells.getSprites();
-        currentWidth = originalWidth = cellsImages[0][0].getWidth();
-        currentHeight = originalHeight = cellsImages[0][0].getHeight();
+        originalWidth = cellsImages[0][0].getWidth();
+        originalHeight = cellsImages[0][0].getHeight();
         tipsBarImages = spriteCells.getTipsBarImages();
-    }
-
-
-    public void createNewCells(int bSize) {
-        boolean[][] arr = new boolean[bSize][bSize];
-        cells = new LinkedList<>();
-
-        Random r = new Random();
-        for (int i = 0; i < bSize * bSize - bSize; i++) {
-            int x = r.nextInt(5);
-            int y = r.nextInt(5);
-
-            if (!arr[x][y]) {
-                int value = r.nextInt(8) + 1;
-                cells.add(new Cell(x * originalWidth, y * originalHeight, originalWidth, originalHeight,
-                        value, getCellImage(value - 1, value - 1), this));
-                arr[x][y] = true;
-            }
-        }
-        selectArmageddonCell();
-        selectInheritanceCells();
     }
 
 
@@ -53,12 +33,12 @@ public class Cells {
             isNew = true;
         }
         Random r = new Random();
-        boolean b = true;
+        boolean b;
 
 
         for (int i = 0; i < 20 && cells.size() < 25; i++) {
-            int x = r.nextInt(Game.BOARD_WIDTH - originalWidth);
-            int y = r.nextInt(Game.BOARD_HEIGHT - originalHeight);
+            int x = r.nextInt(Game.boardWidth - originalWidth);
+            int y = r.nextInt(Game.boardHeight - originalHeight);
 
             int value = r.nextInt(8) + 1;
             Cell temp = new Cell(x, y, originalWidth, originalHeight, value, getCellImage(value - 1, value - 1), this);
@@ -69,23 +49,16 @@ public class Cells {
                     b = false;
             }
 
-
             if (b) {
                 cells.add(temp);
                 System.out.println(temp);
             }
-
         }
 
         selectInheritanceCells();
         if (isNew)
             selectArmageddonCell();
         System.out.println();
-    }
-
-
-    public BufferedImage getCellImage(int x, int y) {
-        return cellsImages[y][x];
     }
 
 
@@ -101,14 +74,8 @@ public class Cells {
             scaleCellsSprites(scale);
             for (Cell c : cells) {
                 c.reduceSize(percent);
-//                System.out.println(c);
             }
-
         }
-    }
-
-    public int getNumberOfCells() {
-        return cells.size();
     }
 
     private void scaleCellsSprites(double scale) {
@@ -126,29 +93,21 @@ public class Cells {
                             new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
                     after = scaleOp.filter(before, after);
                     cellsImages[i][j] = after;
-
-                    currentWidth = after.getWidth();
-                    currentHeight = after.getHeight();
                 }
             }
-
         }
     }
 
-    private boolean couldResize(double scale) {
-        return originalWidth < 2 * scale * cellsImages[0][0].getWidth();
-    }
 
     public synchronized void paintCells(Graphics g) {
         try {
             for (Cell c : cells) {
-                g.drawImage(c.getCurrentImage(), Game.BOARD_X + c.getXPosition(),
-                        Game.BOARD_Y + c.getYPosition(), null);
+                g.drawImage(c.getCurrentImage(), Game.boardX + c.getXPosition(),
+                        Game.boardY + c.getYPosition(), null);
             }
         } catch (ConcurrentModificationException e) {
-            System.out.println("Stało się!!! cells");
+            paintCells(g);
         }
-
     }
 
     private void selectArmageddonCell() {
@@ -165,7 +124,6 @@ public class Cells {
         int n30 = n / 6;
         int n50 = n / 10;
         int n100 = n / 15;
-
 
         for (int i = 0; i < n10; i++) {
             int index = rand.nextInt(cells.size());
@@ -204,8 +162,6 @@ public class Cells {
             }
             cells.get(index).setInheritance(100);
         }
-
-
     }
 
     public synchronized void checkIfHit(Player player) {
@@ -218,9 +174,6 @@ public class Cells {
                 while (itCells.hasNext()) {
                     Cell cell = itCells.next();
                     if (cell.contains(bullet) || cell.intersects(bullet)) {
-//                    System.out.printf("Bullet %d, %d, %d, %d \n", bullet.x, bullet.y, bullet.width, bullet.height);
-//                    System.out.printf("Cell   %d, %d, %d, %d \n", cell.x, cell.y, cell.width, cell.height);
-
                         if (cells.contains(cell)) {
                             if (cell.getCurrentValue() == 1) {
                                 game.refreshScores(cell, player);
@@ -231,14 +184,12 @@ public class Cells {
                                 cell.decreaseValue();
                             itBullet.remove();
                         }
-
-
                         break;
                     }
-
                 }
             }
         } catch (ConcurrentModificationException e) {
+            checkIfHit(player);
         }
     }
 
@@ -250,8 +201,17 @@ public class Cells {
         this.cells = cells;
     }
 
+
     public void drawTipBar(Graphics g) {
         for (int i = 0; i < 8; i++)
-            g.drawImage(tipsBarImages[i], 356 + i * 60, Game.BOARD_Y + Game.BOARD_HEIGHT + 20, null);
+            g.drawImage(tipsBarImages[i], 356 + i * 60, Game.boardY + Game.boardHeight + 20, null);
+    }
+
+    public BufferedImage getCellImage(int x, int y) {
+        return cellsImages[y][x];
+    }
+
+    private boolean couldResize(double scale) {
+        return originalWidth < 2 * scale * cellsImages[0][0].getWidth();
     }
 }

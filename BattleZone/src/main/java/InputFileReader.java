@@ -34,7 +34,7 @@ public class InputFileReader {
         for (int i = 0; i < 9; i++) {
             String line = bufferedReader.readLine();
             int count = line.length() - line.replace("=", "").length();
-            if(line.contains("=") && count == 1)
+            if (line.contains("=") && count == 1)
                 wordsInLines[i] = line.split("=");
             else
                 throw new IllegalArgumentException("Niepoprawny format parametru: " + constants[i].key);
@@ -98,7 +98,7 @@ public class InputFileReader {
         return constants[8].value;
     }
 
-    private class Constant {
+    private static class Constant {
         private String key;
         private int value;
         private int index;

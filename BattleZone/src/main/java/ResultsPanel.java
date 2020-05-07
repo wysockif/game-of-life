@@ -19,19 +19,17 @@ import javax.swing.JTextField;
 import javax.swing.plaf.metal.MetalButtonUI;
 
 public class ResultsPanel extends JPanel implements ActionListener {
+    private boolean isSaved;
+
     private BufferedImage leftWinner, rightWinner, tie;
     private BufferedImage currentBackground;
-
-    private JLabel wayLabel;
-    private JCheckBox checkBox;
-
-    private Game game;
     private JButton endButton;
     private JButton saveButton;
     private JLabel leftNameLabel, rightNameLabel;
     private JLabel leftScoreLabel, rightScoreLabel;
-    private boolean isSaved;
-
+    private JLabel wayLabel;
+    private JCheckBox checkBox;
+    private Game game;
 
     public ResultsPanel(Game game) {
         this.game = game;
@@ -51,23 +49,12 @@ public class ResultsPanel extends JPanel implements ActionListener {
         leftScoreLabel.setFont(new Font("Sans", Font.BOLD, 18));
         leftScoreLabel.setForeground(Color.WHITE);
         add(leftScoreLabel);
-
         rightScoreLabel = new JLabel("Wynik: ", JLabel.CENTER);
         rightScoreLabel.setBounds(715, 500, 240, 40);
         rightScoreLabel.setFont(new Font("Sans", Font.BOLD, 18));
         rightScoreLabel.setForeground(Color.WHITE);
         rightScoreLabel.setHorizontalAlignment(JTextField.CENTER);
         add(rightScoreLabel);
-
-    }
-
-    private void addInfoLabels() {
-        wayLabel = new JLabel("", JLabel.CENTER);
-        wayLabel.setBounds(0, 580, currentBackground.getWidth(), 40);
-        wayLabel.setFont(new Font("Sans", Font.BOLD, 30));
-        wayLabel.setForeground(Color.red);
-        wayLabel.setHorizontalAlignment(JTextField.CENTER);
-        add(wayLabel);
     }
 
     private void addNamesLabels() {
@@ -76,7 +63,6 @@ public class ResultsPanel extends JPanel implements ActionListener {
         leftNameLabel.setFont(new Font("Sans", Font.BOLD, 30));
         leftNameLabel.setForeground(Color.WHITE);
         add(leftNameLabel);
-
         rightNameLabel = new JLabel("Gracz 2", JLabel.CENTER);
         rightNameLabel.setBounds(715, 470, 240, 40);
         rightNameLabel.setFont(new Font("Sans", Font.BOLD, 30));
@@ -102,7 +88,6 @@ public class ResultsPanel extends JPanel implements ActionListener {
         saveLabel2.setBounds(350, 645, 500, 20);
         saveLabel2.setForeground(Color.WHITE);
         add(saveLabel2);
-
         checkBox = new JCheckBox();
         checkBox.setBounds(765, 645, 20, 20);
         checkBox.doClick();
@@ -116,8 +101,6 @@ public class ResultsPanel extends JPanel implements ActionListener {
         saveLabel1.setBounds(150, 680, 400, 20);
         saveLabel1.setForeground(Color.WHITE);
         add(saveLabel1);
-
-
         saveButton = new JButton("Wybierz lokalizację");
         saveButton.setBackground(Color.black);
         saveButton.setForeground(Color.white);
@@ -125,8 +108,16 @@ public class ResultsPanel extends JPanel implements ActionListener {
         saveButton.setEnabled(false);
         saveButton.setBounds(570, 675, 200, 30);
         saveButton.setFocusable(false);
-
         add(saveButton);
+    }
+
+    private void addInfoLabels() {
+        wayLabel = new JLabel("", JLabel.CENTER);
+        wayLabel.setBounds(0, 580, currentBackground.getWidth(), 40);
+        wayLabel.setFont(new Font("Sans", Font.BOLD, 30));
+        wayLabel.setForeground(Color.red);
+        wayLabel.setHorizontalAlignment(JTextField.CENTER);
+        add(wayLabel);
     }
 
     @Override
@@ -138,22 +129,13 @@ public class ResultsPanel extends JPanel implements ActionListener {
         g.fillRect(0, 550, currentBackground.getWidth(), 310);
         g.drawImage(currentBackground, 0, 0, currentBackground.getWidth(), currentBackground.getHeight(), null);
         g.fillRect(0, 0, currentBackground.getWidth(), 30);
-
-//        g.drawRect(715, 500, 240, 40);
-//        g.drawRect(155, 500, 240, 40);
     }
 
     private void loadBackgrounds() {
         try {
-
-//            this.leftWinner = ImageIO.read(new File("src/main/resources/img/backgrounds/leftWinner.png"));
-//            this.rightWinner = ImageIO.read(new File("src/main/resources/img/backgrounds/rightWinner.png"));
-//            this.tie = ImageIO.read(new File("src/main/resources/img/backgrounds/tie.png"));
             this.leftWinner = ImageIO.read(ResultsPanel.class.getResource("/img/backgrounds/leftWinner.png"));
             this.rightWinner = ImageIO.read(ResultsPanel.class.getResource("/img/backgrounds/rightWinner.png"));
             this.tie = ImageIO.read(ResultsPanel.class.getResource("/img/backgrounds/tie.png"));
-
-
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
                     "Nie mogę znaleźć pliku z obrazem panelu końcowego!", "Błąd krytyczny!", JOptionPane.ERROR_MESSAGE);
@@ -165,66 +147,75 @@ public class ResultsPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
-        if (src == endButton) {
-            if (checkBox.isSelected()) {
-                isSaved = true;
-            }
+        if (src == endButton)
+            handleEndButton();
+        else if (src == checkBox)
+            handleCheckBox();
+        else if (src == saveButton)
+            handleSaveButton();
+    }
 
-            if (isSaved) {
-                try {
-                    String path = new File(Results.class.getProtectionDomain().getCodeSource().getLocation()
-                            .toURI()).getPath();
-                    String name = new File(Results.class.getProtectionDomain().getCodeSource().getLocation()
-                            .toURI()).getName();
+    private void handleEndButton() {
+        if (checkBox.isSelected())
+            isSaved = true;
+        if (isSaved) {
+            saveImagesToTheDefaultLocalisation();
+            game.dispose();
+        } else
+            JOptionPane.showMessageDialog(null, "Żaden plik nie został wybrany!", "Błąd",
+                    JOptionPane.ERROR_MESSAGE);
+    }
 
-                    path = path.replaceAll(name, "");
-                    game.getGamePanel().saveBoard(path + "Game");
-                    game.getGamePanel().savePanel(path + "Panel");
+    private void saveImagesToTheDefaultLocalisation() {
+        try {
+            String path = new File(Results.class.getProtectionDomain().getCodeSource().getLocation()
+                    .toURI()).getPath();
+            String name = new File(Results.class.getProtectionDomain().getCodeSource().getLocation()
+                    .toURI()).getName();
+            path = path.replaceAll(name, "");
+            game.getGamePanel().saveBoard(path + "Game");
+            game.getGamePanel().savePanel(path + "Panel");
+        } catch (URISyntaxException ex) {
+            JOptionPane.showMessageDialog(null, "Nie mogę zapisać plików w domyślnej lokalizacji!",
+                    "Błąd", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-                } catch (URISyntaxException ex) {
-                    JOptionPane.showMessageDialog(null, "Nie mogę zapisać plików w domyślnej lokalizacji!",
-                            "Błąd", JOptionPane.ERROR_MESSAGE);
+    private void handleSaveButton() {
+        saveButton.setForeground(Color.white);
+        JFileChooser fc = new JFileChooser();
+        if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            String filePath = fc.getSelectedFile().getAbsolutePath();
+            saveImagesToTheSelectedLocalisation(filePath);
+            saveButton.setText("Zapisano");
+            saveButton.setUI(new MetalButtonUI() {
+                protected Color getDisabledTextColor() {
+                    return Color.green;
                 }
-                game.dispose();
-
-            } else
-                JOptionPane.showMessageDialog(null, "Żaden plik nie został wybrany!", "Błąd",
-                        JOptionPane.ERROR_MESSAGE);
+            });
+            saveButton.setEnabled(false);
+            checkBox.setEnabled(false);
+            setFocusable(true);
+            isSaved = true;
         }
+    }
 
-        if (src == checkBox) {
-            if (checkBox.isSelected()) {
-                saveButton.setEnabled(false);
-                isSaved = true;
-            } else {
-                saveButton.setEnabled(true);
-                saveButton.setForeground(Color.white);
-                saveButton.setText("Wybierz lokalizację");
-                isSaved = false;
-            }
+    private void saveImagesToTheSelectedLocalisation(String filePath) {
+        if (filePath.contains("."))
+            filePath = filePath.substring(0, filePath.lastIndexOf('.'));
+        game.getGamePanel().savePanel(filePath + "Panel");
+        game.getGamePanel().saveBoard(filePath + "Board");
+    }
 
-        }
-        if (src == saveButton) {
+    private void handleCheckBox() {
+        if (checkBox.isSelected()) {
+            saveButton.setEnabled(false);
+            isSaved = true;
+        } else {
+            saveButton.setEnabled(true);
             saveButton.setForeground(Color.white);
-
-            JFileChooser fc = new JFileChooser();
-            if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-                String filePath = fc.getSelectedFile().getAbsolutePath();
-                if (filePath.contains("."))
-                    filePath = filePath.substring(0, filePath.lastIndexOf('.'));
-                game.getGamePanel().savePanel(filePath + "Panel");
-                game.getGamePanel().saveBoard(filePath + "Board");
-                saveButton.setEnabled(false);
-                saveButton.setText("Zapisano");
-                saveButton.setUI(new MetalButtonUI() {
-                    protected Color getDisabledTextColor() {
-                        return Color.green;
-                    }
-                });
-                checkBox.setEnabled(false);
-                setFocusable(true);
-                isSaved = true;
-            }
+            saveButton.setText("Wybierz lokalizację");
+            isSaved = false;
         }
     }
 
@@ -244,7 +235,7 @@ public class ResultsPanel extends JPanel implements ActionListener {
             currentBackground = tie;
     }
 
-    public void prepareMassage(Results way) {
+    public void prepareMessage(Results way) {
         if (way == Results.TIE)
             wayLabel.setText("Koniec gry! Nastąpił remis!");
         else if (way == Results.LEFT_TIME_IS_UP)

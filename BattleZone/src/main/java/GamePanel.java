@@ -1,10 +1,10 @@
 import java.awt.Color;
 import java.awt.Font;
-import static java.awt.Font.*;
+import static java.awt.Font.BOLD;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import static java.awt.image.BufferedImage.*;
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
@@ -13,9 +13,7 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
     private Game game;
-    private JLabel timeLabel;
-    private JLabel gameTitle;
-    private JLabel infoLabel;
+    private JLabel timeLabel, infoLabel;
     private JLabel leftPlayerName, rightPlayerName, leftShotsLabel, rightShotsLabel;
     private JLabel leftScoreLabel, leftNewScoreLabel, rightScoreLabel, rightNewScoreLabel;
 
@@ -27,10 +25,8 @@ public class GamePanel extends JPanel {
         addScoresLabels();
         addNewScoresLabels();
         addLeftLabels();
-
         setFocusable(true);
         requestFocus();
-
     }
 
     private void addNamesLabels() {
@@ -92,7 +88,7 @@ public class GamePanel extends JPanel {
         timeLabel.setBounds(500, 15, 200, 20);
         add(timeLabel);
 
-        gameTitle = new JLabel("BattleZone");
+        JLabel gameTitle = new JLabel("BattleZone");
         gameTitle.setFont(new Font("MyFont", BOLD, 40));
         gameTitle.setBounds(490, 35, 300, 45);
         gameTitle.setForeground(Color.RED);
@@ -103,29 +99,24 @@ public class GamePanel extends JPanel {
         infoLabel.setBounds(0, 750, game.getWidth() - 10, 20);
         infoLabel.setForeground(Color.white);
         add(infoLabel);
-
     }
 
     public void countDown() {
         JLabel countingDown = new JLabel("", JLabel.CENTER);
         countingDown.setFont(new Font("MyFont", BOLD, 60));
-        countingDown.setBounds(Game.BOARD_X + Game.BOARD_WIDTH / 2 - 30, Game.BOARD_Y + Game.BOARD_HEIGHT / 2 - 30, 60, 60);
+        countingDown.setBounds(Game.boardX + Game.boardWidth / 2 - 30, Game.boardY + Game.boardHeight / 2 - 30, 60, 60);
         countingDown.setForeground(Color.RED);
         add(countingDown);
-
         try {
             for (int i = 3; i > 0; i--) {
                 countingDown.setText(i + "");
                 TimeUnit.SECONDS.sleep(1);
             }
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         game.setStarted(true);
-
         remove(countingDown);
-
     }
 
     public void savePanel(String name) {
@@ -139,13 +130,11 @@ public class GamePanel extends JPanel {
         }
     }
 
-
     public void saveBoard(String name) {
         BufferedImage image = new BufferedImage(getWidth(), getHeight(), TYPE_INT_RGB);
         Graphics2D g2 = image.createGraphics();
-        image = image.getSubimage(Game.BOARD_X, Game.BOARD_Y, Game.BOARD_WIDTH, Game.BOARD_HEIGHT);
+        image = image.getSubimage(Game.boardX, Game.boardY, Game.boardWidth, Game.boardHeight);
         paint(g2);
-
         try {
             ImageIO.write(image, "png", new File(name + ".png"));
         } catch (Exception e) {

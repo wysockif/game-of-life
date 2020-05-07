@@ -44,7 +44,7 @@ public class PlayerTest {
         Player player = new LeftPlayer(3, "/img/leftTanks.png", "/img/leftBullet.png", new KeysListener());
         player.takeAShot();
         Bullet b = player.getBullets().get(0);
-        b.x = Game.BOARD_X  - 50;
+        b.x = Game.boardX - 50;
         b.y = 30;
 
         // when
@@ -62,8 +62,8 @@ public class PlayerTest {
         Player player = new LeftPlayer(3, "/img/leftTanks.png", "/img/leftBullet.png", new KeysListener());
         player.takeAShot();
         Bullet b = player.getBullets().get(0);
-        b.x = Game.BOARD_WIDTH/2;
-        b.y = Game.BOARD_HEIGHT/2;
+        b.x = Game.boardWidth /2;
+        b.y = Game.boardHeight /2;
 
         // when
         player.removeUnwantedBullets();

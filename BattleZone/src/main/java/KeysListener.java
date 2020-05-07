@@ -9,7 +9,7 @@ public class KeysListener implements KeyListener {
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
 
-        if(keyCode < keys.length)
+        if (keyCode < keys.length)
             keys[keyCode] = false;
     }
 
@@ -17,42 +17,53 @@ public class KeysListener implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         int keyCode = e.getKeyCode();
-        if(keyCode < keys.length)
+        if (keyCode < keys.length)
             keys[keyCode] = true;
     }
 
-    boolean isWPressed(){
+    boolean isWPressed() {
         return keys[KeyEvent.VK_W];
     }
-    boolean isSPressed(){
+
+    boolean isSPressed() {
         return keys[KeyEvent.VK_S];
     }
-    boolean isAPressed(){
+
+    boolean isAPressed() {
         return keys[KeyEvent.VK_A];
     }
-    boolean isDPressed(){
+
+    boolean isDPressed() {
         return keys[KeyEvent.VK_D];
     }
-    boolean isSpacePressed(){ return keys[KeyEvent.VK_SPACE]; }
+
+    boolean isSpacePressed() {
+        return keys[KeyEvent.VK_SPACE];
+    }
 
 
-    boolean isUpKeyPressed(){
+    boolean isUpKeyPressed() {
         return keys[KeyEvent.VK_UP];
     }
-    boolean isDownKeyPressed(){
+
+    boolean isDownKeyPressed() {
         return keys[KeyEvent.VK_DOWN];
     }
-    boolean isRightKeyPressed(){
+
+    boolean isRightKeyPressed() {
         return keys[KeyEvent.VK_RIGHT];
     }
-    boolean isLeftKeyPressed(){
+
+    boolean isLeftKeyPressed() {
         return keys[KeyEvent.VK_LEFT];
     }
-    boolean isEnterPressed(){
+
+    boolean isEnterPressed() {
         return keys[KeyEvent.VK_ENTER];
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {
+    }
 
 }

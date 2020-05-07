@@ -29,17 +29,17 @@ public class Bullet extends Rectangle {
     }
 
     public void drawBullet(Graphics g) {
-        if (direction == 1 && x < Game.BOARD_WIDTH - width && y > 0 && y < Game.BOARD_HEIGHT - height)
-            g.drawImage(bulletImage, Game.BOARD_X + x, Game.BOARD_Y + y, width, height, null);
-        if (direction == -1 && x > 0 && y > 0 && y < Game.BOARD_HEIGHT - height)
-            g.drawImage(bulletImage, Game.BOARD_X + x, Game.BOARD_Y + y, width, height, null);
+        if (direction == 1 && x < Game.boardWidth - width && y > 0 && y < Game.boardHeight - height)
+            g.drawImage(bulletImage, Game.boardX + x, Game.boardY + y, width, height, null);
+        if (direction == -1 && x > 0 && y > 0 && y < Game.boardHeight - height)
+            g.drawImage(bulletImage, Game.boardX + x, Game.boardY + y, width, height, null);
     }
 
 
     public void updateBullet(){
         xDouble += speedMultiplier * (direction);
         x = (int) Math.round(xDouble);
-        yDouble -= 0.005 * speedMultiplier * (yTank - yStart - Game.BOARD_Y + 95);
+        yDouble -= 0.005 * speedMultiplier * (yTank - yStart - Game.boardY + 95);
         y = (int) Math.round(yDouble) - shift;
 
     }
