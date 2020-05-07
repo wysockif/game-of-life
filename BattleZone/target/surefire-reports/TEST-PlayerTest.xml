@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="7" failures="0" name="PlayerTest" time="1.156" errors="0" skipped="0">
+<testsuite tests="7" failures="0" name="PlayerTest" time="0.84" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="13.0.2+8"/>
@@ -44,7 +44,7 @@
     <property name="java.class.path" value="C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2019.3.2\plugins\maven\lib\maven3\boot\plexus-classworlds-2.6.0.jar"/>
     <property name="java.vm.specification.version" value="13"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version2019.3.2 test"/>
+    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version2019.3.2 install"/>
     <property name="java.home" value="C:\Program Files\Java\jdk-13.0.2"/>
     <property name="user.language" value="pl"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -59,11 +59,11 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="PlayerTest" name="speedUpBullets_speedLessThanLimit_speededUpBullet" time="0.415"/>
-  <testcase classname="PlayerTest" name="removeUnwantedBullets_bulletOnTheBoard_didNotRemoveBullet" time="0.162"/>
-  <testcase classname="PlayerTest" name="takeAShot_listSizeLessThanMaxNumberOfShots_increasedBulletsSize" time="0.145"/>
-  <testcase classname="PlayerTest" name="removeUnwantedBullets_emptyBulletsList_didNotRemoveBullet" time="0.119"/>
-  <testcase classname="PlayerTest" name="removeUnwantedBullets_bulletOutOfBoard_removedBullet" time="0.108"/>
-  <testcase classname="PlayerTest" name="takeAShot_listSizeEqualsToMaxNumberOfShots_notIncreasedBulletsSize" time="0.107"/>
-  <testcase classname="PlayerTest" name="speedUpBullets_speedGreaterThanLimit_notSpeededUpBullet" time="0.1"/>
+  <testcase classname="PlayerTest" name="speedUpBullets_speedLessThanLimit_speededUpBullet" time="0.138"/>
+  <testcase classname="PlayerTest" name="removeUnwantedBullets_bulletOnTheBoard_didNotRemoveBullet" time="0.118"/>
+  <testcase classname="PlayerTest" name="takeAShot_listSizeLessThanMaxNumberOfShots_increasedBulletsSize" time="0.134"/>
+  <testcase classname="PlayerTest" name="removeUnwantedBullets_emptyBulletsList_didNotRemoveBullet" time="0.128"/>
+  <testcase classname="PlayerTest" name="removeUnwantedBullets_bulletOutOfBoard_removedBullet" time="0.124"/>
+  <testcase classname="PlayerTest" name="takeAShot_listSizeEqualsToMaxNumberOfShots_notIncreasedBulletsSize" time="0.112"/>
+  <testcase classname="PlayerTest" name="speedUpBullets_speedGreaterThanLimit_notSpeededUpBullet" time="0.086"/>
 </testsuite>

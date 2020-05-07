@@ -1,3 +1,4 @@
+Sounds$1.class
 ResultsPanel.class
 MenuPanel.class
 InputFileReader$Constant.class
@@ -6,11 +7,14 @@ MenuPanel$1.class
 Bullet.class
 KeysListener.class
 InputFileReader.class
+Sounds$2.class
 Player.class
 RightPlayer.class
+Sounds.class
 Cell.class
 Results.class
 ResultsPanel$1.class
+Sounds$3.class
 Cells.class
 Game$1.class
 Game.class

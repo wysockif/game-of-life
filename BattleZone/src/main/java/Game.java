@@ -43,7 +43,6 @@ public class Game extends JFrame implements Runnable {
     private KeysListener keysListener;
     private Player leftPlayer, rightPlayer;
     private Cells cells;
-    private Sounds sounds;
 
     private static JPanel cardPanel;
     private static CardLayout card;
@@ -89,7 +88,7 @@ public class Game extends JFrame implements Runnable {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setResizable(false);
         setLocationRelativeTo(null);
-        setIconImage(new ImageIcon("/img/icon.png").getImage());
+        setIconImage(new ImageIcon(Game.class.getResource("/img/icon.png")).getImage());
         setCloseOperation();
     }
 

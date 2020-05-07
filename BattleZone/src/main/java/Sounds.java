@@ -3,6 +3,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
+import javax.swing.JOptionPane;
 
 public class Sounds {
 
@@ -12,12 +13,12 @@ public class Sounds {
                 try {
                     Clip clip = AudioSystem.getClip();
                     AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                            Game.class.getResourceAsStream("sounds/TankFiring.wav"));
+                            Sounds.class.getResource("sounds/TankFiring.wav"));
                     clip.open(inputStream);
                     clip.start();
                 } catch (Exception e) {
-                    System.err.println(e.getMessage());
-                    System.out.println("BLAD");
+                    JOptionPane.showMessageDialog(null,
+                            "Błąd z dźwiękiem wystrzału!", "Błąd!", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }).start();
@@ -29,12 +30,12 @@ public class Sounds {
                 try {
                     Clip clip = AudioSystem.getClip();
                     AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                            Game.class.getResourceAsStream("sounds/GamingPoint.wav"));
+                            Sounds.class.getResource("sounds/GamingPoint.wav"));
                     clip.open(inputStream);
                     clip.start();
                 } catch (Exception e) {
-                    System.err.println(e.getMessage());
-                    System.out.println("BLAD");
+                    JOptionPane.showMessageDialog(null,
+                            "Błąd z dźwiękiem wystrzału!", "Błąd!", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }).start();
@@ -47,12 +48,12 @@ public class Sounds {
                 try {
                     Clip clip = AudioSystem.getClip();
                     AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                            Game.class.getResourceAsStream("sounds/GameOver.wav"));
+                            Sounds.class.getResource("sounds/GameOver.wav"));
                     clip.open(inputStream);
                     clip.start();
                 } catch (Exception e) {
-                    System.err.println(e.getMessage());
-                    System.out.println("BLAD");
+                    JOptionPane.showMessageDialog(null,
+                            "Błąd z dźwiękiem wystrzału!", "Błąd!", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }).start();
