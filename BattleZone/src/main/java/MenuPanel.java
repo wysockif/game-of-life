@@ -119,7 +119,7 @@ public class MenuPanel extends JPanel implements ActionListener {
     private void addNamesFields() {
         nameField1 = new JTextField("Gracz 1");
         nameField1.setBounds(155, 455, 190, 40);
-        nameField1.setBackground(Color.BLACK);
+        nameField1.setBackground(new Color(139 ,69 ,19));
         nameField1.setForeground(Color.WHITE);
         nameField1.setHorizontalAlignment(JTextField.CENTER);
         addPlaceholder(nameField1, "Gracz 1", "Wprowadź imię:");
@@ -127,7 +127,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 
         nameField2 = new JTextField("Gracz 2");
         nameField2.setBounds(855, 460, 190, 40);
-        nameField2.setBackground(Color.BLACK);
+        nameField2.setBackground(new Color(139 ,69 ,19));
         nameField2.setForeground(Color.WHITE);
         addPlaceholder(nameField2, "Gracz 2", "Wprowadź imię:");
         nameField2.setHorizontalAlignment(JTextField.CENTER);
@@ -137,7 +137,7 @@ public class MenuPanel extends JPanel implements ActionListener {
     private void addPlayButton() {
         playButton = new JButton("ROZPOCZNIJ");
         playButton.setFont(new Font("Sans", Font.BOLD, 25));
-        playButton.setBackground(Color.black);
+        playButton.setBackground(new Color(0 ,100 ,0));
         playButton.setForeground(Color.white);
         playButton.addActionListener(this);
         playButton.setBounds(500, 670, 200, 70);
@@ -147,8 +147,8 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     private void addSoundFields() {
         JLabel soundLabel = new JLabel("Graj z dźwiękiem: ");
-        soundLabel.setBounds(550, 470, 300, 20);
-        soundLabel.setForeground(Color.WHITE);
+        soundLabel.setBounds(480, 470, 300, 20);
+        soundLabel.setForeground(Color.white);
         add(soundLabel);
 
         soundCheckBox = new JCheckBox();
