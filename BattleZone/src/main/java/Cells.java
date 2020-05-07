@@ -56,9 +56,8 @@ public class Cells {
         boolean b = true;
 
 
-
         for (int i = 0; i < 20 && cells.size() < 25; i++) {
-            int x = r.nextInt(Game.BOARD_WIDTH- originalWidth);
+            int x = r.nextInt(Game.BOARD_WIDTH - originalWidth);
             int y = r.nextInt(Game.BOARD_HEIGHT - originalHeight);
 
             int value = r.nextInt(8) + 1;
@@ -69,7 +68,6 @@ public class Cells {
                 if (c.isOccupiedSpace(temp))
                     b = false;
             }
-
 
 
             if (b) {
@@ -84,7 +82,6 @@ public class Cells {
             selectArmageddonCell();
         System.out.println();
     }
-
 
 
     public BufferedImage getCellImage(int x, int y) {
@@ -227,6 +224,8 @@ public class Cells {
                         if (cells.contains(cell)) {
                             if (cell.getCurrentValue() == 1) {
                                 game.refreshScores(cell, player);
+                                if (Game.isSoundTurnedOn)
+                                    Sounds.playGamePointSound();
                                 itCells.remove();
                             } else
                                 cell.decreaseValue();
@@ -239,7 +238,8 @@ public class Cells {
 
                 }
             }
-        } catch (ConcurrentModificationException e){}
+        } catch (ConcurrentModificationException e) {
+        }
     }
 
     public List<Cell> getCells() {

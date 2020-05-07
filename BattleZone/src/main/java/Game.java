@@ -3,6 +3,9 @@ import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.concurrent.TimeUnit;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import java.awt.Color;
@@ -40,10 +43,13 @@ public class Game extends JFrame implements Runnable {
     private KeysListener keysListener;
     private Player leftPlayer, rightPlayer;
     private Cells cells;
+    private Sounds sounds;
 
     private static JPanel cardPanel;
     private static CardLayout card;
     public static Thread gameThread;
+    public static boolean isSoundTurnedOn;
+
 
 
     public Game() {
@@ -282,7 +288,7 @@ public class Game extends JFrame implements Runnable {
         gamePanel.getRightPlayerName().setText(menuPanel.getNamePlayer2());
         maxTime = leftTime = menuPanel.getGameTime();
         maxScore = menuPanel.getGameScore();
-
+        isSoundTurnedOn = menuPanel.isSoundTurnedOn();
         updateLabels();
 
         card.next(cardPanel);
@@ -402,6 +408,8 @@ public class Game extends JFrame implements Runnable {
             showArmageddon();
         else
             card.last(cardPanel);
+        if(isSoundTurnedOn)
+            Sounds.playGameOverSound();
     }
 
     private void showArmageddon() {
@@ -412,6 +420,8 @@ public class Game extends JFrame implements Runnable {
         gamePanel.add(armLab);
         leftTime++;
     }
+
+
 
 
     public void setConfig(InputFileReader config) {

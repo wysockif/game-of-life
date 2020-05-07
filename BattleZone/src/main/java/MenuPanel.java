@@ -31,9 +31,9 @@ public class MenuPanel extends JPanel implements ActionListener {
     private String namePlayer2 = "Gracz 2";
     private JTextField nameField1, nameField2;
     private JTextField timeField, scoreField;
-    private JLabel timeLabel, scoreLabel;
+    private JLabel timeLabel, scoreLabel, soundLabel;
     private JLabel attachmentLabel1, attachmentLabel2;
-    private JCheckBox checkBox;
+    private JCheckBox attachCheckBox, soundCheckBox;
     private JButton playButton;
     private JButton attachmentButton;
     private BufferedImage image;
@@ -59,8 +59,10 @@ public class MenuPanel extends JPanel implements ActionListener {
         addTimesFields();
         addScoresFields();
         addAttachmentFields();
+        addSoundFields();
         addDefaultFilesFields();
     }
+
 
     private void addDefaultFilesFields() {
         attachmentLabel2 = new JLabel("Użyj domyślnego:");
@@ -68,12 +70,12 @@ public class MenuPanel extends JPanel implements ActionListener {
         attachmentLabel2.setForeground(Color.WHITE);
         add(attachmentLabel2);
 
-        checkBox = new JCheckBox();
-        checkBox.setBounds(770, 620, 20, 20);
-        checkBox.doClick();
-        checkBox.setBackground(Color.darkGray);
-        checkBox.addActionListener(this);
-        add(checkBox);
+        attachCheckBox = new JCheckBox();
+        attachCheckBox.setBounds(770, 620, 20, 20);
+        attachCheckBox.doClick();
+        attachCheckBox.setBackground(Color.darkGray);
+        attachCheckBox.addActionListener(this);
+        add(attachCheckBox);
     }
 
     private void addAttachmentFields() {
@@ -81,7 +83,6 @@ public class MenuPanel extends JPanel implements ActionListener {
         attachmentLabel1.setBounds(300, 620, 300, 20);
         attachmentLabel1.setForeground(Color.WHITE);
         add(attachmentLabel1);
-
 
         attachmentButton = new JButton("Wczytaj");
 //        attachmentButton.setFont(new Font("Sans", Font.BOLD, 25));
@@ -153,7 +154,19 @@ public class MenuPanel extends JPanel implements ActionListener {
     }
 
 
+    private void addSoundFields(){
+        soundLabel = new JLabel("Graj z dźwiękiem: ");
+        soundLabel.setBounds(550, 470, 300, 20);
+        soundLabel.setForeground(Color.WHITE);
+        add(soundLabel);
 
+        soundCheckBox = new JCheckBox();
+        soundCheckBox.setBounds(650, 470, 20, 20);
+        soundCheckBox.doClick();
+        soundCheckBox.setBackground(Color.darkGray);
+        soundCheckBox.addActionListener(this);
+        add(soundCheckBox);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -164,7 +177,7 @@ public class MenuPanel extends JPanel implements ActionListener {
                 namePlayer1 = nameField1.getText();
                 namePlayer2 = nameField2.getText();
 
-                if (checkBox.isSelected()) {
+                if (attachCheckBox.isSelected()) {
                     if (game.getConfig() == null) {
                         isFileOK = true;
                         InputStream in = MenuPanel.class.getResourceAsStream("/config/ConfigFile.txt");
@@ -173,13 +186,13 @@ public class MenuPanel extends JPanel implements ActionListener {
                     }
                 }
 
-                if (isFileOK & game.getConfig() != null)
+                if (isFileOK & game.getConfig() != null) {
                     game.closeStartMenu();
-                else
+                } else
                     JOptionPane.showMessageDialog(null, "Żaden plik nie został wczytany!", "Błąd", JOptionPane.ERROR_MESSAGE);
             }
-        } else if (src == checkBox) {
-            if (checkBox.isSelected())
+        } else if (src == attachCheckBox) {
+            if (attachCheckBox.isSelected())
                 attachmentButton.setEnabled(false);
             else {
                 attachmentButton.setEnabled(true);
@@ -328,6 +341,7 @@ public class MenuPanel extends JPanel implements ActionListener {
         return namePlayer2;
     }
 
-
-
+    public boolean isSoundTurnedOn() {
+        return soundCheckBox.isSelected();
+    }
 }

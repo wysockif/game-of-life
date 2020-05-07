@@ -18,7 +18,8 @@ public abstract class Player {
 
     protected BufferedImage[] tankSprites;
     protected KeysListener keysListener;
-    protected BufferedImage bulletImage, currentSprite;;
+    protected BufferedImage bulletImage, currentSprite;
+    ;
     protected int currentSpriteIndex;
     protected int direction;
     protected int xCannon;
@@ -59,11 +60,13 @@ public abstract class Player {
         currentSpriteIndex = 24;
         currentSprite = tankSprites[currentSpriteIndex];
         this.keysListener = keysListener;
-        y = Game.BOARD_Y + Game.BOARD_HEIGHT/2 - tileSizeY/2 - 30;
+        y = Game.BOARD_Y + Game.BOARD_HEIGHT / 2 - tileSizeY / 2 - 30;
     }
 
     public void takeAShot() {
         if (bullets.size() < maxNumberOfShots) {
+            if (Game.isSoundTurnedOn)
+                Sounds.playTankFiringSound();
             bullets.add(new Bullet(bulletImage, xCannon, yCannon, y, shift, direction, speedMultiplier));
         }
     }
@@ -97,7 +100,7 @@ public abstract class Player {
         int imageWidth = bulletImage.getWidth();
         while (it.hasNext()) {
             Bullet b = it.next();
-            if (b.x < 0 - imageWidth || b.x > Game.BOARD_WIDTH  || b.y < 0 || b.y > Game.BOARD_HEIGHT) {
+            if (b.x < 0 - imageWidth || b.x > Game.BOARD_WIDTH || b.y < 0 || b.y > Game.BOARD_HEIGHT) {
                 it.remove();
                 break;
             }
@@ -105,7 +108,7 @@ public abstract class Player {
     }
 
     public void speedUpBullets(int percent) {
-        if(speedMultiplier + 0.01 * percent * speedMultiplier < 3 ){
+        if (speedMultiplier + 0.01 * percent * speedMultiplier < 3) {
             speedMultiplier = speedMultiplier + 0.01 * percent * speedMultiplier;
         }
     }
@@ -115,20 +118,23 @@ public abstract class Player {
         return tankSpriteSheet.getSubimage(0, yGrid * tileSizeY, tileSizeX, tileSizeY);
     }
 
-    private BufferedImage[] createTankSprites(){
+    private BufferedImage[] createTankSprites() {
         tankSprites = new BufferedImage[NUMBER_OF_SPRITES];
-        for(int i = 0; i < NUMBER_OF_SPRITES; i++){
+        for (int i = 0; i < NUMBER_OF_SPRITES; i++) {
             tankSprites[i] = getTankSprite(i);
         }
         return tankSprites;
     }
 
     public abstract void drawTank(Graphics g);
+
     public abstract void updateTank();
+
     public abstract void updateShots();
+
     public abstract void checkIfShot();
 
-    public synchronized void drawBullets(Graphics g){
+    public synchronized void drawBullets(Graphics g) {
         Iterator<Bullet> it = bullets.iterator();
 
         try {
@@ -137,7 +143,7 @@ public abstract class Player {
                 b.drawBullet(g);
             }
 
-        } catch (ConcurrentModificationException e){
+        } catch (ConcurrentModificationException e) {
             System.out.println("Stało się!!! bullets");
         }
 
