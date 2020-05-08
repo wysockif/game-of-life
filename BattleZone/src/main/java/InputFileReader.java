@@ -37,7 +37,7 @@ public class InputFileReader {
             if (line.contains("=") && count == 1)
                 wordsInLines[i] = line.split("=");
             else
-                throw new IllegalArgumentException("Niepoprawny format parametru: " + constants[i].key);
+                throw new IllegalArgumentException();
         }
         if (bufferedReader.readLine() != null)
             throw new IllegalArgumentException();

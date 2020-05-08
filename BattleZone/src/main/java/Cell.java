@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Cell extends Rectangle {
@@ -51,26 +51,16 @@ public class Cell extends Rectangle {
         }
     }
 
-    public BufferedImage getCurrentImage() {
-        return currentImage;
-    }
-
-    @Override
-    public String toString() {
-        return "Cell{" +
-                "x=" + x +
-                ", y=" + y +
-                ", width=" + width +
-                ", height=" + height +
-                '}';
-    }
-
     public boolean isOccupiedSpace(Cell c){
         return intersects(c) || contains(c);
     }
 
     public boolean isArmageddon() {
         return isArmageddon;
+    }
+
+    public BufferedImage getCurrentImage() {
+        return currentImage;
     }
 
     public int getXPosition() {

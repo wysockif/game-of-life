@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import static java.lang.String.format;
 import java.net.URISyntaxException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -15,8 +14,21 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.plaf.metal.MetalButtonUI;
+
+import static java.awt.Color.BLACK;
+import static java.awt.Color.DARK_GRAY;
+import static java.awt.Color.GREEN;
+import static java.awt.Color.LIGHT_GRAY;
+import static java.awt.Color.RED;
+import static java.awt.Color.WHITE;
+import static java.awt.Font.BOLD;
+import static java.lang.String.format;
+import static javax.swing.JFileChooser.APPROVE_OPTION;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.SwingConstants.CENTER;
+import static javax.swing.SwingConstants.LEFT;
+import static javax.swing.SwingConstants.RIGHT;
 
 public class ResultsPanel extends JPanel implements ActionListener {
     private boolean isSaved;
@@ -44,66 +56,65 @@ public class ResultsPanel extends JPanel implements ActionListener {
     }
 
     private void addScoresLabels() {
-        leftScoreLabel = new JLabel("Wynik: ", JLabel.CENTER);
+        leftScoreLabel = new JLabel("Wynik: ", CENTER);
         leftScoreLabel.setBounds(155, 500, 240, 40);
-        leftScoreLabel.setFont(new Font("Sans", Font.BOLD, 18));
-        leftScoreLabel.setForeground(Color.WHITE);
+        leftScoreLabel.setFont(new Font("Sans", BOLD, 18));
+        leftScoreLabel.setForeground(WHITE);
         add(leftScoreLabel);
-        rightScoreLabel = new JLabel("Wynik: ", JLabel.CENTER);
+        rightScoreLabel = new JLabel("Wynik: ", CENTER);
         rightScoreLabel.setBounds(715, 500, 240, 40);
-        rightScoreLabel.setFont(new Font("Sans", Font.BOLD, 18));
-        rightScoreLabel.setForeground(Color.WHITE);
-        rightScoreLabel.setHorizontalAlignment(JTextField.CENTER);
+        rightScoreLabel.setFont(new Font("Sans", BOLD, 18));
+        rightScoreLabel.setForeground(WHITE);
+        rightScoreLabel.setHorizontalAlignment(CENTER);
         add(rightScoreLabel);
     }
 
     private void addNamesLabels() {
-        leftNameLabel = new JLabel("Gracz 1", JLabel.CENTER);
+        leftNameLabel = new JLabel("Gracz 1", CENTER);
         leftNameLabel.setBounds(155, 470, 240, 40);
-        leftNameLabel.setFont(new Font("Sans", Font.BOLD, 30));
-        leftNameLabel.setForeground(Color.WHITE);
+        leftNameLabel.setFont(new Font("Sans", BOLD, 30));
+        leftNameLabel.setForeground(WHITE);
         add(leftNameLabel);
-        rightNameLabel = new JLabel("Gracz 2", JLabel.CENTER);
+        rightNameLabel = new JLabel("Gracz 2", CENTER);
         rightNameLabel.setBounds(715, 470, 240, 40);
-        rightNameLabel.setFont(new Font("Sans", Font.BOLD, 30));
-        rightNameLabel.setForeground(Color.WHITE);
-        rightNameLabel.setHorizontalAlignment(JTextField.CENTER);
+        rightNameLabel.setFont(new Font("Sans", BOLD, 30));
+        rightNameLabel.setForeground(WHITE);
+        rightNameLabel.setHorizontalAlignment(CENTER);
         add(rightNameLabel);
     }
 
     private void addButtons() {
         endButton = new JButton("Zakończ");
-        endButton.setFont(new Font("Sans", Font.BOLD, 25));
-        endButton.setBackground(Color.black);
-        endButton.setForeground(Color.white);
+        endButton.setFont(new Font("Sans", BOLD, 25));
+        endButton.setBackground(BLACK);
+        endButton.setForeground(WHITE);
         endButton.addActionListener(this);
         endButton.setBounds(500, 710, 200, 60);
         endButton.setFocusable(false);
         add(endButton);
     }
 
-
     private void addDefaultFilesFields() {
-        JLabel saveLabel2 = new JLabel("Zapisz pliki graficzne ostatniego stanu gry tylko do domyślnej lokalizacji:", JLabel.LEFT);
+        JLabel saveLabel2 = new JLabel("Zapisz pliki graficzne ostatniego stanu gry tylko do domyślnej lokalizacji:", LEFT);
         saveLabel2.setBounds(350, 645, 500, 20);
-        saveLabel2.setForeground(Color.WHITE);
+        saveLabel2.setForeground(WHITE);
         add(saveLabel2);
         checkBox = new JCheckBox();
         checkBox.setBounds(765, 645, 20, 20);
         checkBox.doClick();
-        checkBox.setBackground(Color.darkGray);
+        checkBox.setBackground(DARK_GRAY);
         checkBox.addActionListener(this);
         add(checkBox);
     }
 
     private void addAttachmentFields() {
-        JLabel saveLabel1 = new JLabel("Zapisz także do własnej lokalizacji: ", JLabel.RIGHT);
+        JLabel saveLabel1 = new JLabel("Zapisz także do własnej lokalizacji: ", RIGHT);
         saveLabel1.setBounds(150, 680, 400, 20);
-        saveLabel1.setForeground(Color.WHITE);
+        saveLabel1.setForeground(WHITE);
         add(saveLabel1);
         saveButton = new JButton("Wybierz lokalizację");
-        saveButton.setBackground(Color.black);
-        saveButton.setForeground(Color.white);
+        saveButton.setBackground(BLACK);
+        saveButton.setForeground(WHITE);
         saveButton.addActionListener(this);
         saveButton.setEnabled(false);
         saveButton.setBounds(570, 675, 200, 30);
@@ -112,20 +123,20 @@ public class ResultsPanel extends JPanel implements ActionListener {
     }
 
     private void addInfoLabels() {
-        wayLabel = new JLabel("", JLabel.CENTER);
+        wayLabel = new JLabel("", CENTER);
         wayLabel.setBounds(0, 580, currentBackground.getWidth(), 40);
-        wayLabel.setFont(new Font("Sans", Font.BOLD, 30));
-        wayLabel.setForeground(Color.red);
-        wayLabel.setHorizontalAlignment(JTextField.CENTER);
+        wayLabel.setFont(new Font("Sans", BOLD, 30));
+        wayLabel.setForeground(RED);
+        wayLabel.setHorizontalAlignment(CENTER);
         add(wayLabel);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.lightGray);
+        g.setColor(LIGHT_GRAY);
         g.fillRect(0, 500, currentBackground.getWidth(), 50);
-        g.setColor(Color.darkGray);
+        g.setColor(DARK_GRAY);
         g.fillRect(0, 550, currentBackground.getWidth(), 310);
         g.drawImage(currentBackground, 0, 0, currentBackground.getWidth(), currentBackground.getHeight(), null);
         g.fillRect(0, 0, currentBackground.getWidth(), 30);
@@ -137,8 +148,9 @@ public class ResultsPanel extends JPanel implements ActionListener {
             this.rightWinner = ImageIO.read(ResultsPanel.class.getResource("/img/backgrounds/rightWinner.png"));
             this.tie = ImageIO.read(ResultsPanel.class.getResource("/img/backgrounds/tie.png"));
         } catch (IOException e) {
+            Sounds.playErrorSound();
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
-                    "Nie mogę znaleźć pliku z obrazem panelu końcowego!", "Błąd krytyczny!", JOptionPane.ERROR_MESSAGE);
+                    "Nie mogę znaleźć pliku z obrazem panelu końcowego!", "Błąd krytyczny!", ERROR_MESSAGE);
             System.exit(2);
         }
         currentBackground = tie;
@@ -161,9 +173,11 @@ public class ResultsPanel extends JPanel implements ActionListener {
         if (isSaved) {
             saveImagesToTheDefaultLocalisation();
             game.dispose();
-        } else
+        } else {
+            Sounds.playErrorSound();
             JOptionPane.showMessageDialog(null, "Żaden plik nie został wybrany!", "Błąd",
-                    JOptionPane.ERROR_MESSAGE);
+                    ERROR_MESSAGE);
+        }
     }
 
     private void saveImagesToTheDefaultLocalisation() {
@@ -176,21 +190,22 @@ public class ResultsPanel extends JPanel implements ActionListener {
             game.getGamePanel().saveBoard(path + "Game");
             game.getGamePanel().savePanel(path + "Panel");
         } catch (URISyntaxException ex) {
+            Sounds.playErrorSound();
             JOptionPane.showMessageDialog(null, "Nie mogę zapisać plików w domyślnej lokalizacji!",
-                    "Błąd", JOptionPane.ERROR_MESSAGE);
+                    "Błąd", ERROR_MESSAGE);
         }
     }
 
     private void handleSaveButton() {
-        saveButton.setForeground(Color.white);
+        saveButton.setForeground(WHITE);
         JFileChooser fc = new JFileChooser();
-        if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+        if (fc.showSaveDialog(null) == APPROVE_OPTION) {
             String filePath = fc.getSelectedFile().getAbsolutePath();
             saveImagesToTheSelectedLocalisation(filePath);
             saveButton.setText("Zapisano");
             saveButton.setUI(new MetalButtonUI() {
                 protected Color getDisabledTextColor() {
-                    return Color.green;
+                    return GREEN;
                 }
             });
             saveButton.setEnabled(false);
@@ -213,7 +228,7 @@ public class ResultsPanel extends JPanel implements ActionListener {
             isSaved = true;
         } else {
             saveButton.setEnabled(true);
-            saveButton.setForeground(Color.white);
+            saveButton.setForeground(WHITE);
             saveButton.setText("Wybierz lokalizację");
             isSaved = false;
         }

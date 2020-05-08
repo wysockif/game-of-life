@@ -8,6 +8,8 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+
 public abstract class Player {
     private int maxNumberOfShots;
     private int pointsGained = 0;
@@ -45,16 +47,17 @@ public abstract class Player {
         try {
             tankSpriteSheet = ImageIO.read(Player.class.getResource(tankPath));
         } catch (IOException e) {
+            Sounds.playErrorSound();
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
-                    "Nie mogę znaleźć pliku z obrazem czołgu!", "Błąd krytyczny!", JOptionPane.ERROR_MESSAGE);
+                    "Nie mogę znaleźć pliku z obrazem czołgu!", "Błąd krytyczny!", ERROR_MESSAGE);
             System.exit(2);
         }
-
         try {
             bulletImage = ImageIO.read(Player.class.getResource(bulletPath));
         } catch (IOException e) {
+            Sounds.playErrorSound();
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
-                    "Nie mogę znaleźć pliku z obrazem pocisku!", "Błąd krytyczny!", JOptionPane.ERROR_MESSAGE);
+                    "Nie mogę znaleźć pliku z obrazem pocisku!", "Błąd krytyczny!", ERROR_MESSAGE);
             System.exit(2);
         }
     }
@@ -107,6 +110,14 @@ public abstract class Player {
             tankSprites[i] = getTankSprite(i);
         }
         return tankSprites;
+    }
+
+    public synchronized void updateMyBullets(){
+        Iterator<Bullet> it = bullets.iterator();
+        while (it.hasNext()) {
+            Bullet b = it.next();
+            b.updateBullet();
+        }
     }
 
     public abstract void drawTank(Graphics g);

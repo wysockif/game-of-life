@@ -1,18 +1,21 @@
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
-import static java.awt.Font.BOLD;
 import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import static java.lang.String.format;
-import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import static java.awt.Font.BOLD;
+import static java.lang.String.format;
+import static javax.swing.JOptionPane.DEFAULT_OPTION;
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
+import static javax.swing.JOptionPane.YES_OPTION;
 import static javax.swing.SwingConstants.CENTER;
 
 public class Game extends JFrame implements Runnable {
@@ -63,13 +66,6 @@ public class Game extends JFrame implements Runnable {
         setVisible(true);
     }
 
-    private void assignValues() {
-        timeToGenerateKidsCells = config.getTimeToGenerateKidsCells();
-        timeToGenerateNewCells = config.getTimeToGenerateNewCells();
-        timeToChangeBSpeedAndCSize = config.getTimeToChangeBulletsSpeedAndCellsSize();
-        timeToIncreaseCellsValues = config.getTimeToIncreaseCellsValues();
-    }
-
     private void customizeWindow() {
         setTitle("BattleZone");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -80,14 +76,15 @@ public class Game extends JFrame implements Runnable {
     }
 
     private void setCloseOperation() {
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we) {
                 String[] buttons = {"Tak", "Nie"};
+                Sounds.playErrorSound();
                 int PromptResult = JOptionPane.showOptionDialog(null, "Czy na pewno chcesz zakończyć?",
-                        "Potwierdzenie wyjścia", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, buttons, buttons[1]);
-                if (PromptResult == JOptionPane.YES_OPTION) {
+                        "Potwierdzenie wyjścia", DEFAULT_OPTION, WARNING_MESSAGE, null, buttons, buttons[1]);
+                if (PromptResult == YES_OPTION) {
                     System.exit(0);
                 }
             }
@@ -109,33 +106,22 @@ public class Game extends JFrame implements Runnable {
             running = false;
             card.last(cardPanel);
         }
+        updateGameObjects();
+    }
+
+    private void updateGameObjects() {
         leftPlayer.updateTank();
         rightPlayer.updateTank();
-
         rightPlayer.checkIfShot();
         leftPlayer.checkIfShot();
-
-        Iterator<Bullet> it = leftPlayer.getBullets().iterator();
-        while (it.hasNext()) {
-            Bullet b = it.next();
-            b.updateBullet();
-        }
-
-        it = rightPlayer.getBullets().iterator();
-        while (it.hasNext()) {
-            Bullet b = it.next();
-            b.updateBullet();
-        }
-
+        leftPlayer.updateMyBullets();
+        rightPlayer.updateMyBullets();
         leftPlayer.removeUnwantedBullets();
         rightPlayer.removeUnwantedBullets();
-
         cells.checkIfHit(leftPlayer);
         cells.checkIfHit(rightPlayer);
-
         gamePanel.getLeftShotsLabel().setText("Pociski: " + leftPlayer.getBullets().size() + "/" + leftPlayer.getMaxNumberOfShots());
         gamePanel.getRightShotsLabel().setText("Pociski: " + rightPlayer.getBullets().size() + "/" + rightPlayer.getMaxNumberOfShots());
-
     }
 
     private void updateOncePerSecond() {
@@ -152,11 +138,11 @@ public class Game extends JFrame implements Runnable {
             timeToIncreaseCellsValues = config.getTimeToIncreaseCellsValues();
         }
         if (timeToGenerateKidsCells == 0 && (maxTime - leftTime) != 0) {
-            // pojawienie się komórek dzieci
+            cells.bornChildren();
             timeToGenerateKidsCells = config.getTimeToGenerateKidsCells();
         }
         if (timeToGenerateNewCells == 0 && (maxTime - leftTime) != 0) {
-            // generowanie nowych komórek
+            cells.createCells();
             timeToGenerateNewCells = config.getTimeToGenerateNewCells();
         }
         if (leftTime == 0)
@@ -181,8 +167,7 @@ public class Game extends JFrame implements Runnable {
         leftPlayer.speedUpBullets(config.getPercentageIncreaseInBulletsSpeed());
         rightPlayer.speedUpBullets(config.getPercentageIncreaseInBulletsSpeed());
         timeToChangeBSpeedAndCSize = config.getTimeToChangeBulletsSpeedAndCellsSize();
-        int percent = config.getPercentageDecreaseInCellsSize();
-        cells.reduceSize(percent);
+        cells.reduceSize(config.getPercentageDecreaseInCellsSize());
         timeToChangeBSpeedAndCSize = config.getTimeToChangeBulletsSpeedAndCellsSize();
     }
 
@@ -272,6 +257,13 @@ public class Game extends JFrame implements Runnable {
         gameThread.start();
     }
 
+    private void assignValues() {
+        timeToGenerateKidsCells = config.getTimeToGenerateKidsCells();
+        timeToGenerateNewCells = config.getTimeToGenerateNewCells();
+        timeToChangeBSpeedAndCSize = config.getTimeToChangeBulletsSpeedAndCellsSize();
+        timeToIncreaseCellsValues = config.getTimeToIncreaseCellsValues();
+    }
+
     private void adjustBoardSize() {
         boardWidth = config.getBoardWidth();
         boardHeight = config.getBoardHeight();
@@ -280,7 +272,7 @@ public class Game extends JFrame implements Runnable {
     }
 
     private void updateLabels() {
-        String space = "                ";
+        String space = "               ";
         int percentBullets = config.getPercentageIncreaseInBulletsSpeed();
         int percentCells = config.getPercentageDecreaseInCellsSize();
         gamePanel.getTimeLabel().setText("Pozostały czas: " + leftTime);
@@ -295,7 +287,6 @@ public class Game extends JFrame implements Runnable {
                 + format("Przyspieszenie pocisków za %02ds o %02d%%", timeToChangeBSpeedAndCSize, percentBullets));
     }
 
-
     @Override
     public void run() {
         long lastTime = System.nanoTime();
@@ -309,9 +300,10 @@ public class Game extends JFrame implements Runnable {
             long now = System.nanoTime();
             changeInSeconds += (now - lastTime) / nanoSecondConversion;
             changeInSecondsFPS += (now - lastTime) / nanoSecondConversion;
-            render();
+
             if (changeInSecondsFPS > 1.0 / 60.0) {
                 updateFrame();
+                render();
                 changeInSecondsFPS = 0;
             }
             if (changeInSeconds >= 1.0) {

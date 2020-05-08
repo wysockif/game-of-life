@@ -8,8 +8,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import static java.awt.image.AffineTransformOp.TYPE_BILINEAR;
+import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
+
 public class Cells {
-    private int originalWidth, originalHeight;
+    private int originalWidth;
+    private int currentWidth, currentHeight;
 
     private Game game;
     private BufferedImage[] tipsBarImages;
@@ -20,45 +24,52 @@ public class Cells {
     public Cells(Game game, SpriteCells spriteCells) {
         this.game = game;
         cellsImages = spriteCells.getSprites();
-        originalWidth = cellsImages[0][0].getWidth();
-        originalHeight = cellsImages[0][0].getHeight();
+        currentWidth = originalWidth = cellsImages[0][0].getWidth();
+        currentHeight = cellsImages[0][0].getHeight();
         tipsBarImages = spriteCells.getTipsBarImages();
     }
 
 
     public synchronized void createCells() {
+        int n = 5;
         boolean isNew = false;
         if (cells == null) {
             cells = new LinkedList<>();
             isNew = true;
+            n = 30;
         }
         Random r = new Random();
-        boolean b;
+        boolean isSpace;
 
-
-        for (int i = 0; i < 20 && cells.size() < 25; i++) {
-            int x = r.nextInt(Game.boardWidth - originalWidth);
-            int y = r.nextInt(Game.boardHeight - originalHeight);
+        for (int i = 0; i < n && (cells.size() < 20 || i == 0); i++) {
+            int x = r.nextInt(Game.boardWidth - currentWidth);
+            int y = r.nextInt(Game.boardHeight - currentHeight);
 
             int value = r.nextInt(8) + 1;
-            Cell temp = new Cell(x, y, originalWidth, originalHeight, value, getCellImage(value - 1, value - 1), this);
+            Cell temp = new Cell(x, y, currentWidth, currentHeight, value, getCellImage(value - 1, value - 1), this);
 
-            b = true;
+            isSpace = true;
             for (Cell c : cells) {
-                if (c.isOccupiedSpace(temp))
-                    b = false;
+                if (c.isOccupiedSpace(temp)) {
+                    isSpace = false;
+                    break;
+                }
             }
 
-            if (b) {
+            if (isSpace) {
                 cells.add(temp);
-                System.out.println(temp);
             }
         }
 
-        selectInheritanceCells();
         if (isNew)
             selectArmageddonCell();
-        System.out.println();
+        else
+            resetInheritance();
+        selectInheritanceCells();
+    }
+
+    public synchronized void bornChildren(){
+        //TU METODA DO RODZENIA DZIECI
     }
 
 
@@ -86,13 +97,14 @@ public class Cells {
                     int w = before.getWidth();
                     int h = before.getHeight();
                     BufferedImage after = new BufferedImage((int) Math.round(scale * w), (int) Math.round(scale * h),
-                            BufferedImage.TYPE_INT_ARGB);
+                            TYPE_INT_ARGB);
                     AffineTransform at = new AffineTransform();
                     at.scale(scale, scale);
-                    AffineTransformOp scaleOp =
-                            new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+                    AffineTransformOp scaleOp = new AffineTransformOp(at, TYPE_BILINEAR);
                     after = scaleOp.filter(before, after);
                     cellsImages[i][j] = after;
+                    currentWidth = cellsImages[0][0].getWidth();
+                    currentHeight = cellsImages[0][0].getHeight();
                 }
             }
         }
@@ -116,51 +128,29 @@ public class Cells {
         cells.get(index).setArmageddon(true);
     }
 
+    private void resetInheritance() {
+        for (Cell c : cells)
+            c.setInheritance(0);
+    }
+
     private void selectInheritanceCells() {
         Random rand = new Random();
         int n = rand.nextInt(cells.size());
-        int n10 = n / 2;
-        int n20 = n / 4;
-        int n30 = n / 6;
-        int n50 = n / 10;
-        int n100 = n / 15;
+        assignInheritanceToTheCells(10, n / 2);
+        assignInheritanceToTheCells(20, n / 4);
+        assignInheritanceToTheCells(30, n / 6);
+        assignInheritanceToTheCells(50, n / 10);
+        assignInheritanceToTheCells(100, n / 15);
+    }
 
-        for (int i = 0; i < n10; i++) {
+    private void assignInheritanceToTheCells(int value, int numberOfOccurrences){
+        Random rand = new Random();
+        for (int i = 0; i < numberOfOccurrences; i++) {
             int index = rand.nextInt(cells.size());
             while (cells.get(index).getInheritance() != 0) {
                 index = rand.nextInt(cells.size());
             }
-            cells.get(index).setInheritance(10);
-        }
-        for (int i = 0; i < n20; i++) {
-            int index = rand.nextInt(cells.size());
-            while (cells.get(index).getInheritance() != 0) {
-                index = rand.nextInt(cells.size());
-            }
-            cells.get(index).setInheritance(20);
-        }
-        for (int i = 0; i < n30; i++) {
-            int index = rand.nextInt(cells.size());
-            while (cells.get(index).getInheritance() != 0) {
-                index = rand.nextInt(cells.size());
-            }
-            cells.get(index).setInheritance(30);
-
-        }
-        for (int i = 0; i < n50; i++) {
-            int index = rand.nextInt(cells.size());
-            while (cells.get(index).getInheritance() != 0) {
-                index = rand.nextInt(cells.size());
-            }
-            cells.get(index).setInheritance(40);
-
-        }
-        for (int i = 0; i < n100; i++) {
-            int index = rand.nextInt(cells.size());
-            while (cells.get(index).getInheritance() != 0) {
-                index = rand.nextInt(cells.size());
-            }
-            cells.get(index).setInheritance(100);
+            cells.get(index).setInheritance(value);
         }
     }
 
@@ -193,6 +183,19 @@ public class Cells {
         }
     }
 
+    public void drawTipBar(Graphics g) {
+        for (int i = 0; i < 8; i++)
+            g.drawImage(tipsBarImages[i], 356 + i * 60, Game.boardY + Game.boardHeight + 20, null);
+    }
+
+    private boolean couldResize(double scale) {
+        return originalWidth < 2 * scale * cellsImages[0][0].getWidth();
+    }
+
+    public BufferedImage getCellImage(int x, int y) {
+        return cellsImages[y][x];
+    }
+
     public List<Cell> getCells() {
         return cells;
     }
@@ -202,16 +205,4 @@ public class Cells {
     }
 
 
-    public void drawTipBar(Graphics g) {
-        for (int i = 0; i < 8; i++)
-            g.drawImage(tipsBarImages[i], 356 + i * 60, Game.boardY + Game.boardHeight + 20, null);
-    }
-
-    public BufferedImage getCellImage(int x, int y) {
-        return cellsImages[y][x];
-    }
-
-    private boolean couldResize(double scale) {
-        return originalWidth < 2 * scale * cellsImages[0][0].getWidth();
-    }
 }

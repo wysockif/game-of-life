@@ -1,15 +1,19 @@
 import java.awt.Color;
 import java.awt.Font;
-import static java.awt.Font.BOLD;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import static java.awt.Color.RED;
+import static java.awt.Color.WHITE;
+import static java.awt.Font.BOLD;
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
+import static javax.swing.SwingConstants.CENTER;
 
 public class GamePanel extends JPanel {
     private Game game;
@@ -30,13 +34,13 @@ public class GamePanel extends JPanel {
     }
 
     private void addNamesLabels() {
-        leftPlayerName = new JLabel("Gracz 1", JLabel.CENTER);
+        leftPlayerName = new JLabel("Gracz 1", CENTER);
         leftPlayerName.setFont(new Font("MyFont", BOLD, 20));
         leftPlayerName.setBounds(5, 10, 390, 20);
         leftPlayerName.setForeground(Color.BLACK);
         add(leftPlayerName);
 
-        rightPlayerName = new JLabel("Gracz 2", JLabel.CENTER);
+        rightPlayerName = new JLabel("Gracz 2", CENTER);
         rightPlayerName.setFont(new Font("MyFont", BOLD, 20));
         rightPlayerName.setBounds(790, 10, 390, 20);
         rightPlayerName.setForeground(Color.BLACK);
@@ -44,37 +48,37 @@ public class GamePanel extends JPanel {
     }
 
     private void addShotsLabels() {
-        leftShotsLabel = new JLabel("Pociski: ", JLabel.CENTER);
+        leftShotsLabel = new JLabel("Pociski: ", CENTER);
         leftShotsLabel.setBounds(5, 30, 390, 20);
         leftShotsLabel.setForeground(Color.BLACK);
         add(leftShotsLabel);
 
-        rightShotsLabel = new JLabel("Pociski: ", JLabel.CENTER);
+        rightShotsLabel = new JLabel("Pociski: ", CENTER);
         rightShotsLabel.setBounds(790, 30, 390, 20);
         rightShotsLabel.setForeground(Color.BLACK);
         add(rightShotsLabel);
     }
 
     private void addScoresLabels() {
-        leftScoreLabel = new JLabel("Zdobyte punkty: ", JLabel.CENTER);
+        leftScoreLabel = new JLabel("Zdobyte punkty: ", CENTER);
         leftScoreLabel.setBounds(5, 45, 390, 20);
         leftScoreLabel.setForeground(Color.BLACK);
         add(leftScoreLabel);
 
-        rightScoreLabel = new JLabel("Zdobyte punkty: ", JLabel.CENTER);
+        rightScoreLabel = new JLabel("Zdobyte punkty: ", CENTER);
         rightScoreLabel.setBounds(790, 45, 390, 20);
         rightScoreLabel.setForeground(Color.BLACK);
         add(rightScoreLabel);
     }
 
     private void addNewScoresLabels() {
-        leftNewScoreLabel = new JLabel("", JLabel.CENTER);
+        leftNewScoreLabel = new JLabel("", CENTER);
         leftNewScoreLabel.setBounds(5, 65, 390, 30);
         leftNewScoreLabel.setFont(new Font("MyFont", BOLD, 30));
         leftNewScoreLabel.setForeground(Color.BLACK);
         add(leftNewScoreLabel);
 
-        rightNewScoreLabel = new JLabel("", JLabel.CENTER);
+        rightNewScoreLabel = new JLabel("", CENTER);
         rightNewScoreLabel.setBounds(790, 65, 390, 30);
         rightNewScoreLabel.setFont(new Font("MyFont", BOLD, 30));
         rightNewScoreLabel.setForeground(Color.BLACK);
@@ -82,30 +86,30 @@ public class GamePanel extends JPanel {
     }
 
     private void addLeftLabels() {
-        timeLabel = new JLabel("Pozostały czas: ", JLabel.CENTER);
+        timeLabel = new JLabel("Pozostały czas: ", CENTER);
         timeLabel.setFont(new Font("MyFont", BOLD, 15));
-        timeLabel.setForeground(Color.WHITE);
+        timeLabel.setForeground(WHITE);
         timeLabel.setBounds(500, 15, 200, 20);
         add(timeLabel);
 
         JLabel gameTitle = new JLabel("BattleZone");
         gameTitle.setFont(new Font("MyFont", BOLD, 40));
         gameTitle.setBounds(490, 35, 300, 45);
-        gameTitle.setForeground(Color.RED);
+        gameTitle.setForeground(RED);
         add(gameTitle);
 
-        infoLabel = new JLabel("", JLabel.CENTER);
+        infoLabel = new JLabel("", CENTER);
         infoLabel.setFont(new Font("MyFont", BOLD, 13));
         infoLabel.setBounds(0, 750, game.getWidth() - 10, 20);
-        infoLabel.setForeground(Color.white);
+        infoLabel.setForeground(WHITE);
         add(infoLabel);
     }
 
     public void countDown() {
-        JLabel countingDown = new JLabel("", JLabel.CENTER);
+        JLabel countingDown = new JLabel("", CENTER);
         countingDown.setFont(new Font("MyFont", BOLD, 60));
         countingDown.setBounds(Game.boardX + Game.boardWidth / 2 - 30, Game.boardY + Game.boardHeight / 2 - 30, 60, 60);
-        countingDown.setForeground(Color.RED);
+        countingDown.setForeground(RED);
         add(countingDown);
         try {
             for (int i = 3; i > 0; i--) {

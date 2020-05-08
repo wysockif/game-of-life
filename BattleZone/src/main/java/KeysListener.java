@@ -1,6 +1,17 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import static java.awt.event.KeyEvent.VK_A;
+import static java.awt.event.KeyEvent.VK_D;
+import static java.awt.event.KeyEvent.VK_DOWN;
+import static java.awt.event.KeyEvent.VK_ENTER;
+import static java.awt.event.KeyEvent.VK_LEFT;
+import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_S;
+import static java.awt.event.KeyEvent.VK_SPACE;
+import static java.awt.event.KeyEvent.VK_UP;
+import static java.awt.event.KeyEvent.VK_W;
+
 public class KeysListener implements KeyListener {
     public boolean[] keys = new boolean[120];
 
@@ -22,44 +33,43 @@ public class KeysListener implements KeyListener {
     }
 
     boolean isWPressed() {
-        return keys[KeyEvent.VK_W];
+        return keys[VK_W];
     }
 
     boolean isSPressed() {
-        return keys[KeyEvent.VK_S];
+        return keys[VK_S];
     }
 
     boolean isAPressed() {
-        return keys[KeyEvent.VK_A];
+        return keys[VK_A];
     }
 
     boolean isDPressed() {
-        return keys[KeyEvent.VK_D];
+        return keys[VK_D];
     }
 
     boolean isSpacePressed() {
-        return keys[KeyEvent.VK_SPACE];
+        return keys[VK_SPACE];
     }
 
-
     boolean isUpKeyPressed() {
-        return keys[KeyEvent.VK_UP];
+        return keys[VK_UP];
     }
 
     boolean isDownKeyPressed() {
-        return keys[KeyEvent.VK_DOWN];
+        return keys[VK_DOWN];
     }
 
     boolean isRightKeyPressed() {
-        return keys[KeyEvent.VK_RIGHT];
+        return keys[VK_RIGHT];
     }
 
     boolean isLeftKeyPressed() {
-        return keys[KeyEvent.VK_LEFT];
+        return keys[VK_LEFT];
     }
 
     boolean isEnterPressed() {
-        return keys[KeyEvent.VK_ENTER];
+        return keys[VK_ENTER];
     }
 
     @Override

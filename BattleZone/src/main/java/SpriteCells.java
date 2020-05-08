@@ -4,6 +4,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+import static java.awt.image.AffineTransformOp.TYPE_BILINEAR;
+import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
+
 public class SpriteCells {
     private BufferedImage spriteSheet;
     private String path;
@@ -37,7 +40,6 @@ public class SpriteCells {
         return sprites;
     }
 
-
     public BufferedImage getSprite(int xGrid, int yGrid) {
         return spriteSheet.getSubimage(xGrid * tileSizeX, yGrid * tileSizeY, tileSizeX, tileSizeY);
     }
@@ -50,16 +52,13 @@ public class SpriteCells {
         return tipsImages;
     }
 
-
     public BufferedImage scaleCell(BufferedImage imageToScaling, double scale) {
         int w = imageToScaling.getWidth();
         int h = imageToScaling.getHeight();
-        BufferedImage after = new BufferedImage((int) Math.round(scale * w), (int) Math.round(scale * h),
-                BufferedImage.TYPE_INT_ARGB);
+        BufferedImage after = new BufferedImage((int) Math.round(scale * w), (int) Math.round(scale * h), TYPE_INT_ARGB);
         AffineTransform at = new AffineTransform();
         at.scale(scale, scale);
-        AffineTransformOp scaleOp =
-                new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+        AffineTransformOp scaleOp = new AffineTransformOp(at, TYPE_BILINEAR);
         return scaleOp.filter(imageToScaling, after);
     }
 }
