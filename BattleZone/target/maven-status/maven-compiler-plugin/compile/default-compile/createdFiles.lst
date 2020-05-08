@@ -3,6 +3,7 @@ ResultsPanel.class
 MenuPanel.class
 InputFileReader$Constant.class
 GamePanel.class
+Sounds$4.class
 MenuPanel$1.class
 Bullet.class
 KeysListener.class

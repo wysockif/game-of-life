@@ -36,7 +36,7 @@ public class Cells {
         if (cells == null) {
             cells = new LinkedList<>();
             isNew = true;
-            n = 30;
+            n = 50;
         }
         Random r = new Random();
         boolean isSpace;
@@ -129,6 +129,7 @@ public class Cells {
         Random rand = new Random();
         int index = rand.nextInt(cells.size());
         cells.get(index).setArmageddon(true);
+//        System.out.println(cells.get(index).x + " " + cells.get(index).y+ " " + cells.get(index).getGreatestValue());
     }
 
     private void resetInheritance() {

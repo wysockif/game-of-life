@@ -101,12 +101,12 @@ public class MenuPanel extends JPanel implements ActionListener {
         scoreLabel.setForeground(WHITE);
         add(scoreLabel);
 
-        scoreField = new JTextField("500");
+        scoreField = new JTextField("150");
         scoreField.setBounds(600, 550, 200, 50);
         scoreField.setBackground(BLACK);
         scoreField.setForeground(WHITE);
         scoreField.setHorizontalAlignment(CENTER);
-        addPlaceholder(scoreField, "500", "Punkty:");
+        addPlaceholder(scoreField, "150", "Punkty:");
         add(scoreField);
     }
 
