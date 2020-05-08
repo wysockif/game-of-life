@@ -138,7 +138,7 @@ public class Game extends JFrame implements Runnable {
             timeToIncreaseCellsValues = config.getTimeToIncreaseCellsValues();
         }
         if (timeToGenerateKidsCells == 0 && (maxTime - leftTime) != 0) {
-            cells.bornChildren();
+            cells.boreChildren();
             timeToGenerateKidsCells = config.getTimeToGenerateKidsCells();
         }
         if (timeToGenerateNewCells == 0 && (maxTime - leftTime) != 0) {

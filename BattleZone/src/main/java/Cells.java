@@ -68,8 +68,9 @@ public class Cells {
         selectInheritanceCells();
     }
 
-    public synchronized void bornChildren(){
+    public void boreChildren(){
         //TU METODA DO RODZENIA DZIECI
+
     }
 
 
