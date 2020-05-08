@@ -87,7 +87,8 @@ public class Cells {
             for (Cell c : cells) {
                 c.reduceSize(percent);
             }
-        }
+        } else
+            Game.setIsMinSize(true);
     }
 
     private void scaleCellsSprites(double scale) {
@@ -108,7 +109,8 @@ public class Cells {
                     currentHeight = cellsImages[0][0].getHeight();
                 }
             }
-        }
+        } else
+            Game.setIsMinSize(true);
     }
 
 

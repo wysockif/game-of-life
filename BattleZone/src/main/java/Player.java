@@ -85,7 +85,8 @@ public abstract class Player {
     public void speedUpBullets(int percent) {
         if (speedMultiplier + 0.01 * percent * speedMultiplier < 3) {
             speedMultiplier = speedMultiplier + 0.01 * percent * speedMultiplier;
-        }
+        } else
+            Game.setIsMaxSpeed(true);
     }
 
     private BufferedImage getTankSprite(int yGrid) {
