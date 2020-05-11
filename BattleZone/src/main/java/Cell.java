@@ -9,12 +9,14 @@ public class Cell extends Rectangle {
 
     private BufferedImage currentImage;
     private Cells cells;
+    private int childrenCells;
 
-    public Cell(int x, int y, int w, int h, int value, BufferedImage bufferedImage, Cells cells) {
+    public Cell(int x, int y, int w, int h, int value, int childernCells,  BufferedImage bufferedImage, Cells cells) {
         super(x, y, w, h);
         this.currentImage = bufferedImage;
         this.cells = cells;
         currentValue = greatestValue = value;
+        this.childrenCells = childernCells;
     }
 
     public void increaseValue() {
@@ -25,6 +27,15 @@ public class Cell extends Rectangle {
         } else if (currentValue < greatestValue && currentValue < 8) {
             currentValue++;
             refreshCellImage();
+        }
+    }
+
+    public boolean decreaseChildren(){
+        if(childrenCells > 0) {
+            childrenCells--;
+            return true;
+        }else{
+            return false;
         }
     }
 
@@ -85,6 +96,10 @@ public class Cell extends Rectangle {
 
     public void setArmageddon(boolean armageddon) {
         isArmageddon = armageddon;
+    }
+
+    public int getchildrenCells(){
+        return childrenCells;
     }
 
     public void setInheritance(int inheritance) {

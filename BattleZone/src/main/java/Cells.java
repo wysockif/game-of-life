@@ -2,11 +2,7 @@ import java.awt.Graphics;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static java.awt.image.AffineTransformOp.TYPE_BILINEAR;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
@@ -46,7 +42,7 @@ public class Cells {
             int y = r.nextInt(Game.boardHeight - currentHeight);
 
             int value = r.nextInt(8) + 1;
-            Cell temp = new Cell(x, y, currentWidth, currentHeight, value, getCellImage(value - 1, value - 1), this);
+            Cell temp = new Cell(x, y, currentWidth, currentHeight, value, value -1, getCellImage(value - 1, value - 1), this);
 
             isSpace = true;
             for (Cell c : cells) {
@@ -69,9 +65,44 @@ public class Cells {
     }
 
     public void boreChildren(){
-        //TU METODA DO RODZENIA DZIECI
+        for(Cell c : cells){
+            if(c.decreaseChildren() == true){
+//                System.out.println(c.x);
+//                System.out.println(currentWidth);
+//                System.out.println(currentHeight);
+//                System.out.println(Game.boardX);
+//                System.out.println(Game.boardY);
+//                System.out.println(Game.boardHeight);
+//                System.out.println(Game.boardWidth );
+                if(c.x + (2*currentWidth) > Game.boardX + Game.boardWidth || c.x - currentWidth < Game.boardX || c.y + (2*currentHeight) > Game.boardY+Game.boardHeight || c.y -currentHeight < Game.boardY){
+                    System.out.println("udalo sie");
+
+                }else{
+                    System.out.println("jednak nie");
+//                    Cell temp = new Cell(posX1, x, currentWidth, currentHeight, 1, 1, getCellImage(1, 1), this);
+//                    isSpace = true;
+//                    for (Cell cel : cells) {
+//                        if (cel.isOccupiedSpace(temp)) {
+//                            isSpace = false;
+//                            System.out.println("okupowane");
+//                            break;
+//                        }
+//                    }
+                }
+
+            }else{
+                //
+            }
+        }
+
 
     }
+
+    public void addChildrenToList(int posX, int posY){
+        Cell child = new Cell(posX, posY, currentWidth, currentHeight,1,1, getCellImage(1,1),this);
+        cells.add(child);
+    }
+
 
 
     public void increaseValues() {

@@ -286,6 +286,7 @@ public class Game extends JFrame implements Runnable {
         boardHeight = config.getBoardHeight();
         boardX = 340 + (500 - boardWidth) / 2;
         boardY = 150 + (500 - boardHeight) / 2;
+        //System.out.println(boardX  +" "+ boardY  +" "+ boardHeight  +" "+ boardWidth);
     }
 
     private void updateLabels() {

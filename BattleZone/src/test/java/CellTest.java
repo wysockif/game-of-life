@@ -27,7 +27,7 @@ public class CellTest {
     public void increaseValue_maxPossibleValue_didNotIncreaseValue() {
         // given
         int givenValue = 8;
-        Cell cell = new Cell(0, 0, 0, 0, givenValue, image, cells);
+        Cell cell = new Cell(0, 0, 0, 0, givenValue, givenValue-1, image, cells);
 
         // when
         cell.increaseValue();
@@ -42,7 +42,7 @@ public class CellTest {
         // given
         int givenValue = 5;
         given(cells.getCellImage(givenValue, givenValue)).willReturn(image);
-        Cell cell = new Cell(0, 0, 0, 0, givenValue, image, cells);
+        Cell cell = new Cell(0, 0, 0, 0, givenValue, givenValue-1, image, cells);
 
         // when
         cell.increaseValue();
@@ -58,7 +58,7 @@ public class CellTest {
         // given
         int givenValue = 5;
         given(cells.getCellImage(givenValue - 2, givenValue - 1)).willReturn(image);
-        Cell cell = new Cell(0, 0, 0, 0, givenValue, image, cells);
+        Cell cell = new Cell(0, 0, 0, 0, givenValue, givenValue -1, image, cells);
 
         // when
         cell.decreaseValue();
@@ -73,7 +73,7 @@ public class CellTest {
     public void decreaseValue_minPossibleValue_didNotDecreaseValue() {
         // given
         int givenValue = 1;
-        Cell cell = new Cell(0, 0, 0, 0, givenValue, image, cells);
+        Cell cell = new Cell(0, 0, 0, 0, givenValue, givenValue -1, image, cells);
 
         // when
         cell.decreaseValue();
@@ -88,7 +88,7 @@ public class CellTest {
     public void reduceSize_initialSizeOfCell_reducedSize(){
         // given
         int value = 5;
-        Cell cell = new Cell(0, 0, 0, 0, value, image, cells);
+        Cell cell = new Cell(0, 0, 0, 0, value, value - 1, image, cells);
         given(cells.getCellImage(value - 1, value - 1)).willReturn(image);
         int initialX = cell.x;
         int initialY = cell.y;
@@ -108,8 +108,8 @@ public class CellTest {
     @Test
     public void isOccupied_twoCellsIntersect_returnTrue(){
         // given
-        Cell cell1 = new Cell(10, 0, 100, 100, 5, image, cells);
-        Cell cell2 = new Cell(0, 10,100, 100, 5, image, cells);
+        Cell cell1 = new Cell(10, 0, 100, 100, 5, 4, image, cells);
+        Cell cell2 = new Cell(0, 10,100, 100, 5, 4, image, cells);
 
 
         // when
@@ -123,8 +123,8 @@ public class CellTest {
     @Test
     public void isOccupied_cellContainsAnotherCell_returnTrue(){
         // given
-        Cell cell1 = new Cell(0, 0, 100, 100, 5, image, cells);
-        Cell cell2 = new Cell(10, 10,30, 30, 5, image, cells);
+        Cell cell1 = new Cell(0, 0, 100, 100, 5, 4, image, cells);
+        Cell cell2 = new Cell(10, 10,30, 30, 5, 4, image, cells);
 
         // when
         boolean isOccupied = cell1.isOccupiedSpace(cell2);
@@ -137,8 +137,8 @@ public class CellTest {
     @Test
     public void isOccupied_twoCellsDoNotOccupiedTheSameSpace_returnFalse(){
         // given
-        Cell cell1 = new Cell(0, 0, 100, 100, 5, image, cells);
-        Cell cell2 = new Cell(300, 300,100, 100, 5, image, cells);
+        Cell cell1 = new Cell(0, 0, 100, 100, 5, 4, image, cells);
+        Cell cell2 = new Cell(300, 300,100, 100, 5, 4, image, cells);
 
         // when
         boolean isOccupied = cell1.isOccupiedSpace(cell2);
