@@ -75,11 +75,30 @@ public class Sounds {
                     AudioInputStream inputStream = AudioSystem.getAudioInputStream(
                             Sounds.class.getResource("sounds/ErrorSound.wav"));
                     clip.open(inputStream);
-                    turnDown(clip, 0.1f);
+                    turnDown(clip, 0.05f);
                     clip.start();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null,
                             "Wystąpił błąd z obsługą dźwięku wystąpienia błędu!", "Błąd!", ERROR_MESSAGE);
+                }
+            }
+        }).start();
+    }
+
+    public static synchronized void playClockSound() {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                            Sounds.class.getResource("sounds/Clock.wav"));
+                    clip.open(inputStream);
+                    turnDown(clip, 0.1f);
+                    clip.start();
+                } catch (Exception e) {
+                    playErrorSound();
+                    JOptionPane.showMessageDialog(null,
+                            "Wystąpił błąd z obsługą dźwięku zegara!", "Błąd!", ERROR_MESSAGE);
                 }
             }
         }).start();

@@ -10,6 +10,7 @@ KeysListener.class
 InputFileReader.class
 Sounds$2.class
 Player.class
+Sounds$5.class
 RightPlayer.class
 Sounds.class
 Cell.class

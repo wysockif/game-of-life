@@ -31,7 +31,7 @@ public class Cells {
 
 
     public synchronized void createCells() {
-        int n = 5;
+        int n = 8;
         boolean isNew = false;
         if (cells == null) {
             cells = new LinkedList<>();

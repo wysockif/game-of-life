@@ -101,12 +101,12 @@ public class MenuPanel extends JPanel implements ActionListener {
         scoreLabel.setForeground(WHITE);
         add(scoreLabel);
 
-        scoreField = new JTextField("150");
+        scoreField = new JTextField("200");
         scoreField.setBounds(600, 550, 200, 50);
         scoreField.setBackground(BLACK);
         scoreField.setForeground(WHITE);
         scoreField.setHorizontalAlignment(CENTER);
-        addPlaceholder(scoreField, "150", "Punkty:");
+        addPlaceholder(scoreField, "200", "Punkty:");
         add(scoreField);
     }
 
@@ -129,7 +129,8 @@ public class MenuPanel extends JPanel implements ActionListener {
     private void addNamesFields() {
         nameField1 = new JTextField("Gracz 1");
         nameField1.setBounds(155, 455, 190, 40);
-        nameField1.setBackground(new Color(139 ,69 ,19));
+//        nameField1.setBackground(new Color(139 ,69 ,19));
+        nameField1.setBackground(BLACK);
         nameField1.setForeground(WHITE);
         nameField1.setHorizontalAlignment(CENTER);
         addPlaceholder(nameField1, "Gracz 1", "Wprowadź imię:");
@@ -137,7 +138,8 @@ public class MenuPanel extends JPanel implements ActionListener {
 
         nameField2 = new JTextField("Gracz 2");
         nameField2.setBounds(855, 455, 190, 40);
-        nameField2.setBackground(new Color(139 ,69 ,19));
+//        nameField2.setBackground(new Color(139 ,69 ,19));
+        nameField2.setBackground(BLACK);
         nameField2.setForeground(WHITE);
         addPlaceholder(nameField2, "Gracz 2", "Wprowadź imię:");
         nameField2.setHorizontalAlignment(CENTER);
@@ -147,17 +149,17 @@ public class MenuPanel extends JPanel implements ActionListener {
     private void addPlayButton() {
         playButton = new JButton("ROZPOCZNIJ");
         playButton.setFont(new Font("Sans", BOLD, 25));
-        playButton.setBackground(new Color(0 ,100 ,0));
+        playButton.setBackground(new Color(0, 100, 0));
         playButton.setForeground(WHITE);
         playButton.addActionListener(this);
-        playButton.setBounds(500, 670, 200, 70);
+        playButton.setBounds(500, 670, 200, 60);
         add(playButton);
     }
 
 
     private void addSoundFields() {
         JLabel soundLabel = new JLabel("Graj z dźwiękiem: ");
-        soundLabel.setBounds(480, 470, 300, 20);
+        soundLabel.setBounds(482, 470, 300, 20);
         soundLabel.setForeground(WHITE);
         add(soundLabel);
 
@@ -258,7 +260,7 @@ public class MenuPanel extends JPanel implements ActionListener {
             game.setConfig(null);
     }
 
-    private void handleFileError(String message){
+    private void handleFileError(String message) {
         Sounds.playErrorSound();
         JOptionPane.showMessageDialog(null, message, "Błąd", ERROR_MESSAGE);
         isFileOK = false;

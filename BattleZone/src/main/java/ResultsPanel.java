@@ -187,8 +187,8 @@ public class ResultsPanel extends JPanel implements ActionListener {
             String name = new File(Results.class.getProtectionDomain().getCodeSource().getLocation()
                     .toURI()).getName();
             path = path.replaceAll(name, "");
-            game.getGamePanel().saveBoard(path + "Game");
-            game.getGamePanel().savePanel(path + "Panel");
+            game.getGamePanel().saveBoard(path + "Board");
+            game.getGamePanel().savePanel(path + "Game");
         } catch (URISyntaxException ex) {
             Sounds.playErrorSound();
             JOptionPane.showMessageDialog(null, "Nie mogę zapisać plików w domyślnej lokalizacji!",

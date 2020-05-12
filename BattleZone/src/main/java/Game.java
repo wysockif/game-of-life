@@ -131,8 +131,12 @@ public class Game extends JFrame implements Runnable {
         leftPlayer.updateShots();
         rightPlayer.updateShots();
 
-        if (leftTime <= 5)
+        if(leftTime == 6)
+            Sounds.playClockSound();
+
+        if (leftTime == 5)
             gamePanel.getTimeLabel().setForeground(Color.RED);
+
         if (timeToChangeBSpeedAndCSize == 0 && (maxTime - leftTime) != 0)
             prepareForChangeBSpeedAndCSize();
         if (timeToIncreaseCellsValues == 0 && (maxTime - leftTime) != 0) {
@@ -215,7 +219,7 @@ public class Game extends JFrame implements Runnable {
     private void updateInfoLabel() {
         int percentBullets = config.getPercentageIncreaseInBulletsSpeed();
         int percentCells = config.getPercentageDecreaseInCellsSize();
-        String space = "                ";
+        String space = "          ";
         String info1 = format("Nowe komórki za %02ds", timeToGenerateNewCells);
         String info2 = format("Komórki dzieci za %02ds", timeToGenerateKidsCells);
         String info3 = format("Wzmocnienie komórek za %02ds", timeToIncreaseCellsValues);
@@ -345,7 +349,7 @@ public class Game extends JFrame implements Runnable {
             gamePanel.getRightNewScoreLabel().setForeground(Color.blue);
             gamePanel.getRightNewScoreLabel().setText("+" + value);
         }
-        gamePanel.getRightScoreLabel().setText("Zdobyte punkty: " + rightPlayer.getPointsGained());
+        gamePanel.getRightScoreLabel().setText("Zdobyte punkty: " + rightPlayer.getPointsGained() + "/" + maxScore);
         if (cell.isArmageddon()) {
             isLastTime = true;
             gamePanel.getRightNewScoreLabel().setForeground(Color.red);
@@ -363,7 +367,7 @@ public class Game extends JFrame implements Runnable {
             gamePanel.getLeftNewScoreLabel().setForeground(Color.blue);
             gamePanel.getLeftNewScoreLabel().setText("+" + value);
         }
-        gamePanel.getLeftScoreLabel().setText("Zdobyte punkty: " + leftPlayer.getPointsGained());
+        gamePanel.getLeftScoreLabel().setText("Zdobyte punkty: " + leftPlayer.getPointsGained()+ "/" + maxScore);
         if (cell.isArmageddon()) {
             isLastTime = true;
             gamePanel.getLeftNewScoreLabel().setForeground(Color.red);

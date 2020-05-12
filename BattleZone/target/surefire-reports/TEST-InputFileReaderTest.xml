@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="11" failures="0" name="InputFileReaderTest" time="0.007" errors="0" skipped="0">
+<testsuite tests="11" failures="0" name="InputFileReaderTest" time="0.014" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="13.0.2+8"/>
@@ -60,15 +60,15 @@
     <property name="sun.stdout.encoding" value="cp852"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="InputFileReaderTest" name="readData_stringInsteadOfInt_throwException" time="0.003"/>
-  <testcase classname="InputFileReaderTest" name="readData_invalidFileExtension_throwException" time="0.001"/>
-  <testcase classname="InputFileReaderTest" name="readData_tooLittleLinesInFile_throwException" time="0"/>
-  <testcase classname="InputFileReaderTest" name="readData_incorrectKeyLetter_throwException" time="0"/>
-  <testcase classname="InputFileReaderTest" name="readData_valueOutOfLimits_throwException" time="0.001"/>
-  <testcase classname="InputFileReaderTest" name="getters_correctValues_correctlyReadValues" time="0.001"/>
-  <testcase classname="InputFileReaderTest" name="readData_negativeNumber_throwException" time="0"/>
-  <testcase classname="InputFileReaderTest" name="readData_nonExistentFile_throwException" time="0"/>
-  <testcase classname="InputFileReaderTest" name="readData_tooManyLinesInFile_throwException" time="0.001"/>
-  <testcase classname="InputFileReaderTest" name="readData_changedOrder_throwException" time="0"/>
+  <testcase classname="InputFileReaderTest" name="readData_stringInsteadOfInt_throwException" time="0.001"/>
+  <testcase classname="InputFileReaderTest" name="readData_invalidFileExtension_throwException" time="0.006"/>
+  <testcase classname="InputFileReaderTest" name="readData_tooLittleLinesInFile_throwException" time="0.001"/>
+  <testcase classname="InputFileReaderTest" name="readData_incorrectKeyLetter_throwException" time="0.001"/>
+  <testcase classname="InputFileReaderTest" name="readData_valueOutOfLimits_throwException" time="0.002"/>
+  <testcase classname="InputFileReaderTest" name="getters_correctValues_correctlyReadValues" time="0"/>
+  <testcase classname="InputFileReaderTest" name="readData_negativeNumber_throwException" time="0.001"/>
+  <testcase classname="InputFileReaderTest" name="readData_nonExistentFile_throwException" time="0.001"/>
+  <testcase classname="InputFileReaderTest" name="readData_tooManyLinesInFile_throwException" time="0"/>
+  <testcase classname="InputFileReaderTest" name="readData_changedOrder_throwException" time="0.001"/>
   <testcase classname="InputFileReaderTest" name="readData_toManyArgumentsForOneValue_throwException" time="0"/>
 </testsuite>
