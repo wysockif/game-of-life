@@ -2,9 +2,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class BulletTest {

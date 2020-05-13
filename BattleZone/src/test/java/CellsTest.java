@@ -3,13 +3,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import javax.imageio.ImageIO;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CellsTest {

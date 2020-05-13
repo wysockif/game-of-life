@@ -49,7 +49,7 @@ public class CellTest {
         int value = cell.getCurrentValue();
 
         // then
-        int expectedValue = 6;
+        int expectedValue = givenValue + 1;
         assertThat(value).isEqualTo(expectedValue);
     }
 
@@ -110,7 +110,6 @@ public class CellTest {
         // given
         Cell cell1 = new Cell(10, 0, 100, 100, 5, image, cells);
         Cell cell2 = new Cell(0, 10,100, 100, 5, image, cells);
-
 
         // when
         boolean isOccupied = cell1.isOccupiedSpace(cell2);
