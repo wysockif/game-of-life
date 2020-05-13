@@ -2,11 +2,7 @@ import java.awt.Graphics;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static java.awt.image.AffineTransformOp.TYPE_BILINEAR;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
@@ -18,6 +14,7 @@ public class Cells {
     private Game game;
     private BufferedImage[] tipsBarImages;
     private List<Cell> cells;
+    private List<Cell> child;
     private static BufferedImage[][] cellsImages;
 
 
@@ -31,7 +28,7 @@ public class Cells {
 
 
     public synchronized void createCells() {
-        int n = 8;
+        int n = 5;
         boolean isNew = false;
         if (cells == null) {
             cells = new LinkedList<>();
@@ -46,7 +43,7 @@ public class Cells {
             int y = r.nextInt(Game.boardHeight - currentHeight);
 
             int value = r.nextInt(8) + 1;
-            Cell temp = new Cell(x, y, currentWidth, currentHeight, value, getCellImage(value - 1, value - 1), this);
+            Cell temp = new Cell(x, y, currentWidth, currentHeight, value, value -1, getCellImage(value - 1, value - 1), this);
 
             isSpace = true;
             for (Cell c : cells) {
@@ -68,10 +65,112 @@ public class Cells {
         selectInheritanceCells();
     }
 
-    public void boreChildren(){
-        //TU METODA DO RODZENIA DZIECI
+    public void boreChildren() {
+        List<Cell> childrenCell = new LinkedList<>();
+        for (Cell c : cells) {
+            for (int i = 0; i < 8; i++) {
+                if (c.checkToDecreaseChildren() == true) {
+                    if (i == 0) {
+                        if ((c.x + (2 * currentWidth)) < (Game.boardX + Game.boardWidth)) {
+                            Cell temp = new Cell(c.x + currentWidth, c.y, currentWidth, currentHeight, 1, 0, getCellImage(0, 0), this);
+                            if (checkChildrenToList(temp) == true) {
+                                childrenCell.add(temp);
+                                c.decreaseChildren();
+                            }
+                        }
+                    }
+                    if (i == 1) {
+                        if ((c.x + (2 * currentWidth)) < (Game.boardX + Game.boardWidth) && (c.y + (2*currentHeight)) < (Game.boardY + Game.boardHeight)) {
+                            Cell temp = new Cell(c.x + currentWidth, c.y + currentHeight, currentWidth, currentHeight, 1, 0, getCellImage(0, 0), this);
+                            if (checkChildrenToList(temp) == true) {
+                                childrenCell.add(temp);
+                                c.decreaseChildren();
+                            }
+                        }
+                    }
+                    if (i == 2) {
+                        if ((c.y + (2*currentHeight)) < (Game.boardY + Game.boardHeight)) {
+                            Cell temp = new Cell(c.x, c.y + currentHeight, currentWidth, currentHeight, 1, 0, getCellImage(0, 0), this);
+                            if (checkChildrenToList(temp) == true) {
+                                childrenCell.add(temp);
+                                c.decreaseChildren();
+                            }
+                        }
+                    }
+                    if (i == 3) {
+                        if ((c.y + (2*currentHeight)) < (Game.boardY + Game.boardHeight) && (c.x - currentWidth) > Game.boardX) {
+                            Cell temp = new Cell(c.x - currentWidth, c.y + currentHeight, currentWidth, currentHeight, 1, 0, getCellImage(0, 0), this);
+                            if (checkChildrenToList(temp) == true) {
+                                childrenCell.add(temp);
+                                c.decreaseChildren();
+                            }
+                        }
+                    }
+                    if (i == 4) {
+                        if ((c.x - currentWidth) > Game.boardX) {
+                            Cell temp = new Cell(c.x - currentWidth, c.y, currentWidth, currentHeight, 1, 0, getCellImage(0, 0), this);
+                            if (checkChildrenToList(temp) == true) {
+                                childrenCell.add(temp);
+                                c.decreaseChildren();
+                            }
+                        }
+                    }
+                    if (i == 5) {
+                        if ((c.x - currentWidth) > Game.boardX && (c.y - currentHeight) > Game.boardY) {
+                            Cell temp = new Cell(c.x - currentWidth, c.y - currentHeight, currentWidth, currentHeight, 1, 0, getCellImage(0, 0), this);
+                            if (checkChildrenToList(temp) == true) {
+                                childrenCell.add(temp);
+                                c.decreaseChildren();
+                            }
+                        }
+                    }
+                    if (i == 6) {
+                        if ((c.y - currentHeight) > Game.boardY) {
+                            Cell temp = new Cell(c.x, c.y - currentHeight, currentWidth, currentHeight, 1, 0, getCellImage(0, 0), this);
+                            if (checkChildrenToList(temp) == true) {
+                                childrenCell.add(temp);
+                                c.decreaseChildren();
+                            }
+                        }
+                    }
+                    if (i == 7) {
+                        if ((c.y - currentHeight) > Game.boardY && (c.x + (2 * currentWidth)) < (Game.boardX + Game.boardWidth)) {
+                            Cell temp = new Cell(c.x + currentWidth, c.y - currentHeight, currentWidth, currentHeight, 1, 0, getCellImage(0, 0), this);
+                            if (checkChildrenToList(temp) == true) {
+                                childrenCell.add(temp);
+                                c.decreaseChildren();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //cells.addAll(childrenCell);
+    }
+
+    public boolean checkChildrenToList(Cell temp){
+        boolean isSpace = true;
+        if (child == null) {
+            child = new LinkedList<>();
+            child.addAll(cells);
+        }
+
+        for (Cell cel : child) {
+            if (cel.isOccupiedSpace(temp)) {
+                isSpace = false;
+                break;
+            }
+        }
+        if (isSpace) {
+            child.add(temp);
+            return true;
+        }
+        else{
+            return false;
+        }
 
     }
+
 
 
     public void increaseValues() {

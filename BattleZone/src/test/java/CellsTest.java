@@ -3,13 +3,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import javax.imageio.ImageIO;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CellsTest {
@@ -30,8 +30,8 @@ public class CellsTest {
         int givenValue2 = 5;
         Cells cells = new Cells(game, new SpriteCells("img/cells.png", 100, 100));
         cells.setCells(new LinkedList<Cell>());
-        cells.getCells().add(new Cell(0, 0, 10, 10, givenValue1, image, cells));
-        cells.getCells().add(new Cell(100, 100, 20, 20, givenValue2, image, cells));
+        cells.getCells().add(new Cell(0, 0, 10, 10,  givenValue1, givenValue1 - 1, image, cells));
+        cells.getCells().add(new Cell(100, 100, 20, 20, givenValue2, givenValue2 - 1, image, cells));
 
         // when
         cells.increaseValues();
@@ -52,8 +52,8 @@ public class CellsTest {
         int givenValue2 = 8;
         Cells cells = new Cells(game, new SpriteCells("img/cells.png", 100, 100));
         cells.setCells(new LinkedList<Cell>());
-        cells.getCells().add(new Cell(0, 0, 10, 10, givenValue1, image, cells));
-        cells.getCells().add(new Cell(100, 100, 20, 20, givenValue2, image, cells));
+        cells.getCells().add(new Cell(0, 0, 10, 10, givenValue1, givenValue1 - 1, image, cells));
+        cells.getCells().add(new Cell(100, 100, 20, 20, givenValue2, givenValue2 - 1, image, cells));
 
         // when
         cells.increaseValues();
@@ -74,8 +74,8 @@ public class CellsTest {
         int givenValue2 = 3;
         Cells cells = new Cells(game, new SpriteCells("img/cells.png", 100, 100));
         cells.setCells(new LinkedList<Cell>());
-        cells.getCells().add(new Cell(0, 0, 10, 10, givenValue1, image, cells));
-        cells.getCells().add(new Cell(100, 100, 20, 20, givenValue2, image, cells));
+        cells.getCells().add(new Cell(0, 0, 10, 10, givenValue1, givenValue1 - 1, image, cells));
+        cells.getCells().add(new Cell(100, 100, 20, 20, givenValue2, givenValue2 - 1, image, cells));
 
         // when
         cells.increaseValues();
@@ -94,8 +94,8 @@ public class CellsTest {
         // given
         Cells cells = new Cells(game, new SpriteCells("img/cells.png", 100, 100));
         cells.setCells(new LinkedList<Cell>());
-        cells.getCells().add(new Cell(0, 0, 10, 10, 3, image, cells));
-        cells.getCells().add(new Cell(100, 100, 10, 10, 4, image, cells));
+        cells.getCells().add(new Cell(0, 0, 10, 10, 3, 2, image, cells));
+        cells.getCells().add(new Cell(100, 100, 10, 10, 4, 3,  image, cells));
 
         // when
         cells.reduceSize(80);
@@ -114,8 +114,8 @@ public class CellsTest {
         // given
         Cells cells = new Cells(game, new SpriteCells("img/cells.png", 100, 100));
         cells.setCells(new LinkedList<Cell>());
-        cells.getCells().add(new Cell(0, 0, 100, 100, 3, image, cells));
-        cells.getCells().add(new Cell(100, 100, 100, 100, 4, image, cells));
+        cells.getCells().add(new Cell(0, 0, 100, 100, 3, 2,  image, cells));
+        cells.getCells().add(new Cell(100, 100, 100, 100, 4, 3, image, cells));
 
         // when
         cells.reduceSize(15);
