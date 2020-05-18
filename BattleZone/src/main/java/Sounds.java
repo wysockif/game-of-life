@@ -2,7 +2,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import static javax.sound.sampled.FloatControl.Type.MASTER_GAIN;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
@@ -99,6 +99,26 @@ public class Sounds {
                     playErrorSound();
                     JOptionPane.showMessageDialog(null,
                             "Wystąpił błąd z obsługą dźwięku zegara!", "Błąd!", ERROR_MESSAGE);
+                }
+            }
+        }).start();
+    }
+
+
+    public static synchronized void playExplosion() {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                            Sounds.class.getResource("sounds/Explosion.wav"));
+                    clip.open(inputStream);
+                    turnDown(clip, 0.1f);
+                    clip.start();
+                } catch (Exception e) {
+                    playErrorSound();
+                    JOptionPane.showMessageDialog(null,
+                            "Wystąpił błąd z obsługą dźwięku wybuchu!", "Błąd!", ERROR_MESSAGE);
                 }
             }
         }).start();

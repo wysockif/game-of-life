@@ -271,6 +271,7 @@ public class Cells {
                             if (cell.getCurrentValue() == 1) {
                                 game.refreshScores(cell, player);
                                 if (Game.isSoundTurnedOn)
+                                    Sounds.playExplosion();
                                     Sounds.playGamePointSound();
                                 itCells.remove();
                             } else

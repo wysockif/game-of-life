@@ -86,7 +86,7 @@ public class ResultsPanel extends JPanel implements ActionListener {
     private void addButtons() {
         endButton = new JButton("Zakończ");
         endButton.setFont(new Font("Sans", BOLD, 25));
-        endButton.setBackground(BLACK);
+        endButton.setBackground(RED);
         endButton.setForeground(WHITE);
         endButton.addActionListener(this);
         endButton.setBounds(500, 710, 200, 60);
