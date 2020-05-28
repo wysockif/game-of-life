@@ -25,7 +25,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>Game</mainClass>
+                            <mainClass>pl.battlezone.Game</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -56,6 +56,4 @@
         </dependency>
 
     </dependencies>
-
-
 </project>

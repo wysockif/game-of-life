@@ -76,7 +76,7 @@ Wersjonowanie odbędzie się za pomocą gita (w formie dodanych tagów):
 
 Wiadomości z ,,commitów'' będą pisane w języku angielskim i będą opisywały co zostało dodane/zmienione od czasu poprzedniego commita (z danego brancha).
 
-Np. Added an InputFileReader class.
+Np. Added an pl.battlezone.technical.InputFileReader class.
 
 Praca na modułach będzie odbywać sie równolegle na gałęziach. Do scalania wykorzystywane będzie polecenie git merge.
 
@@ -86,28 +86,28 @@ Praca na modułach będzie odbywać sie równolegle na gałęziach. Do scalania 
 \subsection{Opis klas}
 W programie zostaną wyróżnione poniższe klasy:
 \begin{itemize}
-\item Game - główna klasa w grze (dziedzicząca po klasie JFrame). Zostanie w niej umieszczona metoda main. Klasa ta będzie odpowiadać za sterowanie grą. Znajdzie się w niej pętla, która co określony czas będzie wywoływać metody renderujące obraz i aktualizujące poszczególny stan gry.
+\item pl.battlezone.Game - główna klasa w grze (dziedzicząca po klasie JFrame). Zostanie w niej umieszczona metoda main. Klasa ta będzie odpowiadać za sterowanie grą. Znajdzie się w niej pętla, która co określony czas będzie wywoływać metody renderujące obraz i aktualizujące poszczególny stan gry.
 
-\item MenuPanel - panel startowy (dziedziczący po klasie JPanel). Będzie to pierwszy panel, który pojawi się po uruchomieniu programu. Użytkownicy będą musieli wprowadzić w nim maksymalny czas przewidziany na grę, a także będą mogli wprowadzić w nim swoje imiona/nicki.
+\item pl.battlezone.panels.MenuPanel - panel startowy (dziedziczący po klasie JPanel). Będzie to pierwszy panel, który pojawi się po uruchomieniu programu. Użytkownicy będą musieli wprowadzić w nim maksymalny czas przewidziany na grę, a także będą mogli wprowadzić w nim swoje imiona/nicki.
 
-\item GamePanel - główny panel gry (dziedziczący po klasie JPanel). Będzie to docelowy panel, na którym będzie odbywać się rozgrywka. Dodatkowo będzie się na nim wyświetlał pozostały czas gry, zdobyte punkty itd... Klasa ta będzie posiadać między innymi metodę zapisującą ostatni stan planszy do pliku.
+\item pl.battlezone.panels.GamePanel - główny panel gry (dziedziczący po klasie JPanel). Będzie to docelowy panel, na którym będzie odbywać się rozgrywka. Dodatkowo będzie się na nim wyświetlał pozostały czas gry, zdobyte punkty itd... Klasa ta będzie posiadać między innymi metodę zapisującą ostatni stan planszy do pliku.
 
 Powyższe panele będą połączone za pomocą klasy CardLayout.
 
-\item Cell - klasa reprezentująca komórkę (dziedzicząca po klasie Rectangle). Będzie posiadała przede wszystkim pola z bieżacą wartością, bieżącym spritem (prostokąt w odpowiednim kolorze z odpowiednią wartością), informacje o jej punktach spadkowych oraz o tym czy jest komórką Armagedon. Klasa Rectangle zapewni pola położenia i rozmiar. Dodatkowo klasa będzie posiadać między innymi metody do zwięszania/zmniejszania wartości, zmniejszania rozmiaru itd...
+\item pl.battlezone.cells.Cell - klasa reprezentująca komórkę (dziedzicząca po klasie Rectangle). Będzie posiadała przede wszystkim pola z bieżacą wartością, bieżącym spritem (prostokąt w odpowiednim kolorze z odpowiednią wartością), informacje o jej punktach spadkowych oraz o tym czy jest komórką Armagedon. Klasa Rectangle zapewni pola położenia i rozmiar. Dodatkowo klasa będzie posiadać między innymi metody do zwięszania/zmniejszania wartości, zmniejszania rozmiaru itd...
 
-\item Cells - klasa obsługująca i przechowująca komórki. Bedzie ona miała metody pozwalające na generowanie nowych komórek (zwykłych i komórek-dzieci), zmniejszania rozmiaru/zwiększania wartości całej populacji itd... Będzie ona posiadać także metodę sprawdzającą czy któryś z pocisków trafił w którąś komórkę i wykonywać odpowiednie dla tego działania.
+\item pl.battlezone.cells.Cells - klasa obsługująca i przechowująca komórki. Bedzie ona miała metody pozwalające na generowanie nowych komórek (zwykłych i komórek-dzieci), zmniejszania rozmiaru/zwiększania wartości całej populacji itd... Będzie ona posiadać także metodę sprawdzającą czy któryś z pocisków trafił w którąś komórkę i wykonywać odpowiednie dla tego działania.
 
-\item Bullet - klasa reprezentująca pocisk (dziedzicząca po klasie Rectangle). Będzie ona posiadać informacje o współrzędnych miejsca wystrzelenia, kierunku, prędkości itd...
+\item pl.battlezone.players.Bullet - klasa reprezentująca pocisk (dziedzicząca po klasie Rectangle). Będzie ona posiadać informacje o współrzędnych miejsca wystrzelenia, kierunku, prędkości itd...
 Będzie posiadać między innymi metodę, która zaktualizuje położenie pocisku.
 
-\item Player - klasa abstrakcyjna reprezentująca gracza. Bedzie posiadać tablicę sprite'ów z czołgami (z różnie ustawioną lufą), współrzędne położenia, będzie takżę przechowywać listę nabojów, którą wystrzelił dany gracz. Będzie posiadała kilka metod abstrakcyjnych (np. sterujące) oraz kilka napisanych domyślnie takich jak np. kasowanie pocisku z listy, gdy ten wyleci za plasze.
+\item pl.battlezone.players.Player - klasa abstrakcyjna reprezentująca gracza. Bedzie posiadać tablicę sprite'ów z czołgami (z różnie ustawioną lufą), współrzędne położenia, będzie takżę przechowywać listę nabojów, którą wystrzelił dany gracz. Będzie posiadała kilka metod abstrakcyjnych (np. sterujące) oraz kilka napisanych domyślnie takich jak np. kasowanie pocisku z listy, gdy ten wyleci za plasze.
 
-\item LeftPlayer/RightPlayer - klasy reprezentujące odpowiednio lewego i prawego gracza (dziedziczące po klasie Player). Będą posiadały przede wszystkim metody sterujące czołgami. 
+\item pl.battlezone.players.LeftPlayer/pl.battlezone.players.RightPlayer - klasy reprezentujące odpowiednio lewego i prawego gracza (dziedziczące po klasie pl.battlezone.players.Player). Będą posiadały przede wszystkim metody sterujące czołgami.
 
-\item KeysListener - klasa odpowiadajace za obsługę klawiszy (implementująca interfejs KeyListener). Będzie posiadała metody sprawdzające czy dany klawisz został naciśnięty.
+\item pl.battlezone.technical.KeysListener - klasa odpowiadajace za obsługę klawiszy (implementująca interfejs KeyListener). Będzie posiadała metody sprawdzające czy dany klawisz został naciśnięty.
 
-\item InputFileReader - klasa odpowiadająca za odczytywanie danych z pliku konfiguracyjnego. Będzie przechowywać wszystkie stałe wartości w grze.
+\item pl.battlezone.technical.InputFileReader - klasa odpowiadająca za odczytywanie danych z pliku konfiguracyjnego. Będzie przechowywać wszystkie stałe wartości w grze.
 
 \end{itemize}
 \lhead{Diagram klas}
