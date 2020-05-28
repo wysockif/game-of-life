@@ -2,7 +2,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 import static javax.sound.sampled.FloatControl.Type.MASTER_GAIN;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;

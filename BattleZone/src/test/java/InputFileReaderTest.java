@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class InputFileReaderTest{
+public class InputFileReaderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void readData_valueOutOfLimits_throwException() throws IOException {
@@ -139,8 +139,6 @@ public class InputFileReaderTest{
     }
 
 
-
-
     @Test
     public void getters_correctValues_correctlyReadValues() throws IOException {
         FileReader fileReader = new FileReader("src/test/resources/correct_config.txt");
@@ -153,7 +151,7 @@ public class InputFileReaderTest{
         int maxNumberOfShots = inputFileReader.getMaxNumberOfShots();
         int timeToGenerateNewCells = inputFileReader.getTimeToGenerateNewCells();
         int timeToGenerateKidsCells = inputFileReader.getTimeToGenerateKidsCells();
-        int timeToIncreaseCellsValues= inputFileReader.getTimeToIncreaseCellsValues();
+        int timeToIncreaseCellsValues = inputFileReader.getTimeToIncreaseCellsValues();
         int timeToChangeBulletsSpeedAndCellsSize = inputFileReader.getTimeToChangeBulletsSpeedAndCellsSize();
         int percentageIncreaseInBulletsSpeed = inputFileReader.getPercentageIncreaseInBulletsSpeed();
         int percentageDecreaseInCellsSize = inputFileReader.getPercentageDecreaseInCellsSize();

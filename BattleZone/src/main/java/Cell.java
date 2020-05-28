@@ -11,7 +11,7 @@ public class Cell extends Rectangle {
     private Cells cells;
     private int childrenCells;
 
-    public Cell(int x, int y, int w, int h, int value, int childernCells,  BufferedImage bufferedImage, Cells cells) {
+    public Cell(int x, int y, int w, int h, int value, int childernCells, BufferedImage bufferedImage, Cells cells) {
         super(x, y, w, h);
         this.currentImage = bufferedImage;
         this.cells = cells;
@@ -30,20 +30,16 @@ public class Cell extends Rectangle {
         }
     }
 
-    public boolean checkToDecreaseChildren(){
-        if(childrenCells > 0) {
-            return true;
-        }else{
-            return false;
-        }
+    public boolean checkToDecreaseChildren() {
+        return childrenCells > 0;
     }
 
-    public void decreaseChildren(){
+    public void decreaseChildren() {
         childrenCells--;
     }
 
     public void decreaseValue() {
-        if(currentValue > 1) {
+        if (currentValue > 1) {
             currentValue--;
             refreshCellImage();
         }
@@ -65,7 +61,7 @@ public class Cell extends Rectangle {
         }
     }
 
-    public boolean isOccupiedSpace(Cell c){
+    public boolean isOccupiedSpace(Cell c) {
         return intersects(c) || contains(c);
     }
 
@@ -99,10 +95,6 @@ public class Cell extends Rectangle {
 
     public void setArmageddon(boolean armageddon) {
         isArmageddon = armageddon;
-    }
-
-    public int getchildrenCells(){
-        return childrenCells;
     }
 
     public void setInheritance(int inheritance) {
