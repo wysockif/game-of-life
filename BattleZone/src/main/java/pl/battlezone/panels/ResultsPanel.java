@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -96,6 +98,16 @@ public class ResultsPanel extends JPanel implements ActionListener {
         endButton.addActionListener(this);
         endButton.setBounds(500, 710, 200, 60);
         endButton.setFocusable(false);
+        endButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                endButton.setBackground(RED.darker());
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                endButton.setBackground(RED);
+            }
+        });
         add(endButton);
     }
 
