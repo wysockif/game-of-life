@@ -136,7 +136,6 @@ public class MenuPanel extends JPanel implements ActionListener {
     private void addNamesFields() {
         nameField1 = new JTextField("Gracz 1");
         nameField1.setBounds(155, 455, 190, 40);
-//        nameField1.setBackground(new Color(139 ,69 ,19));
         nameField1.setBackground(BLACK);
         nameField1.setForeground(WHITE);
         nameField1.setHorizontalAlignment(CENTER);
@@ -145,7 +144,6 @@ public class MenuPanel extends JPanel implements ActionListener {
 
         nameField2 = new JTextField("Gracz 2");
         nameField2.setBounds(855, 455, 190, 40);
-//        nameField2.setBackground(new Color(139 ,69 ,19));
         nameField2.setBackground(BLACK);
         nameField2.setForeground(WHITE);
         addPlaceholder(nameField2, "Gracz 2", "Wprowadź imię:");

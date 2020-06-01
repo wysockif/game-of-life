@@ -25,9 +25,13 @@ public class Cell extends Rectangle {
         if (currentValue == greatestValue && currentValue < 8) {
             currentValue++;
             greatestValue++;
+            if (childrenCells != 0)
+                childrenCells++;
             refreshCellImage();
         } else if (currentValue < greatestValue && currentValue < 8) {
             currentValue++;
+            if (childrenCells != 0)
+                childrenCells++;
             refreshCellImage();
         }
     }
@@ -43,6 +47,8 @@ public class Cell extends Rectangle {
     public void decreaseValue() {
         if (currentValue > 1) {
             currentValue--;
+            if (childrenCells != 0)
+                childrenCells--;
             refreshCellImage();
         }
     }

@@ -43,7 +43,8 @@ public class Cells {
         if (cells == null) {
             cells = new LinkedList<>();
             isNew = true;
-            n = 50;
+//            n = 50;
+            n = 10;
         }
         Random random = new Random();
         generateCells(n, random);
