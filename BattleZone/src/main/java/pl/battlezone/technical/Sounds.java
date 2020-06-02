@@ -24,6 +24,7 @@ public class Sounds {
                 playErrorSound();
                 JOptionPane.showMessageDialog(null,
                         "Wystąpił błąd z obsługą dźwięku wystrzału!", "Błąd!", ERROR_MESSAGE);
+                System.exit(2);
             }
         }).start();
     }
@@ -41,6 +42,8 @@ public class Sounds {
                 playErrorSound();
                 JOptionPane.showMessageDialog(null,
                         "Wystąpił błąd z obsługą dźwięku zestrzelenia komórki!", "Błąd!", ERROR_MESSAGE);
+                System.exit(2);
+
             }
         }).start();
     }
@@ -59,6 +62,7 @@ public class Sounds {
                 playErrorSound();
                 JOptionPane.showMessageDialog(null,
                         "Wystąpił błąd z obsługą dźwięku zakończenia gry!", "Błąd!", ERROR_MESSAGE);
+                System.exit(2);
             }
         }).start();
     }
@@ -75,6 +79,7 @@ public class Sounds {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null,
                         "Wystąpił błąd z obsługą dźwięku wystąpienia błędu!", "Błąd!", ERROR_MESSAGE);
+                System.exit(2);
             }
         }).start();
     }
@@ -92,6 +97,7 @@ public class Sounds {
                 playErrorSound();
                 JOptionPane.showMessageDialog(null,
                         "Wystąpił błąd z obsługą dźwięku zegara!", "Błąd!", ERROR_MESSAGE);
+                System.exit(2);
             }
         }).start();
     }
@@ -110,6 +116,8 @@ public class Sounds {
                 playErrorSound();
                 JOptionPane.showMessageDialog(null,
                         "Wystąpił błąd z obsługą dźwięku wybuchu!", "Błąd!", ERROR_MESSAGE);
+                System.exit(2);
+
             }
         }).start();
     }

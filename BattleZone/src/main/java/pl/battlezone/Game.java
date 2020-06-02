@@ -29,6 +29,7 @@ import pl.battlezone.technical.Sounds;
 import static java.awt.Font.BOLD;
 import static java.lang.String.format;
 import static javax.swing.JOptionPane.DEFAULT_OPTION;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import static javax.swing.JOptionPane.YES_OPTION;
 import static javax.swing.SwingConstants.CENTER;
@@ -87,7 +88,14 @@ public class Game extends JFrame implements Runnable {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setResizable(false);
         setLocationRelativeTo(null);
-        setIconImage(new ImageIcon(Game.class.getResource("/img/icon.png")).getImage());
+        try {
+            setIconImage(new ImageIcon(Game.class.getResource("/img/icon.png")).getImage());
+        } catch (NullPointerException e){
+            Sounds.playErrorSound();
+            JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
+                    "Nie mogę znaleźć pliku z ikoną czołgu!", "Błąd krytyczny!", ERROR_MESSAGE);
+            System.exit(2);
+        }
         setCloseOperation();
     }
 

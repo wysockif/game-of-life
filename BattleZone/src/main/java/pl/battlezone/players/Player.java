@@ -51,7 +51,7 @@ public abstract class Player {
     private void readSprites(String tankPath, String bulletPath) {
         try {
             tankSpriteSheet = ImageIO.read(Player.class.getResource(tankPath));
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             Sounds.playErrorSound();
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
                     "Nie mogę znaleźć pliku z obrazem czołgu!", "Błąd krytyczny!", ERROR_MESSAGE);
@@ -59,7 +59,7 @@ public abstract class Player {
         }
         try {
             bulletImage = ImageIO.read(Player.class.getResource(bulletPath));
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             Sounds.playErrorSound();
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
                     "Nie mogę znaleźć pliku z obrazem pocisku!", "Błąd krytyczny!", ERROR_MESSAGE);

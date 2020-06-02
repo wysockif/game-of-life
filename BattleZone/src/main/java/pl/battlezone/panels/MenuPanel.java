@@ -57,7 +57,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 
         try {
             this.image = ImageIO.read(MenuPanel.class.getResource("/img/backgrounds/mainMenu.png"));
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             Sounds.playErrorSound();
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
                     "Nie mogę znaleźć pliku z obrazem menu!", "Błąd krytyczny!", ERROR_MESSAGE);
@@ -159,11 +159,10 @@ public class MenuPanel extends JPanel implements ActionListener {
         playButton.setForeground(WHITE);
         playButton.addActionListener(this);
         playButton.setBounds(500, 670, 200, 60);
-        playButton.setFocusable(false);
         playButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                playButton.setBackground(newGreen.darker());
+                playButton.setBackground(newGreen.darker().darker());
             }
             @Override
             public void mouseExited(MouseEvent e) {

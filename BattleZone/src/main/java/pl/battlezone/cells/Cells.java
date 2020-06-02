@@ -24,7 +24,7 @@ public class Cells {
     private Game game;
     private BufferedImage[] tipsBarImages;
     private List<Cell> cells;
-    private List<Cell> child;
+    private List<Cell> kidsList;
     private static BufferedImage[][] cellsImages;
 
 
@@ -74,6 +74,7 @@ public class Cells {
     public void boreChildren() {
         List<Cell> childrenCell = new LinkedList<>();
         for (Cell c : cells) {
+            c.updateNumberOfChildren();
             for (int i = 0; i < 8; i++) {
                 if (c.checkToDecreaseChildren()) {
                     if (i == 0) {
@@ -152,28 +153,28 @@ public class Cells {
             }
         }
         cells.addAll(childrenCell);
+        kidsList = null;
     }
 
     public boolean checkChildrenToList(Cell temp) {
         boolean isSpace = true;
-        if (child == null) {
-            child = new LinkedList<>();
-            child.addAll(cells);
+        if (kidsList == null) {
+            kidsList = new LinkedList<>();
+            kidsList.addAll(cells);
         }
 
-        for (Cell cel : child) {
+        for (Cell cel : kidsList) {
             if (cel.isOccupiedSpace(temp)) {
                 isSpace = false;
                 break;
             }
         }
         if (isSpace) {
-            child.add(temp);
+            kidsList.add(temp);
             return true;
         } else {
             return false;
         }
-
     }
 
 

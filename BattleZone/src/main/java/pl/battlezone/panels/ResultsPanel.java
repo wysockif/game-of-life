@@ -164,7 +164,7 @@ public class ResultsPanel extends JPanel implements ActionListener {
             this.leftWinner = ImageIO.read(ResultsPanel.class.getResource("/img/backgrounds/leftWinner.png"));
             this.rightWinner = ImageIO.read(ResultsPanel.class.getResource("/img/backgrounds/rightWinner.png"));
             this.tie = ImageIO.read(ResultsPanel.class.getResource("/img/backgrounds/tie.png"));
-        } catch (IOException e) {
+        } catch (IOException | IllegalArgumentException e) {
             Sounds.playErrorSound();
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
                     "Nie mogę znaleźć pliku z obrazem panelu końcowego!", "Błąd krytyczny!", ERROR_MESSAGE);
@@ -205,7 +205,7 @@ public class ResultsPanel extends JPanel implements ActionListener {
                     .toURI()).getName();
             path = path.replaceAll(name, "");
             game.getGamePanel().saveBoard(path + "Board");
-            game.getGamePanel().savePanel(path + "pl.battlezone.Game");
+            game.getGamePanel().savePanel(path + "Game");
         } catch (URISyntaxException ex) {
             Sounds.playErrorSound();
             JOptionPane.showMessageDialog(null, "Nie mogę zapisać plików w domyślnej lokalizacji!",

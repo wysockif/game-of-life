@@ -108,5 +108,9 @@ public class Cell extends Rectangle {
     public void setInheritance(int inheritance) {
         this.inheritance = inheritance;
     }
+
+    public void updateNumberOfChildren() {
+        this.childrenCells = currentValue -1;
+    }
 }
 
