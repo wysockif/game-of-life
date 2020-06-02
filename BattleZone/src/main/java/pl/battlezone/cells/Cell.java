@@ -101,6 +101,8 @@ public class Cell extends Rectangle {
         return currentValue;
     }
 
+    public int getChildrenCells() { return childrenCells; }
+
     public void setArmageddon(boolean armageddon) {
         isArmageddon = armageddon;
     }

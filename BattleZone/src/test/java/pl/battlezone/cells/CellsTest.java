@@ -26,6 +26,9 @@ public class CellsTest {
     @Mock
     private Game game;
 
+
+
+
     @Test
     public void increaseValues_twoCellsWithValuesBelowMax_increasedValues() {
         // given

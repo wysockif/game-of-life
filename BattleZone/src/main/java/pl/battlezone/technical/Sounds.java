@@ -102,26 +102,6 @@ public class Sounds {
         }).start();
     }
 
-
-    public static synchronized void playExplosion() {
-        new Thread(() -> {
-            try {
-                Clip clip = AudioSystem.getClip();
-                AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                        Sounds.class.getResource("/sounds/Explosion.wav"));
-                clip.open(inputStream);
-                turnDown(clip, 0.1f);
-                clip.start();
-            } catch (Exception e) {
-                playErrorSound();
-                JOptionPane.showMessageDialog(null,
-                        "Wystąpił błąd z obsługą dźwięku wybuchu!", "Błąd!", ERROR_MESSAGE);
-                System.exit(2);
-
-            }
-        }).start();
-    }
-
     private static void turnDown(Clip clip, float value) {
         FloatControl gainControl = (FloatControl) clip.getControl(MASTER_GAIN);
         gainControl.setValue(20f * (float) Math.log10(value));

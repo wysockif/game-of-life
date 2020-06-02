@@ -40,6 +40,38 @@ public class CellTest {
     }
 
     @Test
+    public void decreaseValue_minPossibleValue_didNotIncreaseValue(){
+        //given
+        int givenValue = 1;
+        Cell cell = new Cell(0, 0, 0, 0, givenValue, givenValue - 1, image, cells);
+
+        //when
+        cell.decreaseValue();
+        int childrenCellsValue = cell.getChildrenCells();
+
+        //then
+        int expectedChildrenValue = 0;
+        assertThat(childrenCellsValue).isEqualTo(expectedChildrenValue);
+    }
+
+
+    @Test
+    public void decreaseChildren_lessThenMaxValue_decreasedChildrenCellsValue(){
+        //given
+        int givenValue = 5;
+        Cell cell = new Cell(0, 0, 0, 0, givenValue, givenValue - 1, image, cells);
+
+        //when
+        cell.decreaseChildren();
+        int childrenCellsValue = cell.getChildrenCells();
+
+        //then
+        int expectedChildrenValue = 3;
+        assertThat(childrenCellsValue).isEqualTo(expectedChildrenValue);
+
+    }
+
+    @Test
     public void increaseValue_lessThanMaxPossibleValue_increasedValue() {
         // given
         int givenValue = 5;
@@ -84,6 +116,35 @@ public class CellTest {
         // then
         int expectedValue = 1;
         assertThat(value).isEqualTo(expectedValue);
+    }
+
+    @Test
+    public void checkToDecreaseChildren_minPossibleValue_returnFalse(){
+        //given
+        int givenValue = 1;
+        Cell cell = new Cell(0, 0, 0, 0, givenValue, givenValue - 1, image, cells);
+
+        //when
+        boolean checkChildren = cell.checkToDecreaseChildren();
+
+        //then
+        boolean expected = false;
+        assertThat(checkChildren).isEqualTo(expected);
+
+    }
+
+    @Test
+    public void checkToDecreaseChildren_minPossibleValue_returnTrue(){
+        //given
+        int givenValue = 5;
+        Cell cell = new Cell(0, 0, 0, 0, givenValue, givenValue - 1, image, cells);
+
+        //when
+        boolean checkChildren = cell.checkToDecreaseChildren();
+
+        //then
+        boolean expected = true;
+        assertThat(checkChildren).isEqualTo(expected);
     }
 
     @Test
