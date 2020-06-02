@@ -85,6 +85,7 @@ public class Cells {
                                         1, 0, getCellImage(0, 0), this);
                                 addChildrenIfSpaceFree(temp, c);
                             }
+                            break;
                         }
                         case 1: {
                             if ((c.x + (2 * currentWidth)) < (Game.boardWidth) && (c.y + (2 * currentHeight)) < (Game.boardHeight)) {
@@ -92,6 +93,7 @@ public class Cells {
                                         currentHeight, 1, 0, getCellImage(0, 0), this);
                                 addChildrenIfSpaceFree(temp, c);
                             }
+                            break;
                         }
                         case 2: {
                             if ((c.y + (2 * currentHeight)) < (Game.boardHeight)) {
@@ -99,6 +101,7 @@ public class Cells {
                                         1, 0, getCellImage(0, 0), this);
                                 addChildrenIfSpaceFree(temp, c);
                             }
+                            break;
                         }
                         case 3: {
                             if ((c.y + (2 * currentHeight)) < (Game.boardHeight) && (c.x - currentWidth) > 0) {
@@ -106,6 +109,7 @@ public class Cells {
                                         currentHeight, 1, 0, getCellImage(0, 0), this);
                                 addChildrenIfSpaceFree(temp, c);
                             }
+                            break;
                         }
                         case 4: {
                             if ((c.x - currentWidth) > 0) {
@@ -113,6 +117,7 @@ public class Cells {
                                         1, 0, getCellImage(0, 0), this);
                                 addChildrenIfSpaceFree(temp, c);
                             }
+                            break;
                         }
                         case 5: {
                             if ((c.x - currentWidth) > 0 && (c.y - currentHeight) > 0) {
@@ -120,6 +125,7 @@ public class Cells {
                                         currentHeight, 1, 0, getCellImage(0, 0), this);
                                 addChildrenIfSpaceFree(temp, c);
                             }
+                            break;
                         }
                         case 6: {
                             if ((c.y - currentHeight) > 0) {
@@ -127,6 +133,7 @@ public class Cells {
                                         1, 0, getCellImage(0, 0), this);
                                 addChildrenIfSpaceFree(temp, c);
                             }
+                            break;
                         }
                         case 7: {
                             if ((c.y - currentHeight) > 0 && (c.x + (2 * currentWidth)) < (Game.boardWidth)) {
@@ -134,6 +141,7 @@ public class Cells {
                                         currentHeight, 1, 0, getCellImage(0, 0), this);
                                 addChildrenIfSpaceFree(temp, c);
                             }
+                            break;
                         }
 
                     }
