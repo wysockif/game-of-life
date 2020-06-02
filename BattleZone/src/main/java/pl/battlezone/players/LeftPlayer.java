@@ -25,7 +25,6 @@ public class LeftPlayer extends Player {
                 y -= 2;
                 yCannon -= 2;
             }
-
         }
         if (keysListener.isSPressed()) {
             if (y < Game.boardY + Game.boardHeight - tileSizeY / 2 - 20) {
@@ -73,7 +72,6 @@ public class LeftPlayer extends Player {
         }
     }
 
-
     @Override
     public void updateShots() {
         if (wantShot) {
@@ -81,7 +79,6 @@ public class LeftPlayer extends Player {
             wantShot = false;
         }
     }
-
 
     @Override
     public void checkIfShot() {

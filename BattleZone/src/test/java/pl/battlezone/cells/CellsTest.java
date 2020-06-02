@@ -27,8 +27,6 @@ public class CellsTest {
     private Game game;
 
 
-
-
     @Test
     public void increaseValues_twoCellsWithValuesBelowMax_increasedValues() {
         // given
@@ -136,7 +134,7 @@ public class CellsTest {
     }
 
     @Test
-    public void bornChildren_oneCellAddToList_childrenCells(){
+    public void bornChildren_oneCellAddToList_childrenCells() {
         //given
         int givenValue = 5;
         Cells cells = new Cells(game, new SpriteCells("img/cells.png", 100, 100));
@@ -154,7 +152,7 @@ public class CellsTest {
     }
 
     @Test
-    public void bornChildren_oneCellAddToList_threeChildrenCells(){
+    public void bornChildren_oneCellAddToList_threeChildrenCells() {
         //given
         int givenValue = 3;
         Cells cells = new Cells(game, new SpriteCells("img/cells.png", 100, 100));
@@ -166,13 +164,13 @@ public class CellsTest {
         int bornChildren = cells.getCells().size();
 
         //then
-        int expected = 4;
+        int expected = 3;
         assertThat(bornChildren).isEqualTo(expected);
 
     }
 
     @Test
-    public void bornChildren_oneCellAddToList_noChildrenCells(){
+    public void bornChildren_oneCellAddToList_noChildrenCells() {
         //given
         int givenValue = 1;
         Cells cells = new Cells(game, new SpriteCells("img/cells.png", 100, 100));

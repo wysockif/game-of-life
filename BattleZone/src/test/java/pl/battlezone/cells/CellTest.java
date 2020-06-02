@@ -40,7 +40,7 @@ public class CellTest {
     }
 
     @Test
-    public void decreaseValue_minPossibleValue_didNotIncreaseValue(){
+    public void decreaseValue_minPossibleValue_didNotIncreaseValue() {
         //given
         int givenValue = 1;
         Cell cell = new Cell(0, 0, 0, 0, givenValue, givenValue - 1, image, cells);
@@ -56,7 +56,7 @@ public class CellTest {
 
 
     @Test
-    public void decreaseChildren_lessThenMaxValue_decreasedChildrenCellsValue(){
+    public void decreaseChildren_lessThenMaxValue_decreasedChildrenCellsValue() {
         //given
         int givenValue = 5;
         Cell cell = new Cell(0, 0, 0, 0, givenValue, givenValue - 1, image, cells);
@@ -119,7 +119,7 @@ public class CellTest {
     }
 
     @Test
-    public void checkToDecreaseChildren_minPossibleValue_returnFalse(){
+    public void checkToDecreaseChildren_minPossibleValue_returnFalse() {
         //given
         int givenValue = 1;
         Cell cell = new Cell(0, 0, 0, 0, givenValue, givenValue - 1, image, cells);
@@ -134,7 +134,7 @@ public class CellTest {
     }
 
     @Test
-    public void checkToDecreaseChildren_minPossibleValue_returnTrue(){
+    public void checkToDecreaseChildren_minPossibleValue_returnTrue() {
         //given
         int givenValue = 5;
         Cell cell = new Cell(0, 0, 0, 0, givenValue, givenValue - 1, image, cells);

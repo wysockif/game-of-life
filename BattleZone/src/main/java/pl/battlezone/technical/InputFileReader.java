@@ -22,14 +22,11 @@ public class InputFileReader {
         constants[6] = new Constant("Z", "timeToChangeBulletsSpeedAndCellsSize", 6, 5, 60);
         constants[7] = new Constant("K", "percentageIncreaseInBulletsSpeed", 7, 5, 200);
         constants[8] = new Constant("L", "percentageDecreaseInCellsSize", 8, 5, 50);
-
         readData(bufferedReader);
-
     }
 
     public void readData(BufferedReader bufferedReader) throws IOException {
         loadConfiguration(bufferedReader);
-
         for (Constant c : constants)
             assignValue(c);
     }

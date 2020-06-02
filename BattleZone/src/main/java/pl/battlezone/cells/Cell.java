@@ -13,12 +13,12 @@ public class Cell extends Rectangle {
     private Cells cells;
     private int childrenCells;
 
-    public Cell(int x, int y, int w, int h, int value, int childernCells, BufferedImage bufferedImage, Cells cells) {
+    public Cell(int x, int y, int w, int h, int value, int childrenCells, BufferedImage bufferedImage, Cells cells) {
         super(x, y, w, h);
+        this.childrenCells = childrenCells;
         this.currentImage = bufferedImage;
         this.cells = cells;
         currentValue = greatestValue = value;
-        this.childrenCells = childernCells;
     }
 
     public void increaseValue() {
@@ -57,7 +57,6 @@ public class Cell extends Rectangle {
     public void reduceSize(int percent) {
         x += (int) Math.round(0.01 * percent * currentImage.getWidth() / 2);
         y += (int) Math.round(0.01 * percent * currentImage.getHeight() / 2);
-
         refreshCellImage();
     }
 
@@ -101,7 +100,9 @@ public class Cell extends Rectangle {
         return currentValue;
     }
 
-    public int getChildrenCells() { return childrenCells; }
+    public int getChildrenCells() {
+        return childrenCells;
+    }
 
     public void setArmageddon(boolean armageddon) {
         isArmageddon = armageddon;
@@ -112,7 +113,7 @@ public class Cell extends Rectangle {
     }
 
     public void updateNumberOfChildren() {
-        this.childrenCells = currentValue -1;
+        this.childrenCells = currentValue - 1;
     }
 }
 

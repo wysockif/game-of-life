@@ -28,7 +28,6 @@ public class Cells {
     private List<Cell> childrenCell;
     private static BufferedImage[][] cellsImages;
 
-
     public Cells(Game game, SpriteCells spriteCells) {
         this.game = game;
         cellsImages = spriteCells.getSprites();
@@ -37,15 +36,13 @@ public class Cells {
         tipsBarImages = spriteCells.getTipsBarImages();
     }
 
-
     public synchronized void createCells() {
         int n = 5;
         boolean isNew = false;
         if (cells == null) {
             cells = new LinkedList<>();
             isNew = true;
-//            n = 50;
-            n = 10;
+            n = 50;
         }
         Random random = new Random();
         generateCells(n, random);
@@ -152,7 +149,7 @@ public class Cells {
         kidsList = null;
     }
 
-    public void addChildrenIfSpaceFree(Cell temp, Cell c){
+    public void addChildrenIfSpaceFree(Cell temp, Cell c) {
         if (checkChildrenToList(temp)) {
             childrenCell.add(temp);
             c.decreaseChildren();
@@ -285,7 +282,6 @@ public class Cells {
                             if (cell.getCurrentValue() == 1) {
                                 game.refreshScores(cell, player);
                                 if (Game.isSoundTurnedOn)
-//                                    Sounds.playExplosion();
                                     Sounds.playGamePointSound();
                                 itCells.remove();
                             } else
@@ -316,10 +312,6 @@ public class Cells {
 
     public List<Cell> getCells() {
         return cells;
-    }
-
-    public List<Cell> getChildrenCell() {
-        return childrenCell;
     }
 
     public void setCells(List<Cell> cells) {

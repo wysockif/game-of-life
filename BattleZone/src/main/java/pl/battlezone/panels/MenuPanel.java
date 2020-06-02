@@ -40,7 +40,6 @@ import static javax.swing.SwingConstants.LEFT;
 public class MenuPanel extends JPanel implements ActionListener {
     public static boolean isFileOK;
     private int gameTime, gameScore;
-
     private String namePlayer1 = "Gracz 1";
     private String namePlayer2 = "Gracz 2";
     private JTextField nameField1, nameField2;
@@ -54,7 +53,6 @@ public class MenuPanel extends JPanel implements ActionListener {
     public MenuPanel(Game game) {
         this.game = game;
         setLayout(null);
-
         try {
             this.image = ImageIO.read(MenuPanel.class.getResource("/img/backgrounds/mainMenu.png"));
         } catch (IOException | IllegalArgumentException e) {
@@ -108,12 +106,12 @@ public class MenuPanel extends JPanel implements ActionListener {
         scoreLabel.setForeground(WHITE);
         add(scoreLabel);
 
-        scoreField = new JTextField("200");
+        scoreField = new JTextField("300");
         scoreField.setBounds(600, 550, 200, 50);
         scoreField.setBackground(BLACK);
         scoreField.setForeground(WHITE);
         scoreField.setHorizontalAlignment(CENTER);
-        addPlaceholder(scoreField, "200", "Punkty:");
+        addPlaceholder(scoreField, "300", "Punkty:");
         add(scoreField);
     }
 
@@ -164,6 +162,7 @@ public class MenuPanel extends JPanel implements ActionListener {
             public void mouseEntered(MouseEvent e) {
                 playButton.setBackground(newGreen.darker().darker());
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 playButton.setBackground(newGreen);

@@ -103,6 +103,7 @@ public class ResultsPanel extends JPanel implements ActionListener {
             public void mouseEntered(MouseEvent e) {
                 endButton.setBackground(RED.darker());
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 endButton.setBackground(RED);

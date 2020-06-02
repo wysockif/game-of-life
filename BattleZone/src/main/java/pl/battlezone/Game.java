@@ -90,7 +90,7 @@ public class Game extends JFrame implements Runnable {
         setLocationRelativeTo(null);
         try {
             setIconImage(new ImageIcon(Game.class.getResource("/img/icon.png")).getImage());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Sounds.playErrorSound();
             JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
                     "Nie mogę znaleźć pliku z ikoną czołgu!", "Błąd krytyczny!", ERROR_MESSAGE);
@@ -268,7 +268,6 @@ public class Game extends JFrame implements Runnable {
         g.setColor(Color.darkGray);
         g.fillRect(340, boardY + boardHeight + 10, 500, 70);
         g.fillRect(0, 750, getWidth(), 20);
-
         if (!isLastTime)
             cells.drawTipBar(g);
         leftPlayer.drawTank(g);
@@ -286,16 +285,16 @@ public class Game extends JFrame implements Runnable {
     public void closeStartMenu() {
         assignValues();
         adjustBoardSize();
-
-        leftPlayer = new LeftPlayer(config.getMaxNumberOfShots(), "/img/leftTanks.png", "/img/leftBullet.png", keysListener);
-        rightPlayer = new RightPlayer(config.getMaxNumberOfShots(), "/img/rightTanks.png", "/img/rightBullet.png", keysListener);
+        leftPlayer = new LeftPlayer(config.getMaxNumberOfShots(), "/img/leftTanks.png",
+                "/img/leftBullet.png", keysListener);
+        rightPlayer = new RightPlayer(config.getMaxNumberOfShots(), "/img/rightTanks.png",
+                "/img/rightBullet.png", keysListener);
         gamePanel.getLeftPlayerName().setText(menuPanel.getNamePlayer1());
         gamePanel.getRightPlayerName().setText(menuPanel.getNamePlayer2());
         maxTime = leftTime = menuPanel.getGameTime();
         maxScore = menuPanel.getGameScore();
         isSoundTurnedOn = menuPanel.isSoundTurnedOn();
         updateLabels();
-
         card.next(cardPanel);
         running = true;
         gameThread.start();
