@@ -5,9 +5,12 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+import pl.battlezone.technical.Sounds;
 
 import static java.awt.image.AffineTransformOp.TYPE_BILINEAR;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 public class SpriteCells {
     private BufferedImage spriteSheet;
@@ -25,9 +28,11 @@ public class SpriteCells {
     public void loadSprite() {
         try {
             spriteSheet = ImageIO.read(getClass().getResourceAsStream("/" + path));
-        } catch (IOException e) {
-            System.out.println();
-            e.printStackTrace();
+        } catch (IOException | IllegalArgumentException e) {
+            Sounds.playErrorSound();
+            JOptionPane.showMessageDialog(null, "Błąd krytyczny!\n" +
+                    "Nie mogę znaleźć pliku z obrazem komórek!", "Błąd krytyczny!", ERROR_MESSAGE);
+            System.exit(2);
         }
     }
 
