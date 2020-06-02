@@ -134,4 +134,59 @@ public class CellsTest {
         assertThat(width1).isEqualTo(expected1);
         assertThat(width2).isEqualTo(expected2);
     }
+
+    @Test
+    public void bornChildren_oneCellAddToList_childrenCells(){
+        //given
+        int givenValue = 5;
+        Cells cells = new Cells(game, new SpriteCells("img/cells.png", 100, 100));
+        cells.setCells(new LinkedList<>());
+        cells.getCells().add(new Cell(200, 200, 100, 100, givenValue, givenValue - 1, image, cells));
+
+        //when
+        cells.boreChildren();
+        int bornChildren = cells.getCells().size();
+
+        //then
+        int expected = 4;
+        assertThat(bornChildren).isEqualTo(expected);
+
+    }
+
+    @Test
+    public void bornChildren_oneCellAddToList_threeChildrenCells(){
+        //given
+        int givenValue = 3;
+        Cells cells = new Cells(game, new SpriteCells("img/cells.png", 100, 100));
+        cells.setCells(new LinkedList<>());
+        cells.getCells().add(new Cell(200, 200, 100, 100, givenValue, givenValue - 1, image, cells));
+
+        //when
+        cells.boreChildren();
+        int bornChildren = cells.getCells().size();
+
+        //then
+        int expected = 4;
+        assertThat(bornChildren).isEqualTo(expected);
+
+    }
+
+    @Test
+    public void bornChildren_oneCellAddToList_noChildrenCells(){
+        //given
+        int givenValue = 1;
+        Cells cells = new Cells(game, new SpriteCells("img/cells.png", 100, 100));
+        cells.setCells(new LinkedList<>());
+        cells.getCells().add(new Cell(200, 200, 100, 100, givenValue, givenValue - 1, image, cells));
+
+        //when
+        cells.boreChildren();
+        int bornChildren = cells.getCells().size();
+
+        //then
+        int expected = 1;
+        assertThat(bornChildren).isEqualTo(expected);
+
+    }
+
 }
