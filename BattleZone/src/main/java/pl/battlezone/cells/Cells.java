@@ -249,20 +249,27 @@ public class Cells {
 
     private void selectInheritanceCells() {
         Random rand = new Random();
-        int n = rand.nextInt(cells.size());
-        assignInheritanceToTheCells(10, n / 2);
-        assignInheritanceToTheCells(20, n / 4);
-        assignInheritanceToTheCells(30, n / 6);
-        assignInheritanceToTheCells(50, n / 10);
-        assignInheritanceToTheCells(100, n / 15);
+        int n;
+        if(cells.size() > 5) {
+            n = rand.nextInt(cells.size() - 5);
+            assignInheritanceToTheCells(10, n / 2);
+            assignInheritanceToTheCells(20, n / 4);
+            assignInheritanceToTheCells(30, n / 6);
+            assignInheritanceToTheCells(50, n / 10);
+            assignInheritanceToTheCells(100, n / 15);
+        }
     }
 
     private void assignInheritanceToTheCells(int value, int numberOfOccurrences) {
         Random rand = new Random();
         for (int i = 0; i < numberOfOccurrences; i++) {
             int index = rand.nextInt(cells.size());
+            int n = 0;
             while (cells.get(index).getInheritance() != 0) {
                 index = rand.nextInt(cells.size());
+                n++;
+                if(n == 10)
+                    break;
             }
             cells.get(index).setInheritance(value);
         }
