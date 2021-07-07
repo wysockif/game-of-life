@@ -103,7 +103,7 @@ Examples:
 110111
 ```
 
-<a hreaf="https://en.wikipedia.org/wiki/Moore_neighborhood">MOOR</a> or <a href="https://en.wikipedia.org/wiki/Von_Neumann_neighborhood">NEUMANN</a> is a type of neighborhood.
+<a href="https://en.wikipedia.org/wiki/Moore_neighborhood">MOOR</a> or <a href="https://en.wikipedia.org/wiki/Von_Neumann_neighborhood">NEUMANN</a> is a type of neighborhood.
 
 ---
 
