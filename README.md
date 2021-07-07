@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/wysockif/game-of-life/master/docs/scr/logo.png" alt="Game of Life" style="height: auto !important;width: auto !important;" >
+<img src="docs/scr/logo.png" alt="Game of Life" style="height: auto !important;width: auto !important;" >
 
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/wysockif/game-of-life)
 
